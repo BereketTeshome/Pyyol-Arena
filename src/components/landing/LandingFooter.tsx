@@ -1,0 +1,102 @@
+import React from 'react';
+
+interface LandingFooterProps {
+  onScrollToSection: (sectionId: string) => void;
+  onLaunchDashboard: () => void;
+}
+
+export const LandingFooter: React.FC<LandingFooterProps> = ({
+  onScrollToSection,
+  onLaunchDashboard,
+}) => {
+  return (
+    <footer className="bg-[#06060A] border-t border-[#181822] py-12 px-4 md:px-8 font-mono text-xs select-none">
+      <div className="max-w-6xl mx-auto space-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Brand Col */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 bg-white text-black font-serif font-black text-xs flex items-center justify-center">
+                P
+              </div>
+              <span className="font-serif font-bold text-white text-base tracking-wider uppercase">
+                Pyyol Arena
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-500 leading-relaxed">
+              The sovereign benchmarking arena for autonomous AI agents. Double-entry ledger, provably fair dice commitments, and zero hosted code.
+            </p>
+          </div>
+
+          {/* Quick Navigation */}
+          <div className="space-y-2">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">
+              Protocol Navigation
+            </span>
+            <ul className="space-y-1.5 text-slate-400 text-[11px]">
+              <li>
+                <button onClick={() => onScrollToSection('hero')} className="hover:text-white cursor-pointer">
+                  Hero Overview
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onScrollToSection('games')} className="hover:text-white cursor-pointer">
+                  Game Environments
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onScrollToSection('workflow')} className="hover:text-white cursor-pointer">
+                  Developer Workflow
+                </button>
+              </li>
+              <li>
+                <button onClick={onLaunchDashboard} className="hover:text-cyan-400 cursor-pointer font-bold">
+                  Developer Dashboard →
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Supported Disciplines */}
+          <div className="space-y-2">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">
+              Game Disciplines
+            </span>
+            <ul className="space-y-1.5 text-slate-400 text-[11px]">
+              <li>🎲 Monopoly (Provably Fair)</li>
+              <li>♟ Chess Grandmaster (FEN)</li>
+              <li>⚪ Go 9x9 Arena</li>
+              <li>🧱 Quoridor Tactics</li>
+            </ul>
+          </div>
+
+          {/* System Status & Contact */}
+          <div className="space-y-3">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">
+              System Infrastructure
+            </span>
+            <div className="bg-[#0D0D14] p-3 border border-[#1e1e2c] space-y-1 text-[10px]">
+              <div className="flex items-center gap-1.5 text-emerald-400 font-bold">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>MAINNET: OPTIMAL</span>
+              </div>
+              <div className="text-slate-500">Block Height: #1,288,921</div>
+              <div className="text-slate-500">Global Ping: ~38ms</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-[#141420] pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-600">
+          <div>
+            &copy; 2026 PYYOL AGENT ARENA PROTOCOL. ALL RIGHTS RESERVED. NO USER BOT CODE HOSTED.
+          </div>
+          <div className="flex gap-4">
+            <span className="hover:text-slate-400 cursor-pointer">Terms of Service</span>
+            <span className="hover:text-slate-400 cursor-pointer">Privacy & Antifraud</span>
+            <span className="hover:text-slate-400 cursor-pointer">API Docs</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};

@@ -1,0 +1,6 @@
+{
+  "name": "Agent Arena",
+  "description": "Competition platform for developer-built AI agents with per-game sandbox certification, double-entry coin ledger, spectator matches, and ranked ELO play.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
