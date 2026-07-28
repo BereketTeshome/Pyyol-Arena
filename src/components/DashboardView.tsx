@@ -71,26 +71,100 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
       </div>
 
-      {/* Middle Row: Certification Pipeline & Stats Cards */}
-      <div className="grid grid-cols-12 gap-4">
-        {/* Pipeline Card */}
-        <div className="col-span-12 lg:col-span-7 bg-[#0F0F14] border border-[#222] p-4 relative overflow-hidden flex flex-col justify-between min-h-[160px]">
-          <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500"></div>
+      {/* Middle Row: Key Stats Cards FIRST (Front & Center) + Certification Pipeline */}
+      <div className="space-y-5">
+        <div className="flex items-center justify-between border-l-2 border-cyan-400 pl-2">
+          <span className="text-xs font-black uppercase tracking-widest text-slate-200 font-mono">
+            Core Agent Metrics
+          </span>
+          <span className="text-[10px] font-mono text-slate-400">
+            Game Mode: <strong className="text-white uppercase">{selectedPipelineGame}</strong>
+          </span>
+        </div>
 
-          <div className="flex justify-between items-center mb-3">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">
+        {/* 1. FRONT STAT CARDS GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* ELO */}
+          <div className="bg-[#151520] border border-white/20 hover:border-cyan-400 p-4 rounded shadow-md transition-all flex flex-col justify-between group">
+            <div className="flex justify-between items-center text-[10px] uppercase font-bold text-slate-400 font-mono">
+              <span>Current ELO</span>
+              <span className="px-1.5 py-0.5 bg-cyan-950 text-cyan-300 border border-cyan-800 rounded text-[9px]">
+                {selectedPipelineGame.toUpperCase()}
+              </span>
+            </div>
+            <div className="text-4xl font-mono font-black text-white tracking-tight my-2 group-hover:scale-105 transition-transform">
+              {activeAgent.elo[selectedPipelineGame] || 1200}
+            </div>
+            <div className="text-[10px] text-emerald-400 font-mono font-bold bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/40 w-fit">
+              ▲ +14 rating since last match
+            </div>
+          </div>
+
+          {/* WIN RATE */}
+          <div className="bg-[#151520] border border-white/20 hover:border-cyan-400 p-4 rounded shadow-md transition-all flex flex-col justify-between group">
+            <div className="flex justify-between items-center text-[10px] uppercase font-bold text-slate-400 font-mono">
+              <span>Win Rate</span>
+              <span className="px-1.5 py-0.5 bg-indigo-950 text-indigo-300 border border-indigo-800 rounded text-[9px]">
+                ALL TIME
+              </span>
+            </div>
+            <div className="text-4xl font-mono font-black text-white tracking-tight my-2 group-hover:scale-105 transition-transform">
+              {Math.round((activeAgent.wins / (activeAgent.totalMatches || 1)) * 1000) / 10}%
+            </div>
+            <div className="text-[10px] text-slate-300 font-mono font-semibold">
+              {activeAgent.wins}W - {activeAgent.losses}L - {activeAgent.draws}D
+            </div>
+          </div>
+
+          {/* MATCHES PLAYED */}
+          <div className="bg-[#151520] border border-white/20 hover:border-cyan-400 p-4 rounded shadow-md transition-all flex flex-col justify-between group">
+            <div className="flex justify-between items-center text-[10px] uppercase font-bold text-slate-400 font-mono">
+              <span>Matches Played</span>
+              <span className="px-1.5 py-0.5 bg-white/10 text-white border border-white/20 rounded text-[9px]">
+                SEASON 4
+              </span>
+            </div>
+            <div className="text-4xl font-mono font-black text-slate-100 tracking-tight my-2 group-hover:scale-105 transition-transform">
+              {activeAgent.totalMatches}
+            </div>
+            <div className="text-[10px] text-cyan-300 font-mono font-semibold">
+              Ranked Tournament Ready
+            </div>
+          </div>
+
+          {/* PLATFORM STATUS */}
+          <div className="bg-[#151520] border border-white/20 hover:border-emerald-400 p-4 rounded shadow-md transition-all flex flex-col justify-between group">
+            <div className="flex justify-between items-center text-[10px] uppercase font-bold text-slate-400 font-mono">
+              <span>Platform Status</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            </div>
+            <div className="text-3xl font-mono font-black text-emerald-400 uppercase tracking-tight my-2">
+              {activeAgent.status}
+            </div>
+            <div className="text-[10px] text-slate-400 font-mono truncate">
+              Key: {activeAgent.apiKey.slice(0, 12)}...
+            </div>
+          </div>
+        </div>
+
+        {/* 2. CERTIFICATION PIPELINE STATUS PANEL */}
+        <div className="bg-[#0E0E14] border border-white/15 p-5 rounded relative overflow-hidden flex flex-col justify-between gap-4">
+          <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-cyan-400 to-indigo-500"></div>
+
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-[#222230] pb-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-xs font-black text-white uppercase tracking-wider font-mono">
                 Certification Pipeline Status
               </span>
-              <div className="flex gap-1 ml-2">
+              <div className="flex gap-1.5">
                 {activeAgent.supportedGames.map((g) => (
                   <button
                     key={g}
                     onClick={() => setSelectedPipelineGame(g)}
-                    className={`text-[8px] uppercase font-bold px-1.5 py-0.5 border cursor-pointer font-mono ${
+                    className={`text-[9px] uppercase font-black px-2.5 py-1 rounded cursor-pointer font-mono transition-all ${
                       selectedPipelineGame === g
-                        ? 'bg-cyan-950 text-cyan-400 border-cyan-700'
-                        : 'bg-[#181820] text-slate-500 border-[#2a2a35] hover:text-slate-300'
+                        ? 'bg-white text-black font-extrabold shadow-[0_0_10px_rgba(255,255,255,0.3)]'
+                        : 'bg-[#181824] text-slate-400 border border-[#2A2A38] hover:text-white'
                     }`}
                   >
                     {g}
@@ -99,93 +173,64 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </div>
             </div>
 
-            <span className={`text-[10px] font-mono ${isCertifiedForGame ? 'text-cyan-400 font-bold' : 'text-amber-400'}`}>
-              {isCertifiedForGame ? '✓ CERTIFIED - ACTIVE' : '⚠ PENDING CERTIFICATION'}
+            <span className={`text-xs font-mono font-black px-3 py-1 rounded border ${
+              isCertifiedForGame
+                ? 'bg-emerald-950/80 text-emerald-400 border-emerald-700/80 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
+                : 'bg-amber-950/80 text-amber-300 border-amber-700/80'
+            }`}>
+              {isCertifiedForGame ? '✓ CERTIFIED - ACTIVE' : '⚠ UNCERTIFIED - RUN SANDBOX PASS'}
             </span>
           </div>
 
-          <div className="grid grid-cols-4 gap-2 my-2 relative">
-            <div className="flex flex-col items-center text-center gap-1.5 z-10">
-              <div className="w-8 h-8 rounded-full border border-cyan-500 flex items-center justify-center bg-cyan-500/10 text-cyan-400 font-bold text-xs">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 my-1">
+            <div className="bg-[#14141E] p-3 rounded border border-[#242432] flex flex-col items-center text-center gap-1.5">
+              <div className="w-8 h-8 rounded-full border border-cyan-400 flex items-center justify-center bg-cyan-950 text-cyan-300 font-black text-xs">
                 ✓
               </div>
-              <span className="text-[8px] uppercase font-bold text-slate-300">Handshake</span>
-              <span className="text-[7px] text-slate-500 font-mono">200 OK</span>
+              <span className="text-[10px] uppercase font-bold text-white font-mono">1. Handshake</span>
+              <span className="text-[9px] text-emerald-400 font-mono">200 OK</span>
             </div>
 
-            <div className="flex flex-col items-center text-center gap-1.5 z-10">
-              <div className={`w-8 h-8 rounded-full border flex items-center justify-center font-bold text-xs ${isCertifiedForGame ? 'border-cyan-500 bg-cyan-500/10 text-cyan-400' : 'border-[#444] text-[#666]'}`}>
+            <div className="bg-[#14141E] p-3 rounded border border-[#242432] flex flex-col items-center text-center gap-1.5">
+              <div className={`w-8 h-8 rounded-full border flex items-center justify-center font-black text-xs ${
+                isCertifiedForGame ? 'border-cyan-400 bg-cyan-950 text-cyan-300' : 'border-slate-600 bg-slate-900 text-slate-500'
+              }`}>
                 {isCertifiedForGame ? '✓' : '2'}
               </div>
-              <span className="text-[8px] uppercase font-bold text-slate-300">Legal Engine</span>
-              <span className="text-[7px] text-slate-500 font-mono">0 Invalid</span>
+              <span className="text-[10px] uppercase font-bold text-white font-mono">2. Legal Engine</span>
+              <span className="text-[9px] text-slate-400 font-mono">0 Invalid</span>
             </div>
 
-            <div className="flex flex-col items-center text-center gap-1.5 z-10">
-              <div className={`w-8 h-8 rounded-full border flex items-center justify-center font-bold text-xs ${isCertifiedForGame ? 'border-cyan-500 bg-cyan-500/10 text-cyan-400' : 'border-[#444] text-[#666]'}`}>
+            <div className="bg-[#14141E] p-3 rounded border border-[#242432] flex flex-col items-center text-center gap-1.5">
+              <div className={`w-8 h-8 rounded-full border flex items-center justify-center font-black text-xs ${
+                isCertifiedForGame ? 'border-cyan-400 bg-cyan-950 text-cyan-300' : 'border-slate-600 bg-slate-900 text-slate-500'
+              }`}>
                 {isCertifiedForGame ? '✓' : '3'}
               </div>
-              <span className="text-[8px] uppercase font-bold text-slate-300">Both Sides</span>
-              <span className="text-[7px] text-slate-500 font-mono">2 Matches</span>
+              <span className="text-[10px] uppercase font-bold text-white font-mono">3. Both Sides</span>
+              <span className="text-[9px] text-slate-400 font-mono">2 Matches</span>
             </div>
 
-            <div className="flex flex-col items-center text-center gap-1.5 z-10">
-              <div className={`w-8 h-8 rounded-full border flex items-center justify-center font-bold text-xs ${isCertifiedForGame ? 'border-cyan-500 bg-cyan-500/10 text-cyan-400' : 'border-[#444] text-[#666]'}`}>
+            <div className="bg-[#14141E] p-3 rounded border border-[#242432] flex flex-col items-center text-center gap-1.5">
+              <div className={`w-8 h-8 rounded-full border flex items-center justify-center font-black text-xs ${
+                isCertifiedForGame ? 'border-cyan-400 bg-cyan-950 text-cyan-300' : 'border-slate-600 bg-slate-900 text-slate-500'
+              }`}>
                 {isCertifiedForGame ? '✓' : '4'}
               </div>
-              <span className="text-[8px] uppercase font-bold text-slate-300">Latency</span>
-              <span className="text-[7px] text-slate-500 font-mono">&lt; 350ms</span>
+              <span className="text-[10px] uppercase font-bold text-white font-mono">4. Latency</span>
+              <span className="text-[9px] text-slate-400 font-mono">&lt; 350ms</span>
             </div>
           </div>
 
-          <div className="flex justify-between items-center text-[9px] font-mono text-[#555] border-t border-[#1a1a22] pt-2 mt-1">
+          <div className="flex flex-wrap justify-between items-center text-[10px] font-mono text-slate-400 border-t border-[#1e1e2c] pt-2">
             <span>SSRF Hardened: Enabled</span>
             <span>AES-256 Token Seal: ACTIVE</span>
-          </div>
-        </div>
-
-        {/* Stats Cards */}
-        <div className="col-span-12 lg:col-span-5 grid grid-cols-2 gap-2">
-          <div className="bg-[#16161C] border border-[#2D2D36] p-3 flex flex-col justify-between">
-            <div className="text-[9px] uppercase font-bold text-slate-500">
-              Current ELO ({selectedPipelineGame.toUpperCase()})
-            </div>
-            <div className="text-3xl font-mono font-bold text-white tracking-tight my-1">
-              {activeAgent.elo[selectedPipelineGame] || 1200}
-            </div>
-            <div className="text-[9px] text-emerald-400 font-mono">
-              +14 rating since last match
-            </div>
-          </div>
-
-          <div className="bg-[#16161C] border border-[#2D2D36] p-3 flex flex-col justify-between">
-            <div className="text-[9px] uppercase font-bold text-slate-500">Win Rate</div>
-            <div className="text-3xl font-mono font-bold text-white tracking-tight my-1">
-              {Math.round((activeAgent.wins / (activeAgent.totalMatches || 1)) * 1000) / 10}%
-            </div>
-            <div className="text-[9px] text-[#666] font-mono">
-              {activeAgent.wins}W - {activeAgent.losses}L - {activeAgent.draws}D
-            </div>
-          </div>
-
-          <div className="bg-[#16161C] border border-[#2D2D36] p-3 flex flex-col justify-between">
-            <div className="text-[9px] uppercase font-bold text-slate-500">Matches Played</div>
-            <div className="text-2xl font-mono font-bold text-slate-200 my-1">
-              {activeAgent.totalMatches}
-            </div>
-            <div className="text-[9px] text-cyan-400 font-mono">
-              Ranked Season 4
-            </div>
-          </div>
-
-          <div className="bg-[#16161C] border border-[#2D2D36] p-3 flex flex-col justify-between">
-            <div className="text-[9px] uppercase font-bold text-slate-500">Platform Status</div>
-            <div className="text-2xl font-mono font-bold text-emerald-400 my-1 uppercase">
-              {activeAgent.status}
-            </div>
-            <div className="text-[9px] text-[#666] font-mono">
-              Key: {activeAgent.apiKey.slice(0, 10)}...
-            </div>
+            <button
+              onClick={() => onOpenSandbox(selectedPipelineGame)}
+              className="text-cyan-400 hover:text-white underline font-bold uppercase cursor-pointer"
+            >
+              Test in Sandbox →
+            </button>
           </div>
         </div>
       </div>

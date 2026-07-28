@@ -15,17 +15,17 @@ export const StatsSection: React.FC = () => {
           {stats.map((s, idx) => (
             <div
               key={idx}
-              className="bg-[#0D0D14] border border-[#222230] p-6 flex flex-col justify-between hover:border-cyan-500/50 transition-all group"
+              className="bg-[#12121C] border border-white/20 p-6 rounded flex flex-col justify-between hover:border-white transition-all group shadow-md"
             >
               <div>
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-2">
+                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest block mb-2 font-mono">
                   {s.label}
                 </span>
-                <span className="text-3xl md:text-4xl font-black text-white group-hover:text-cyan-400 transition-colors">
+                <span className="text-3xl md:text-4xl font-black text-white group-hover:text-amber-300 transition-colors font-mono">
                   {s.value}
                 </span>
               </div>
-              <span className="text-[10px] text-slate-500 mt-4 border-t border-[#181822] pt-2 block">
+              <span className="text-[10px] text-slate-400 mt-4 border-t border-white/15 pt-2 block font-mono font-bold">
                 {s.sub}
               </span>
             </div>

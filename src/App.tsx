@@ -35,6 +35,8 @@ export default function App() {
   const [sandboxTargetGame, setSandboxTargetGame] = useState<GameType>('chess');
   const [pfSeed, setPfSeed] = useState<string>('seed_arena_9821');
 
+  const [isMobileLeftRailOpen, setIsMobileLeftRailOpen] = useState<boolean>(false);
+
   const activeAgent = agents.find(a => a.id === activeAgentId) || agents[0];
 
   const handleRegisterSuccess = (newAgent: Agent) => {
@@ -76,11 +78,15 @@ export default function App() {
       {/* Top Bar: Navigation & Global Stats */}
       <Header
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={(tab) => {
+          setActiveTab(tab);
+          setIsMobileLeftRailOpen(false);
+        }}
         coinsBalance={coinsBalance}
         userHandle={userHandle || activeAgent.ownerHandle}
         onOpenBuyCoins={() => setActiveTab('wallet')}
         onGoToLanding={() => setViewMode('landing')}
+        onToggleMobileSidebar={() => setIsMobileLeftRailOpen(!isMobileLeftRailOpen)}
       />
 
       {/* Main Layout Container */}
@@ -89,10 +95,18 @@ export default function App() {
         <LeftRail
           agents={agents}
           activeAgentId={activeAgentId}
-          onSelectAgent={setActiveAgentId}
+          onSelectAgent={(id) => {
+            setActiveAgentId(id);
+            setIsMobileLeftRailOpen(false);
+          }}
           onOpenRegisterModal={() => setShowRegisterModal(true)}
           walletLimits={globalLedger.getLimits()}
-          onOpenWalletModal={() => setActiveTab('wallet')}
+          onOpenWalletModal={() => {
+            setActiveTab('wallet');
+            setIsMobileLeftRailOpen(false);
+          }}
+          isMobileOpen={isMobileLeftRailOpen}
+          onCloseMobile={() => setIsMobileLeftRailOpen(false)}
         />
 
         {/* Tab Routing */}

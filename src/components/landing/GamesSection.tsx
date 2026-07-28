@@ -79,42 +79,42 @@ export const GamesSection: React.FC = () => {
         </div>
 
         {/* Active Game Detail Card */}
-        <div className="bg-[#0D0D14] border border-[#222230] p-6 md:p-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center rounded-xs shadow-2xl">
+        <div className="bg-[#12121D] border border-white/20 p-6 md:p-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center rounded-md shadow-2xl">
           <div className="md:col-span-7 space-y-6">
             <div className="flex items-center gap-3">
               <span className="text-3xl">{currentGame.icon}</span>
               <div>
-                <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-widest block">
+                <span className="text-[10px] text-cyan-300 uppercase font-black tracking-widest block">
                   {currentGame.tag}
                 </span>
                 <h3 className="text-2xl font-serif font-bold text-white">{currentGame.name}</h3>
               </div>
             </div>
 
-            <p className="text-slate-300 text-xs md:text-sm leading-relaxed">
+            <p className="text-slate-200 text-xs md:text-sm leading-relaxed font-sans font-medium">
               {currentGame.desc}
             </p>
 
-            <div className="grid grid-cols-3 gap-3 bg-[#12121A] p-3 border border-[#1E1E2A] text-xs">
+            <div className="grid grid-cols-3 gap-3 bg-[#181826] p-3.5 border border-white/20 rounded text-xs">
               <div>
-                <span className="text-[9px] uppercase text-slate-500 block">Cap Capacity</span>
-                <span className="font-bold text-white">{currentGame.stats.players}</span>
+                <span className="text-[9px] uppercase text-slate-300 font-bold block">Cap Capacity</span>
+                <span className="font-extrabold text-white">{currentGame.stats.players}</span>
               </div>
               <div>
-                <span className="text-[9px] uppercase text-slate-500 block">Timeout</span>
-                <span className="font-bold text-amber-400">{currentGame.stats.timeLimit}</span>
+                <span className="text-[9px] uppercase text-slate-300 font-bold block">Timeout</span>
+                <span className="font-extrabold text-amber-300">{currentGame.stats.timeLimit}</span>
               </div>
               <div>
-                <span className="text-[9px] uppercase text-slate-500 block">Baseline ELO</span>
-                <span className="font-bold text-cyan-400">{currentGame.stats.minElo}</span>
+                <span className="text-[9px] uppercase text-slate-300 font-bold block">Baseline ELO</span>
+                <span className="font-extrabold text-cyan-300">{currentGame.stats.minElo}</span>
               </div>
             </div>
 
             <div className="space-y-2">
-              <span className="text-[10px] text-slate-500 uppercase font-bold">Engine Invariants:</span>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-300">
+              <span className="text-[10px] text-slate-300 uppercase font-black">Engine Invariants:</span>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-200">
                 {currentGame.features.map((f, i) => (
-                  <li key={i} className="flex items-center gap-2 bg-[#101018] px-3 py-1.5 border border-[#1e1e28]">
+                  <li key={i} className="flex items-center gap-2 bg-[#181826] px-3 py-2 border border-white/15 rounded">
                     <span className="text-emerald-400 font-bold">✓</span>
                     <span>{f}</span>
                   </li>
@@ -123,16 +123,16 @@ export const GamesSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="md:col-span-5 bg-[#08080C] border border-[#1F1F2C] p-5 flex flex-col justify-center items-center text-center space-y-4">
-            <div className="w-20 h-20 bg-[#141420] border border-[#2D2D3E] rounded-full flex items-center justify-center text-4xl shadow-inner">
+          <div className="md:col-span-5 bg-[#0C0C14] border border-white/20 p-6 rounded flex flex-col justify-center items-center text-center space-y-4 shadow-md">
+            <div className="w-20 h-20 bg-white text-black border border-white rounded-full flex items-center justify-center text-4xl shadow-lg">
               {currentGame.icon}
             </div>
             <div className="space-y-1">
-              <span className="text-xs font-bold text-white uppercase block">Sandbox Certified Engine</span>
-              <span className="text-[10px] text-slate-500 block">Automated JSON Manifest Schema v1.0</span>
+              <span className="text-xs font-black text-white uppercase block">Sandbox Certified Engine</span>
+              <span className="text-[10px] text-slate-400 block">Automated JSON Manifest Schema v1.0</span>
             </div>
-            <div className="w-full bg-[#12121C] border border-[#222230] p-3 text-[10px] text-left text-cyan-300">
-              <span className="text-slate-500 block mb-1">// API REST HANDSHAKE</span>
+            <div className="w-full bg-[#161622] border border-white/20 p-3 text-[10px] text-left text-cyan-300 rounded font-mono">
+              <span className="text-slate-400 block mb-1 font-bold">// API REST HANDSHAKE</span>
               <code>POST /api/v1/{currentGame.id}/move</code>
             </div>
           </div>

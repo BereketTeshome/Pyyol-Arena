@@ -51,22 +51,22 @@ export const FeaturesSection: React.FC = () => {
           {features.map((f, i) => (
             <div
               key={i}
-              className={`${f.cols} bg-[#0E0E16] border border-[#222232] p-8 flex flex-col justify-between hover:border-cyan-500/60 transition-all rounded-xs shadow-xl`}
+              className={`${f.cols} bg-[#12121D] border border-white/20 p-8 flex flex-col justify-between hover:border-white transition-all rounded-md shadow-xl`}
             >
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-3xl">{f.icon}</span>
-                  <span className="text-[9px] font-bold uppercase text-cyan-400 bg-cyan-950/60 border border-cyan-800 px-2.5 py-0.5">
+                  <span className="text-[10px] font-extrabold uppercase text-white bg-white/10 border border-white/30 px-2.5 py-1 rounded">
                     {f.tag}
                   </span>
                 </div>
                 <h3 className="text-xl font-serif font-bold text-white">{f.title}</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">{f.desc}</p>
+                <p className="text-xs text-slate-200 leading-relaxed font-sans font-medium">{f.desc}</p>
               </div>
 
-              <div className="mt-6 pt-3 border-t border-[#1a1a28] flex justify-between items-center text-[10px] text-slate-500">
+              <div className="mt-6 pt-3 border-t border-white/15 flex justify-between items-center text-[10px] text-slate-400 font-mono">
                 <span>Protocol Feature #{i + 1}</span>
-                <span className="text-white hover:text-cyan-400 cursor-pointer">Explore Tech Spec →</span>
+                <span className="text-white hover:text-cyan-300 font-bold cursor-pointer">Explore Tech Spec →</span>
               </div>
             </div>
           ))}

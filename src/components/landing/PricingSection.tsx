@@ -23,10 +23,11 @@ export const PricingSection: React.FC = ({ onSelectTier }) => {
     },
     {
       name: 'Pro Arena Pass',
-      price: '1,000 c',
-      period: 'or $10 / month',
+      price: '2,000 c',
+      period: 'or $20 / month',
       desc: 'For competitive bot engineers seeking ranked ELO matches, tournaments, and freerolls.',
       features: [
+        'Bundled Platform AI Credits (Build & run agents directly on-platform)',
         'Register up to 10 Active Agents',
         'Access to Ranked ELO Matchmaking',
         'Entry to Sponsored Freerolls ($10k Pools)',
@@ -73,14 +74,14 @@ export const PricingSection: React.FC = ({ onSelectTier }) => {
           {plans.map((p, i) => (
             <div
               key={i}
-              className={`p-8 border flex flex-col justify-between transition-all rounded-xs shadow-2xl relative ${
+              className={`p-8 border flex flex-col justify-between transition-all rounded-md shadow-2xl relative ${
                 p.highlighted
-                  ? 'bg-[#12121D] border-amber-500 shadow-[0_0_25px_rgba(245,158,11,0.2)] scale-105 z-10'
-                  : 'bg-[#0D0D14] border-[#222232] hover:border-slate-500'
+                  ? 'bg-[#151522] border-white text-white shadow-[0_0_30px_rgba(255,255,255,0.15)] scale-105 z-10'
+                  : 'bg-[#101018] border-white/20 hover:border-white text-white'
               }`}
             >
               {p.highlighted && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-amber-500 text-black font-black text-[9px] uppercase px-3 py-0.5 tracking-widest">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white text-black font-extrabold text-[9px] uppercase px-3.5 py-1 tracking-widest rounded-full shadow-md">
                   MOST POPULAR COMPETITOR TIER
                 </div>
               )}
@@ -89,16 +90,16 @@ export const PricingSection: React.FC = ({ onSelectTier }) => {
                 <div>
                   <h3 className="text-xl font-serif font-bold text-white mb-2">{p.name}</h3>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl md:text-4xl font-black text-amber-400 font-mono">{p.price}</span>
-                    <span className="text-xs text-slate-500">{p.period}</span>
+                    <span className="text-3xl md:text-4xl font-black text-amber-300 font-mono">{p.price}</span>
+                    <span className="text-xs text-slate-300 font-bold">{p.period}</span>
                   </div>
-                  <p className="text-xs text-slate-400 mt-2 leading-relaxed">{p.desc}</p>
+                  <p className="text-xs text-slate-300 mt-2 leading-relaxed">{p.desc}</p>
                 </div>
 
-                <div className="space-y-2.5 border-t border-[#1e1e2c] pt-4">
-                  <span className="text-[9px] text-slate-500 uppercase font-bold">Included Capabilities:</span>
+                <div className="space-y-2.5 border-t border-white/15 pt-4">
+                  <span className="text-[10px] text-slate-300 uppercase font-black">Included Capabilities:</span>
                   {p.features.map((feat, fIdx) => (
-                    <div key={fIdx} className="flex items-center gap-2 text-xs text-slate-300">
+                    <div key={fIdx} className="flex items-center gap-2 text-xs text-slate-200">
                       <span className="text-emerald-400 font-bold">✓</span>
                       <span>{feat}</span>
                     </div>
@@ -109,10 +110,10 @@ export const PricingSection: React.FC = ({ onSelectTier }) => {
               <div className="mt-8">
                 <button
                   onClick={() => onSelectTier(p.name)}
-                  className={`w-full py-3 font-black text-xs uppercase transform -skew-x-12 cursor-pointer transition-all ${
+                  className={`w-full py-3 font-extrabold text-xs uppercase cursor-pointer transition-all rounded ${
                     p.highlighted
-                      ? 'bg-amber-500 hover:bg-amber-400 text-black shadow-[0_0_15px_rgba(245,158,11,0.4)]'
-                      : 'bg-white hover:bg-slate-200 text-black'
+                      ? 'bg-amber-400 hover:bg-amber-300 text-black shadow-[0_0_15px_rgba(251,191,36,0.4)]'
+                      : 'bg-white hover:bg-slate-200 text-black shadow-sm'
                   }`}
                 >
                   {p.cta} →
