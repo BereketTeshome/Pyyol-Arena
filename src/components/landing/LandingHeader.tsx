@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface LandingHeaderProps {
   onLaunchDashboard: () => void;
-  onOpenAuth: (mode?: "login" | "signup") => void;
+  onOpenAuth: (mode?: 'login' | 'signup') => void;
   onScrollToSection: (sectionId: string) => void;
 }
 
@@ -12,17 +12,16 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
   onOpenAuth,
   onScrollToSection,
 }) => {
-  const [activeTab, setActiveTab] = useState("hero");
+  const [activeTab, setActiveTab] = useState('hero');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
 
   const navItems = [
-    { label: "Home", id: "hero" },
-    { label: "Games", id: "games" },
-    { label: "Workflow", id: "workflow" },
-    { label: "Live Matches", id: "live-matches" },
-    { label: "Pricing", id: "pricing" },
-    { label: "FAQ", id: "faq" },
+    { label: 'Home', id: 'hero' },
+    { label: 'Games', id: 'games' },
+    { label: 'Workflow', id: 'workflow' },
+    { label: 'Live Matches', id: 'live-matches' },
+    { label: 'Pricing', id: 'pricing' },
+    { label: 'FAQ', id: 'faq' },
   ];
 
   const handleNavClick = (id: string) => {
@@ -35,7 +34,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
     <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-xl border-b border-white/20 px-4 md:px-8 py-3 flex items-center justify-between font-mono select-none">
       {/* Brand Logo (P icon removed) */}
       <div
-        onClick={() => handleNavClick("hero")}
+        onClick={() => handleNavClick('hero')}
         className="flex items-center gap-2.5 cursor-pointer group relative"
       >
         <div className="flex flex-col">
@@ -58,7 +57,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
               key={item.id}
               onClick={() => handleNavClick(item.id)}
               className={`relative px-4 py-1.5 text-xs font-black uppercase tracking-wider transition-colors cursor-pointer z-10 ${
-                isActive ? "text-white" : "text-slate-400 hover:text-white"
+                isActive ? 'text-white' : 'text-slate-400 hover:text-white'
               }`}
             >
               <span className="relative z-10">{item.label}</span>
@@ -66,7 +65,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
                 <motion.div
                   layoutId="activeLandingUnderline"
                   className="absolute bottom-0 left-2 right-2 h-[2.5px] bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,1)]"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}
             </button>
@@ -85,17 +84,10 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
 
       {/* Control Tools & Auth Actions */}
       <div className="flex items-center gap-3">
-        <button
-          onClick={() => onOpenAuth("login")}
-          className="hidden sm:block text-xs font-bold text-slate-300 hover:text-white px-3 py-1.5 transition-colors cursor-pointer"
-        >
-          Sign In
-        </button>
-
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => onOpenAuth("signup")}
+          onClick={() => onOpenAuth('signup')}
           className="bg-white text-black hover:bg-slate-200 font-extrabold text-xs px-4 py-2 rounded-full flex items-center gap-1.5 cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.25)]"
         >
           <span>Get Started</span>
@@ -107,7 +99,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="lg:hidden p-2 text-slate-300 hover:text-white cursor-pointer focus:outline-none"
         >
-          <span className="text-xl">{isMobileMenuOpen ? "✕" : "☰"}</span>
+          <span className="text-xl">{isMobileMenuOpen ? '✕' : '☰'}</span>
         </button>
       </div>
 
@@ -144,26 +136,15 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
                 Enter Dashboard →
               </button>
 
-              <div className="flex justify-between items-center gap-2 pt-2">
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    onOpenAuth("login");
-                  }}
-                  className="flex-1 py-2 bg-[#12121A] text-slate-300 rounded-lg text-xs font-bold text-center"
-                >
-                  Sign In
-                </button>
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    onOpenAuth("signup");
-                  }}
-                  className="flex-1 py-2 bg-white text-black rounded-lg text-xs font-black text-center"
-                >
-                  Get Started ↗
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenAuth('signup');
+                }}
+                className="w-full py-2.5 bg-white text-black rounded-lg text-xs font-black text-center"
+              >
+                Get Started ↗
+              </button>
             </div>
           </motion.div>
         )}
@@ -171,3 +152,4 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
     </header>
   );
 };
+

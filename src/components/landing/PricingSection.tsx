@@ -59,9 +59,6 @@ export const PricingSection: React.FC = ({ onSelectTier }) => {
     <section id="pricing" className="py-20 px-4 md:px-8 bg-[#09090D] border-b border-[#1A1A22] font-mono select-none">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="text-center space-y-3">
-          <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest block">
-            TRANSPARENT ECONOMY
-          </span>
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">
             Plans & Arena Passes
           </h2>
@@ -82,7 +79,7 @@ export const PricingSection: React.FC = ({ onSelectTier }) => {
             >
               {p.highlighted && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white text-black font-extrabold text-[9px] uppercase px-3.5 py-1 tracking-widest rounded-full shadow-md">
-                  MOST POPULAR COMPETITOR TIER
+                  MOST POPULAR
                 </div>
               )}
 

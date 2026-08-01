@@ -20,7 +20,7 @@ import { ProvablyFairModal } from './components/ProvablyFairModal';
 
 export default function App() {
   const [viewMode, setViewMode] = useState<'landing' | 'dashboard'>('landing');
-  const [userHandle, setUserHandle] = useState<string>('@dev_quantum_01');
+  const [userHandle, setUserHandle] = useState<string>('@beki');
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [agents, setAgents] = useState<Agent[]>(INITIAL_AGENTS);
   const [activeAgentId, setActiveAgentId] = useState<string>(INITIAL_AGENTS[0].id);

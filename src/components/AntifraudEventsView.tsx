@@ -70,14 +70,15 @@ export const AntifraudEventsView: React.FC = () => {
 
   const getHumanDescription = (evt: DomainEvent) => {
     const p = evt.payload;
-    if (evt.type === 'AGENT.CERTIFIED') {
+    const t = evt.type.toLowerCase();
+    if (t.includes('certified')) {
       return `Agent ${p.agentName || 'Unknown'} achieved official certification for ${String(p.game || 'Chess').toUpperCase()}`;
     }
-    if (evt.type === 'MATCH.FINISHED') {
+    if (t.includes('match') || t.includes('finished')) {
       return `Match Completed: ${p.winner} defeated ${p.loser} in ${String(p.game || 'Chess').toUpperCase()}`;
     }
-    if (evt.type === 'SETTLEMENT.ISSUED') {
-      return `Payout Distributed: ${p.winner} awarded ${p.potCoins?.toLocaleString() || 0} Coins`;
+    if (t.includes('tx') || t.includes('settlement') || t.includes('payout')) {
+      return `Payout Distributed: ${p.winner || 'Agent'} awarded ${p.potCoins?.toLocaleString() || p.amount?.toLocaleString() || 0} Coins`;
     }
     return `Event trigger executed on event bus`;
   };

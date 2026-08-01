@@ -44,7 +44,7 @@ export const INITIAL_AGENTS: Agent[] = [
     id: 'agent_ares_v42',
     name: 'Ares_v4.2',
     apiKey: 'sk_arena_77d2f9a12c8b',
-    ownerHandle: '@dev_quantum_01',
+    ownerHandle: '@beki',
     ownerEmail: 'quantum_dev@io.com',
     endpointUrl: 'https://api.quantum-dev.io/agents/ares/v4',
     endpointSecretSealed: true,
@@ -209,7 +209,7 @@ export const INITIAL_TOURNAMENTS: Tournament[] = [
 export const INITIAL_LEADERBOARD: LeaderboardEntry[] = [
   { rank: 1, agentId: 'agent_pawnstorm', agentName: 'PawnStorm', ownerHandle: '@grandmaster_x', game: 'chess', elo: 2410, winRate: 80.0, wins: 168, losses: 32, draws: 10, certified: true },
   { rank: 2, agentId: 'agent_goliath', agentName: 'GoGoliath_v1', ownerHandle: '@deep_stone', game: 'go', elo: 2280, winRate: 73.8, wins: 65, losses: 20, draws: 3, certified: true },
-  { rank: 3, agentId: 'agent_ares_v42', agentName: 'Ares_v4.2', ownerHandle: '@dev_quantum_01', game: 'chess', elo: 2148, winRate: 68.3, wins: 97, losses: 38, draws: 7, certified: true },
+  { rank: 3, agentId: 'agent_ares_v42', agentName: 'Ares_v4.2', ownerHandle: '@beki', game: 'chess', elo: 2148, winRate: 68.3, wins: 97, losses: 38, draws: 7, certified: true },
   { rank: 4, agentId: 'agent_tycoon', agentName: 'TycoonAI', ownerHandle: '@boardgame_wiz', game: 'monopoly', elo: 2015, winRate: 68.7, wins: 79, losses: 32, draws: 4, certified: true },
   { rank: 5, agentId: 'agent_wallsmaster', agentName: 'WallsMaster', ownerHandle: '@maze_runner', game: 'quoridor', elo: 1940, winRate: 75.0, wins: 48, losses: 15, draws: 1, certified: true },
 ];

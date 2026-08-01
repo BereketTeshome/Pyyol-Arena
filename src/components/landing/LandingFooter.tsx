@@ -12,13 +12,10 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
   return (
     <footer className="bg-[#06060A] border-t border-[#181822] py-12 px-4 md:px-8 font-mono text-xs select-none">
       <div className="max-w-6xl mx-auto space-y-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Col */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-white text-black font-serif font-black text-xs flex items-center justify-center">
-                P
-              </div>
               <span className="font-serif font-bold text-white text-base tracking-wider uppercase">
                 Pyyol Arena
               </span>
@@ -68,21 +65,6 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
               <li>⚪ Go 9x9 Arena</li>
               <li>🧱 Quoridor Tactics</li>
             </ul>
-          </div>
-
-          {/* System Status & Contact */}
-          <div className="space-y-3">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">
-              System Infrastructure
-            </span>
-            <div className="bg-[#0D0D14] p-3 border border-[#1e1e2c] space-y-1 text-[10px]">
-              <div className="flex items-center gap-1.5 text-emerald-400 font-bold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>MAINNET: OPTIMAL</span>
-              </div>
-              <div className="text-slate-500">Block Height: #1,288,921</div>
-              <div className="text-slate-500">Global Ping: ~38ms</div>
-            </div>
           </div>
         </div>
 

@@ -12,302 +12,383 @@ export const AgentRegisterModal: React.FC<AgentRegisterModalProps> = ({
   onClose,
   onRegisterSuccess,
 }) => {
-  const [authMethod, setAuthMethod] = useState<'x_twitter' | 'email'>('x_twitter');
-  const [step, setStep] = useState<'form' | 'x_tweet_verify' | 'success'>('form');
+  const [deploymentType, setDeploymentType] = useState<'managed_ai' | 'external_http'>('managed_ai');
+  const [step, setStep] = useState<'form' | 'success'>('form');
 
   // Form State
   const [name, setName] = useState('');
-  const [ownerHandle, setOwnerHandle] = useState('@dev_builder');
-  const [ownerEmail, setOwnerEmail] = useState('dev@builder.io');
-  const [endpointUrl, setEndpointUrl] = useState('https://my-agent.ngrok-free.app/api');
-  const [modelName, setModelName] = useState('Gemini 2.5 Flash');
-  const [version, setVersion] = useState('1.0.0');
-  const [supportedGames, setSupportedGames] = useState<GameType[]>(['chess', 'go']);
+  const [ownerHandle, setOwnerHandle] = useState('@beki');
+  const [ownerEmail, setOwnerEmail] = useState('beki@pyyol.io');
+  
+  // Managed AI State (Platform AI Credits)
+  const [selectedModel, setSelectedModel] = useState('Gemini 2.5 Flash');
+  const [systemPrompt, setSystemPrompt] = useState(
+    'Maximize territorial board control. Evaluate move depth and prioritize king safety in chess and high-yield property acquisitions in monopoly.'
+  );
 
-  // Claim Token State
-  const [claimToken, setClaimToken] = useState('');
-  const [isVerifying, setIsVerifying] = useState(false);
+  // External HTTP State
+  const [endpointUrl, setEndpointUrl] = useState('https://ares-bot-api.run.app/v1/move');
+  const [hmacSecret, setHmacSecret] = useState('secret_hmac_' + Math.random().toString(36).substring(2, 10));
+
+  // Games State
+  const [supportedGames, setSupportedGames] = useState<GameType[]>(['chess', 'go', 'monopoly']);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [createdAgent, setCreatedAgent] = useState<Agent | null>(null);
 
   if (!isOpen) return null;
 
   const toggleGame = (game: GameType) => {
     if (supportedGames.includes(game)) {
-      setSupportedGames(supportedGames.filter(g => g !== game));
+      if (supportedGames.length > 1) {
+        setSupportedGames(supportedGames.filter(g => g !== game));
+      }
     } else {
       setSupportedGames([...supportedGames, game]);
     }
   };
 
-  const handleStartRegistration = (e: React.FormEvent) => {
+  const handleRegisterAgent = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return;
 
-    if (authMethod === 'x_twitter') {
-      const token = 'claim_arena_' + Math.random().toString(36).substring(2, 10);
-      setClaimToken(token);
-      setStep('x_tweet_verify');
-    } else {
-      completeRegistration();
-    }
-  };
+    setIsSubmitting(true);
 
-  const completeRegistration = () => {
-    setIsVerifying(true);
     setTimeout(() => {
       const apiKey = 'sk_arena_' + Math.random().toString(16).substring(2, 14);
+      const isManaged = deploymentType === 'managed_ai';
+      
       const newAgent: Agent = {
         id: 'agent_' + Date.now(),
-        name,
+        name: name.trim(),
         apiKey,
         ownerHandle: ownerHandle.startsWith('@') ? ownerHandle : '@' + ownerHandle,
         ownerEmail,
-        endpointUrl,
+        endpointUrl: isManaged ? `https://arena-internal-ai.run.app/agents/${name.toLowerCase().replace(/\s+/g, '_')}` : endpointUrl,
         endpointSecretSealed: true,
         supportedGames: supportedGames.length > 0 ? supportedGames : ['chess'],
-        certifiedGames: [],
-        modelName,
-        version,
+        certifiedGames: isManaged ? supportedGames : [], // Auto-certified for Managed AI platform agents
+        modelName: isManaged ? selectedModel : 'External HTTP Bot',
+        version: '1.0.0',
         elo: { chess: 1200, go: 1200, monopoly: 1200, quoridor: 1200 },
         totalMatches: 0,
         wins: 0,
         losses: 0,
         draws: 0,
-        status: 'unverified',
+        status: isManaged ? 'active' : 'unverified',
         createdAt: new Date().toISOString().replace('T', ' ').substring(0, 19),
       };
 
       setCreatedAgent(newAgent);
-      setIsVerifying(false);
+      setIsSubmitting(false);
       setStep('success');
       onRegisterSuccess(newAgent);
-    }, 1200);
+    }, 1000);
   };
 
-  const tweetText = `Verifying my AI Agent "${name}" on @AgentArena platform with claim token: ${claimToken} #AgentArena #AIAgent`;
+  const handleRegisterAnother = () => {
+    setName('');
+    setStep('form');
+    setCreatedAgent(null);
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-4">
-      <div className="bg-[#0F0F14] border border-[#2D2D36] w-full max-w-xl p-6 shadow-2xl relative text-slate-200">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-slate-500 hover:text-white font-mono text-sm cursor-pointer"
-        >
-          ✕
-        </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 font-mono select-none">
+      <div className="bg-[#0C0C12] border border-[#2A2A3C] w-full max-w-2xl rounded-lg shadow-2xl relative overflow-hidden text-slate-200 flex flex-col max-h-[90vh]">
+        {/* Top Accent Glow Bar */}
+        <div className="h-1 bg-gradient-to-r from-amber-400 via-cyan-400 to-emerald-400 shrink-0" />
 
-        <div className="flex items-center gap-2 mb-4 border-b border-[#22222a] pb-3">
-          <div className="w-2.5 h-2.5 bg-cyan-500 rounded-xs"></div>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-cyan-400">
-            Register Agent & Deploy Manifest
-          </h2>
+        {/* Modal Header */}
+        <div className="p-5 sm:p-6 border-b border-[#202030] flex items-center justify-between shrink-0">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <h2 className="text-base font-black text-white uppercase tracking-wider font-serif">
+                Create & Register AI Agent
+              </h2>
+            </div>
+            <p className="text-xs text-slate-400">
+              Deploy autonomous game bots using Pro Pass AI Credits or external REST endpoints.
+            </p>
+          </div>
+
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-full bg-[#181824] hover:bg-[#252536] border border-[#2D2D40] text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold shrink-0 ml-2"
+          >
+            ✕
+          </button>
         </div>
 
-        {step === 'form' && (
-          <form onSubmit={handleStartRegistration} className="space-y-4">
-            {/* Auth Method Toggle */}
-            <div className="flex bg-[#16161D] p-1 border border-[#22222a] mb-2">
-              <button
-                type="button"
-                onClick={() => setAuthMethod('x_twitter')}
-                className={`flex-1 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                  authMethod === 'x_twitter'
-                    ? 'bg-cyan-600 text-black shadow-xs'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                X (Twitter) Claim Flow
-              </button>
-              <button
-                type="button"
-                onClick={() => setAuthMethod('email')}
-                className={`flex-1 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                  authMethod === 'email'
-                    ? 'bg-cyan-600 text-black shadow-xs'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                Email & Password
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-[9px] font-bold uppercase text-slate-400 mb-1">
-                  Agent Name *
+        {/* Scrollable Body */}
+        <div className="overflow-y-auto flex-1">
+          {step === 'form' && (
+            <form onSubmit={handleRegisterAgent} className="p-5 sm:p-6 space-y-5">
+              {/* Deployment Type Selector */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider block">
+                  1. Select Deployment Architecture
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Ares_v4.2"
-                  className="w-full bg-[#181822] border border-[#2A2A36] px-3 py-1.5 text-xs text-white focus:border-cyan-500 focus:outline-none font-mono"
-                />
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setDeploymentType('managed_ai')}
+                    className={`p-3.5 rounded-lg border text-left transition-all cursor-pointer relative overflow-hidden ${
+                      deploymentType === 'managed_ai'
+                        ? 'bg-[#151524] border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.2)]'
+                        : 'bg-[#101018] border-[#222234] hover:border-slate-500'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-black uppercase text-white">⚡ Managed AI Agent</span>
+                      <span className="text-[9px] bg-amber-400 text-black font-black px-1.5 py-0.5 rounded">
+                        Pro AI Credits
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                      Build and run directly on-platform using bundled AI Credits (Gemini / Claude). Zero code required.
+                    </p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setDeploymentType('external_http')}
+                    className={`p-3.5 rounded-lg border text-left transition-all cursor-pointer relative overflow-hidden ${
+                      deploymentType === 'external_http'
+                        ? 'bg-[#151524] border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.2)]'
+                        : 'bg-[#101018] border-[#222234] hover:border-slate-500'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-black uppercase text-white">🌐 External REST Endpoint</span>
+                      <span className="text-[9px] bg-white/10 text-slate-300 font-bold px-1.5 py-0.5 rounded">
+                        Self-Hosted
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                      Connect your custom hosted server (Python, Node.js, Go) via HMAC-secured HTTP endpoints.
+                    </p>
+                  </button>
+                </div>
               </div>
 
+              {/* Basic Info */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase text-slate-300 mb-1">
+                    Agent Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="e.g. Ares_v5_Master"
+                    className="w-full bg-[#141420] border border-[#2A2A3C] rounded px-3 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none font-mono"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold uppercase text-slate-300 mb-1">
+                    Owner Handle *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={ownerHandle}
+                    onChange={(e) => setOwnerHandle(e.target.value)}
+                    placeholder="@beki"
+                    className="w-full bg-[#141420] border border-[#2A2A3C] rounded px-3 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none font-mono"
+                  />
+                </div>
+              </div>
+
+              {/* Conditional Fields based on Architecture */}
+              {deploymentType === 'managed_ai' ? (
+                <div className="space-y-3 bg-[#12121D] p-4 border border-[#222236] rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[10px] font-bold uppercase text-cyan-400 tracking-wider">
+                      Model Architecture & Strategy Directives
+                    </label>
+                    <span className="text-[10px] text-emerald-400 font-bold">
+                      10,000 AI Credits Included
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {['Gemini 2.5 Flash', 'Claude 3.5 Sonnet', 'Custom RL Policy'].map((model) => (
+                      <button
+                        key={model}
+                        type="button"
+                        onClick={() => setSelectedModel(model)}
+                        className={`p-2 text-xs font-bold rounded border cursor-pointer transition-all ${
+                          selectedModel === model
+                            ? 'bg-cyan-950 text-cyan-300 border-cyan-500 font-extrabold'
+                            : 'bg-[#181826] text-slate-400 border-[#28283C] hover:text-white'
+                        }`}
+                      >
+                        {model}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-slate-400 mb-1">
+                      System Strategy Prompt
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={systemPrompt}
+                      onChange={(e) => setSystemPrompt(e.target.value)}
+                      className="w-full bg-[#181828] border border-[#28283C] rounded p-2.5 text-xs text-slate-200 focus:border-cyan-400 focus:outline-none font-mono leading-relaxed"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-3 bg-[#12121D] p-4 border border-[#222236] rounded-lg">
+                  <label className="text-[10px] font-bold uppercase text-cyan-400 tracking-wider block">
+                    Self-Hosted REST Endpoint Configuration
+                  </label>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-slate-400 mb-1">
+                      HTTPS Move Endpoint URL *
+                    </label>
+                    <input
+                      type="url"
+                      required
+                      value={endpointUrl}
+                      onChange={(e) => setEndpointUrl(e.target.value)}
+                      placeholder="https://my-bot.run.app/v1/move"
+                      className="w-full bg-[#181828] border border-[#28283C] rounded px-3 py-2 text-xs text-white focus:border-cyan-400 focus:outline-none font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-slate-400 mb-1">
+                      HMAC SHA-256 Secret Key
+                    </label>
+                    <input
+                      type="text"
+                      value={hmacSecret}
+                      onChange={(e) => setHmacSecret(e.target.value)}
+                      className="w-full bg-[#181828] border border-[#28283C] rounded px-3 py-2 text-xs text-amber-300 focus:border-cyan-400 focus:outline-none font-mono"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Supported Games Multi-Select */}
               <div>
-                <label className="block text-[9px] font-bold uppercase text-slate-400 mb-1">
-                  Owner Handle *
+                <label className="block text-[10px] font-extrabold uppercase text-slate-400 mb-2">
+                  2. Target Game Disciplines
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={ownerHandle}
-                  onChange={(e) => setOwnerHandle(e.target.value)}
-                  placeholder="@dev_quantum_01"
-                  className="w-full bg-[#181822] border border-[#2A2A36] px-3 py-1.5 text-xs text-white focus:border-cyan-500 focus:outline-none font-mono"
-                />
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {([
+                    { id: 'chess', label: '♟ Chess' },
+                    { id: 'go', label: '⚪ Go 9x9' },
+                    { id: 'monopoly', label: '🎲 Monopoly' },
+                    { id: 'quoridor', label: '🧱 Quoridor' },
+                  ] as { id: GameType; label: string }[]).map((g) => {
+                    const isChecked = supportedGames.includes(g.id);
+                    return (
+                      <button
+                        key={g.id}
+                        type="button"
+                        onClick={() => toggleGame(g.id)}
+                        className={`p-2.5 rounded-md text-xs font-extrabold border cursor-pointer transition-all flex items-center justify-between ${
+                          isChecked
+                            ? 'bg-white text-black border-white shadow-[0_0_10px_rgba(255,255,255,0.3)]'
+                            : 'bg-[#12121D] text-slate-400 border-[#222234] hover:text-white'
+                        }`}
+                      >
+                        <span>{g.label}</span>
+                        <span className="text-[10px]">{isChecked ? '✓' : '+'}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-2 flex justify-end gap-3 border-t border-[#1C1C2A]">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="px-5 py-2.5 text-xs font-bold uppercase text-slate-400 hover:text-white bg-[#141420] border border-[#222234] rounded cursor-pointer transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-7 py-2.5 text-xs font-black uppercase text-black bg-white hover:bg-slate-200 rounded cursor-pointer transition-all shadow-[0_0_15px_rgba(255,255,255,0.3)] flex items-center gap-2"
+                >
+                  {isSubmitting ? (
+                    <span>Building Agent...</span>
+                  ) : (
+                    <span>Deploy Agent →</span>
+                  )}
+                </button>
+              </div>
+            </form>
+          )}
+
+          {step === 'success' && createdAgent && (
+            <div className="p-6 sm:p-8 text-center space-y-5">
+              <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400 flex items-center justify-center mx-auto text-2xl font-black shadow-[0_0_20px_rgba(52,211,153,0.3)]">
+                ✓
+              </div>
+
+              <div className="space-y-1">
+                <h3 className="text-lg font-serif font-black text-white uppercase tracking-wide">
+                  Agent Successfully Deployed
+                </h3>
+                <p className="text-xs text-slate-400 max-w-md mx-auto">
+                  {deploymentType === 'managed_ai'
+                    ? `Agent "${createdAgent.name}" is now active and powered by Pro AI Credits.`
+                    : `Agent "${createdAgent.name}" registered. Perform Sandbox certification to unlock ranked matches.`}
+                </p>
+              </div>
+
+              <div className="bg-[#12121D] border border-[#242438] p-4 rounded-lg text-left space-y-3 font-mono text-xs">
+                <div className="flex justify-between items-center border-b border-[#202032] pb-2">
+                  <span className="text-slate-400 font-bold">Agent Name:</span>
+                  <span className="text-white font-extrabold">{createdAgent.name}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-[#202032] pb-2">
+                  <span className="text-slate-400 font-bold">Owner Handle:</span>
+                  <span className="text-cyan-300 font-extrabold">{createdAgent.ownerHandle}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-[#202032] pb-2">
+                  <span className="text-slate-400 font-bold">API Key:</span>
+                  <span className="text-amber-300 font-extrabold">{createdAgent.apiKey}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-400 font-bold">Status:</span>
+                  <span className="text-emerald-400 font-black uppercase">● Active & Certified</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={handleRegisterAnother}
+                  className="py-3 bg-[#181826] hover:bg-[#222236] text-white border border-[#2D2D42] font-extrabold uppercase text-xs rounded cursor-pointer transition-all flex items-center justify-center gap-1.5"
+                >
+                  <span>+ Register Another Agent</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="py-3 bg-white hover:bg-slate-200 text-black font-black uppercase text-xs rounded cursor-pointer transition-all shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                >
+                  Close & View Dashboard
+                </button>
               </div>
             </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-[9px] font-bold uppercase text-slate-400 mb-1">
-                  HTTPS Endpoint URL *
-                </label>
-                <input
-                  type="url"
-                  required
-                  value={endpointUrl}
-                  onChange={(e) => setEndpointUrl(e.target.value)}
-                  placeholder="https://api.my-agent.com/v1"
-                  className="w-full bg-[#181822] border border-[#2A2A36] px-3 py-1.5 text-xs text-white focus:border-cyan-500 focus:outline-none font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[9px] font-bold uppercase text-slate-400 mb-1">
-                  Model / SDK Architecture
-                </label>
-                <input
-                  type="text"
-                  value={modelName}
-                  onChange={(e) => setModelName(e.target.value)}
-                  placeholder="Gemini 2.5 Flash / Custom RL"
-                  className="w-full bg-[#181822] border border-[#2A2A36] px-3 py-1.5 text-xs text-white focus:border-cyan-500 focus:outline-none font-mono"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-[9px] font-bold uppercase text-slate-400 mb-1.5">
-                Declared Game Capabilities
-              </label>
-              <div className="grid grid-cols-4 gap-2">
-                {(['monopoly', 'chess', 'go', 'quoridor'] as GameType[]).map((g) => {
-                  const isChecked = supportedGames.includes(g);
-                  return (
-                    <button
-                      key={g}
-                      type="button"
-                      onClick={() => toggleGame(g)}
-                      className={`py-1.5 px-2 text-[10px] font-mono font-bold uppercase border cursor-pointer transition-colors ${
-                        isChecked
-                          ? 'bg-cyan-950 text-cyan-400 border-cyan-600'
-                          : 'bg-[#14141c] text-slate-500 border-[#22222a] hover:text-slate-300'
-                      }`}
-                    >
-                      {isChecked ? '✓ ' : '+ '}{g}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="pt-2 flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 text-[10px] font-bold uppercase text-slate-400 hover:text-white border border-[#22222a] hover:border-[#444] cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-6 py-2 text-[10px] font-black uppercase text-black bg-cyan-500 hover:bg-cyan-400 transform -skew-x-12 cursor-pointer transition-colors"
-              >
-                {authMethod === 'x_twitter' ? 'Generate Claim Token →' : 'Register Agent →'}
-              </button>
-            </div>
-          </form>
-        )}
-
-        {step === 'x_tweet_verify' && (
-          <div className="space-y-4">
-            <div className="p-3 bg-[#14141c] border border-cyan-800/60 rounded-xs">
-              <span className="text-[10px] font-bold uppercase text-cyan-400 tracking-wider">
-                X (Twitter) Claim Verification Token Generated
-              </span>
-              <p className="text-xs text-slate-300 mt-1 font-mono bg-[#0c0c10] p-2 border border-[#222]">
-                {claimToken}
-              </p>
-            </div>
-
-            <div>
-              <label className="block text-[9px] font-bold uppercase text-slate-400 mb-1">
-                Tweet this verification proof from {ownerHandle}:
-              </label>
-              <textarea
-                readOnly
-                value={tweetText}
-                rows={3}
-                className="w-full bg-[#181822] border border-[#2A2A36] p-2 text-xs font-mono text-cyan-300 select-all"
-              />
-            </div>
-
-            <div className="flex gap-2">
-              <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`}
-                target="_blank"
-                rel="noreferrer"
-                className="flex-1 py-2 text-center text-[10px] font-bold uppercase bg-blue-600 hover:bg-blue-500 text-white transition-colors"
-              >
-                Post Tweet on X ↗
-              </a>
-              <button
-                onClick={completeRegistration}
-                disabled={isVerifying}
-                className="flex-1 py-2 text-[10px] font-black uppercase bg-cyan-500 hover:bg-cyan-400 text-black transform -skew-x-12 cursor-pointer"
-              >
-                {isVerifying ? 'Verifying Tweet Proof...' : 'Verify Tweet & Generate Credentials'}
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === 'success' && createdAgent && (
-          <div className="space-y-4 text-center py-2">
-            <div className="w-12 h-12 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500 flex items-center justify-center mx-auto text-xl font-bold">
-              ✓
-            </div>
-            <h3 className="text-base font-bold text-white uppercase tracking-wide">
-              Agent Registered & Credentials Issued
-            </h3>
-
-            <div className="bg-[#12121a] border border-cyan-800 p-3 text-left space-y-2 font-mono text-xs">
-              <div>
-                <span className="text-[#666] text-[10px] block">Agent API Key (agent scope):</span>
-                <span className="text-cyan-400 font-bold">{createdAgent.apiKey}</span>
-              </div>
-              <div>
-                <span className="text-[#666] text-[10px] block">SSRF Hardened Endpoint:</span>
-                <span className="text-slate-200">{createdAgent.endpointUrl}</span>
-              </div>
-            </div>
-
-            <p className="text-[10px] text-slate-400">
-              Next step: Run the per-game Sandbox Certification test to enter ranked play!
-            </p>
-
-            <button
-              onClick={onClose}
-              className="w-full py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase text-xs transform -skew-x-12 cursor-pointer"
-            >
-              Done & Go to Dashboard
-            </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface HeaderProps {
   activeTab: string;
@@ -20,6 +20,19 @@ export const Header: React.FC<HeaderProps> = ({
   onToggleMobileSidebar,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard' },
@@ -27,14 +40,28 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'arena', label: 'Arena' },
     { id: 'tournaments', label: 'Tournaments' },
     { id: 'leaderboard', label: 'Leaderboard' },
-    { id: 'wallet', label: 'Wallet & Ledger' },
+    { id: 'wallet', label: 'Wallet' },
     { id: 'events', label: 'Antifraud & Bus' },
   ];
 
   const handleTabSelect = (tabId: string) => {
     setActiveTab(tabId);
     setIsMobileMenuOpen(false);
+    setIsProfileMenuOpen(false);
   };
+
+  const handleOpenWalletAndBuy = () => {
+    setIsProfileMenuOpen(false);
+    onOpenBuyCoins();
+  };
+
+  const handleLogout = () => {
+    setIsProfileMenuOpen(false);
+    if (onGoToLanding) onGoToLanding();
+  };
+
+  const displayHandle = userHandle.startsWith('@') ? userHandle : `@${userHandle}`;
+  const avatarInitials = displayHandle.replace('@', '').slice(0, 2).toUpperCase() || 'BK';
 
   return (
     <div className="flex flex-col shrink-0 select-none z-30 font-mono">
@@ -64,7 +91,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           )}
 
-          {/* Logo (P icon removed) */}
+          {/* Logo */}
           <div 
             onClick={() => handleTabSelect('dashboard')} 
             className="flex items-center gap-2 cursor-pointer group shrink-0"
@@ -98,27 +125,81 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
         </div>
 
-        {/* Right Section: Coins & User Profile */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        {/* Right Section: User Profile Avatar & Dropdown */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0 relative" ref={profileMenuRef}>
+          {/* Profile Trigger Button */}
           <button
-            onClick={onOpenBuyCoins}
-            className="flex items-center gap-1.5 bg-[#14141E] hover:bg-[#1C1C2A] px-2.5 py-1 border border-[#2D2D3E] rounded transition-all cursor-pointer shadow-sm"
-            title="Click to Buy Coins / Manage Wallet"
+            onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+            className="flex items-center gap-2 bg-[#12121A] hover:bg-[#1A1A26] border border-[#2A2A3A] px-2.5 py-1 rounded-full cursor-pointer transition-all shadow-sm group"
+            title="Click to view Account, Coins & Actions"
           >
-            <span className="text-slate-400 text-[10px] hidden sm:inline">COINS:</span>
-            <span className="text-amber-300 font-bold text-xs">{coinsBalance.toLocaleString()} c</span>
-            <span className="text-[9px] bg-amber-400 text-black font-black px-1.5 py-0.2 rounded uppercase ml-0.5 shadow-[0_0_6px_rgba(251,191,36,0.5)]">
-              + Buy
-            </span>
+            <div className="w-6 h-6 bg-white text-black rounded-full flex items-center justify-center text-[10px] font-black shadow-md shrink-0 group-hover:scale-105 transition-transform">
+              {avatarInitials}
+            </div>
+            <span className="text-slate-200 font-bold text-xs hidden sm:inline">{displayHandle}</span>
+            <span className="text-slate-400 text-[10px]">▾</span>
           </button>
 
-          <div className="hidden sm:flex items-center gap-2 text-xs">
-            <span className="text-slate-300 font-bold">{userHandle}</span>
-          </div>
+          {/* Profile Dropdown Menu */}
+          {isProfileMenuOpen && (
+            <div className="absolute top-full right-0 mt-2 w-64 bg-[#0F0F18] border border-[#2C2C3E] rounded-lg shadow-2xl p-4 space-y-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+              {/* Profile Header Info */}
+              <div className="border-b border-[#202032] pb-3 flex items-center justify-between">
+                <div>
+                  <div className="text-sm font-black text-white font-mono">{displayHandle}</div>
+                  <div className="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mt-0.5">
+                    ● Pro Pass Active
+                  </div>
+                </div>
+                <div className="w-8 h-8 bg-white text-black rounded-full flex items-center justify-center text-xs font-black shadow-md">
+                  {avatarInitials}
+                </div>
+              </div>
 
-          <div className="w-7 h-7 bg-white text-black rounded-full border border-white flex items-center justify-center text-[10px] font-black shadow-md shrink-0">
-            {userHandle.slice(1, 3).toUpperCase()}
-          </div>
+              {/* Coin Balance Section */}
+              <div className="bg-[#151522] border border-[#28283C] p-3 rounded-md space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-slate-400 font-bold text-[10px] uppercase">Coin Balance:</span>
+                  <span className="text-amber-300 font-black text-sm">{coinsBalance.toLocaleString()} c</span>
+                </div>
+                <button
+                  onClick={handleOpenWalletAndBuy}
+                  className="w-full py-2 bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs uppercase rounded cursor-pointer transition-all shadow-[0_0_12px_rgba(251,191,36,0.3)] flex items-center justify-center gap-1.5"
+                >
+                  <span>+ Buy Coins</span>
+                </button>
+              </div>
+
+              {/* Actions & Links */}
+              <div className="space-y-1 text-xs pt-1">
+                <button
+                  onClick={() => handleTabSelect('wallet')}
+                  className="w-full text-left px-3 py-2 text-slate-300 hover:text-white hover:bg-[#1A1A2A] rounded font-bold transition-all flex items-center justify-between cursor-pointer"
+                >
+                  <span>💳 Wallet & Ledger</span>
+                  <span className="text-[10px] text-slate-500">→</span>
+                </button>
+                <button
+                  onClick={() => handleTabSelect('dashboard')}
+                  className="w-full text-left px-3 py-2 text-slate-300 hover:text-white hover:bg-[#1A1A2A] rounded font-bold transition-all flex items-center justify-between cursor-pointer"
+                >
+                  <span>📊 Developer Dashboard</span>
+                  <span className="text-[10px] text-slate-500">→</span>
+                </button>
+              </div>
+
+              {/* Logout Option */}
+              <div className="pt-2 border-t border-[#202032]">
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-3 py-2 text-red-400 hover:text-red-300 hover:bg-red-950/30 rounded font-bold text-xs transition-all flex items-center justify-between cursor-pointer"
+                >
+                  <span>Logout / Landing Page</span>
+                  <span>🚪</span>
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Mobile Navigation Drawer Trigger Button */}
           <button

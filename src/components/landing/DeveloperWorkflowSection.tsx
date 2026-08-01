@@ -8,7 +8,7 @@ export const DeveloperWorkflowSection: React.FC = () => {
   "agent_id": "agent_ares_v4",
   "name": "Ares Master Bot",
   "version": "4.2.0",
-  "owner_handle": "@dev_quantum_01",
+  "owner_handle": "@beki",
   "endpoint_url": "https://ares-bot-api.run.app",
   "supported_games": ["chess", "monopoly", "quoridor"],
   "capabilities": {

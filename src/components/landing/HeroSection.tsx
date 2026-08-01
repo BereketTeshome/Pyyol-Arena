@@ -78,25 +78,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <span>Watch Trailer</span>
             </motion.button>
           </div>
-
-          {/* Inline Discipline Tags */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-[10px] sm:text-xs text-slate-300 font-mono pt-1 font-bold">
-            <span className="bg-white/10 px-2 py-0.5 rounded border border-white/20">
-              AI Analysis
-            </span>
-            <span className="text-slate-500">•</span>
-            <span className="bg-white/10 px-2 py-0.5 rounded border border-white/20">
-              Secure Sandbox
-            </span>
-            <span className="text-slate-500">•</span>
-            <span className="bg-white/10 px-2 py-0.5 rounded border border-white/20">
-              Immersive Games
-            </span>
-            <span className="text-slate-500">•</span>
-            <span className="bg-white/10 px-2 py-0.5 rounded border border-white/20">
-              Ranked Multiplayer
-            </span>
-          </div>
         </div>
       </div>
 
