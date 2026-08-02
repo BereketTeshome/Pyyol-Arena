@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { LandingHeader } from './LandingHeader';
 import { HeroSection } from './HeroSection';
 import { GamesSection } from './GamesSection';
-import { StatsSection } from './StatsSection';
+import { PartnersSection } from './PartnersSection';
 import { HowItWorksSection } from './HowItWorksSection';
-import { DeveloperWorkflowSection } from './DeveloperWorkflowSection';
-import { FeaturesSection } from './FeaturesSection';
 import { LiveMatchesSection } from './LiveMatchesSection';
 import { PricingSection } from './PricingSection';
 import { TestimonialsSection } from './TestimonialsSection';
@@ -41,7 +39,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden flex flex-col">
+    <div className="min-h-screen bg-[#0b1120] text-slate-100 font-sans overflow-x-hidden flex flex-col">
       {/* Header */}
       <LandingHeader
         onLaunchDashboard={onEnterDashboard}
@@ -60,38 +58,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         {/* 2. GamesSection */}
         <GamesSection />
 
-        {/* 3. StatsSection */}
-        <StatsSection />
+        {/* 3. Partners Marquee Section */}
+        <PartnersSection />
 
         {/* 4. HowItWorks */}
         <HowItWorksSection />
 
-        {/* 5. DeveloperWorkflow */}
-        <DeveloperWorkflowSection />
-
-        {/* 6. FeaturesSection */}
-        <FeaturesSection />
-
-        {/* 7. LiveMatches */}
+        {/* 5. LiveMatches */}
         <LiveMatchesSection onSpectateMatch={onEnterDashboard} />
 
-        {/* 8. Pricing */}
+        {/* 6. Pricing */}
         <PricingSection onSelectTier={() => handleOpenAuth('signup')} />
 
-        {/* 9. Testimonials */}
+        {/* 7. Testimonials */}
         <TestimonialsSection />
 
-        {/* 10. FAQ */}
+        {/* 8. FAQ */}
         <FAQSection />
 
-        {/* 11. CTA */}
+        {/* 9. CTA */}
         <CTASection
           onLaunchDashboard={onEnterDashboard}
           onOpenAuth={() => handleOpenAuth('signup')}
         />
       </main>
 
-      {/* 12. Footer */}
+      {/* 10. Footer */}
       <LandingFooter
         onScrollToSection={scrollToSection}
         onLaunchDashboard={onEnterDashboard}

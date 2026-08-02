@@ -20,11 +20,17 @@ export const AgentRegisterModal: React.FC<AgentRegisterModalProps> = ({
   const [ownerHandle, setOwnerHandle] = useState('@beki');
   const [ownerEmail, setOwnerEmail] = useState('beki@pyyol.io');
   
-  // Managed AI State (Platform AI Credits)
+  // Managed AI & Intelligence Decision State
   const [selectedModel, setSelectedModel] = useState('Gemini 2.5 Flash');
   const [systemPrompt, setSystemPrompt] = useState(
     'Maximize territorial board control. Evaluate move depth and prioritize king safety in chess and high-yield property acquisitions in monopoly.'
   );
+  const [decisionStrategy, setDecisionStrategy] = useState<'mcts' | 'heuristic' | 'chain_of_thought' | 'minimax'>('mcts');
+  const [riskTolerance, setRiskTolerance] = useState<'aggressive' | 'balanced' | 'defensive' | 'risk_averse'>('balanced');
+  const [temperature, setTemperature] = useState<number>(0.7);
+  const [contextMemoryWindow, setContextMemoryWindow] = useState<'last_5_turns' | 'full_game_fen' | 'opponent_profiling'>('full_game_fen');
+  const [moveTimeoutMs, setMoveTimeoutMs] = useState<string>('1000ms');
+  const [fallbackPolicy, setFallbackPolicy] = useState<'random_legal' | 'pass_turn' | 'safety_evasion'>('random_legal');
 
   // External HTTP State
   const [endpointUrl, setEndpointUrl] = useState('https://ares-bot-api.run.app/v1/move');
@@ -307,6 +313,114 @@ export const AgentRegisterModal: React.FC<AgentRegisterModalProps> = ({
                       </button>
                     );
                   })}
+                </div>
+              </div>
+
+              {/* 3. Decision Making Engine & Strategy Settings */}
+              <div className="space-y-3 bg-[#12121E] p-4 border border-[#242438] rounded-lg">
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-black uppercase text-amber-400 tracking-wider">
+                    3. Agent Decision Making & Policy Engine
+                  </label>
+                  <span className="text-[9px] bg-amber-400/20 text-amber-300 font-bold px-2 py-0.5 rounded border border-amber-400/30">
+                    Engine Config
+                  </span>
+                </div>
+
+                {/* Strategy Algorithm */}
+                <div>
+                  <label className="block text-[10px] font-bold uppercase text-slate-300 mb-1.5">
+                    Decision Strategy Algorithm
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {([
+                      { id: 'mcts', name: 'MCTS Search' },
+                      { id: 'heuristic', name: 'Heuristic Minimax' },
+                      { id: 'chain_of_thought', name: 'Chain of Thought' },
+                      { id: 'minimax', name: 'Alpha-Beta Depth 14' },
+                    ] as const).map((s) => (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => setDecisionStrategy(s.id)}
+                        className={`p-2 text-[11px] font-bold rounded border cursor-pointer transition-all ${
+                          decisionStrategy === s.id
+                            ? 'bg-amber-950/60 text-amber-300 border-amber-500 font-extrabold shadow-sm'
+                            : 'bg-[#181826] text-slate-400 border-[#28283C] hover:text-white'
+                        }`}
+                      >
+                        {s.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Risk Profile & Reasoning Depth */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-slate-300 mb-1">
+                      Risk Profile & Playstyle
+                    </label>
+                    <select
+                      value={riskTolerance}
+                      onChange={(e) => setRiskTolerance(e.target.value as any)}
+                      className="w-full bg-[#181828] border border-[#28283C] rounded px-3 py-1.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none font-mono"
+                    >
+                      <option value="aggressive">Aggressive (High Risk / High Reward)</option>
+                      <option value="balanced">Balanced (Optimal ELO Maximizer)</option>
+                      <option value="defensive">Defensive (Solid Position / Counter-attack)</option>
+                      <option value="risk_averse">Strict Risk-Averse (Zero Sacrifice)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-slate-300 mb-1">
+                      Turn Move Timeout Limit
+                    </label>
+                    <select
+                      value={moveTimeoutMs}
+                      onChange={(e) => setMoveTimeoutMs(e.target.value)}
+                      className="w-full bg-[#181828] border border-[#28283C] rounded px-3 py-1.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none font-mono"
+                    >
+                      <option value="500ms">500ms (Blitz Ultra Fast)</option>
+                      <option value="1000ms">1,000ms (Standard Match Speed)</option>
+                      <option value="2000ms">2,000ms (Deep Search Allowance)</option>
+                      <option value="5000ms">5,000ms (Grandmaster Tournament)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Context Memory & Fallback Rules */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-slate-300 mb-1">
+                      Board History & Context Window
+                    </label>
+                    <select
+                      value={contextMemoryWindow}
+                      onChange={(e) => setContextMemoryWindow(e.target.value as any)}
+                      className="w-full bg-[#181828] border border-[#28283C] rounded px-3 py-1.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none font-mono"
+                    >
+                      <option value="full_game_fen">Full Game FEN & PGN Notation</option>
+                      <option value="last_5_turns">Recent 5 Turns History</option>
+                      <option value="opponent_profiling">Full History + Opponent Model Profiling</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-slate-300 mb-1">
+                      Timeout Fallback Protocol
+                    </label>
+                    <select
+                      value={fallbackPolicy}
+                      onChange={(e) => setFallbackPolicy(e.target.value as any)}
+                      className="w-full bg-[#181828] border border-[#28283C] rounded px-3 py-1.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none font-mono"
+                    >
+                      <option value="random_legal">Execute Best Fast Heuristic Legal Move</option>
+                      <option value="safety_evasion">Priority King Evasion / Material Defense</option>
+                      <option value="pass_turn">Pass Turn / Forfeit Turn</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 

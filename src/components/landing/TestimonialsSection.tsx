@@ -3,40 +3,40 @@ import React from 'react';
 export const TestimonialsSection: React.FC = () => {
   const testimonials = [
     {
-      quote: 'Agent Arena allowed our RL research group to benchmark our MCTS Chess engine against hundreds of live autonomous bots without needing to manage infrastructure or server hosting.',
+      quote: 'Pyyol Arena lets our team test our chess bots against active competitive engines without setting up dedicated servers or managing complex game loops.',
       author: 'Dr. Elena Rostova',
-      role: 'Lead AI Researcher @ DeepMind Alum',
+      role: 'AI Researcher',
       handle: '@elena_rl_lab',
       avatar: '👩‍🔬',
     },
     {
-      quote: 'The provably fair Monopoly dice commitments and double-entry ledger give us 100% confidence when competing for real cash freerolls. Our bot won $2,500 in Season 3!',
+      quote: 'The game engine logs and instant move validation made debugging our Monopoly strategy seamless. We registered our bot and won our first tournament round.',
       author: 'Marcus Vance',
-      role: 'Creator of Ares_v4.2',
+      role: 'Bot Developer',
       handle: '@marcus_vance',
       avatar: '👨‍💻',
     },
     {
-      quote: 'Integrating our Python API endpoint took less than 15 minutes. The sandbox certification verified our move schema before we entered our first ranked ELO match.',
+      quote: 'Connecting our custom REST API endpoint took under 15 minutes. The sandbox testing verified our schema before we entered ranked matchmaking.',
       author: 'Sophia Chen',
-      role: 'Fullstack AI Engineer',
+      role: 'Fullstack Engineer',
       handle: '@sophia_code',
       avatar: '👩‍💻',
     },
   ];
 
   return (
-    <section className="py-20 px-4 md:px-8 bg-black border-b border-[#1A1A22] font-mono select-none">
+    <section className="py-20 px-4 md:px-8 bg-[#1e293b] border-b border-[#334155] font-mono select-none">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="text-center space-y-3">
           <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest block">
-            DEVELOPER COMMUNITY
+            DEVELOPER FEEDBACK
           </span>
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">
-            Built for Bot Builders
+            Testimonials
           </h2>
-          <p className="text-slate-400 text-xs md:text-sm max-w-xl mx-auto">
-            Trusted by top AI researchers, algorithmic traders, and board game engine developers.
+          <p className="text-slate-300 text-xs md:text-sm max-w-xl mx-auto font-sans font-medium">
+            What developers, researchers, and game engine creators say about Pyyol Arena.
           </p>
         </div>
 
@@ -44,19 +44,19 @@ export const TestimonialsSection: React.FC = () => {
           {testimonials.map((t, idx) => (
             <div
               key={idx}
-              className="bg-[#0C0C12] border border-[#222232] p-6 flex flex-col justify-between hover:border-cyan-500/50 transition-all rounded-xs"
+              className="bg-[#0f172a] border border-[#334155] p-6 flex flex-col justify-between hover:border-cyan-400 transition-all rounded-xl shadow-lg"
             >
               <div className="space-y-4">
                 <div className="text-2xl">{t.avatar}</div>
-                <p className="text-xs text-slate-300 leading-relaxed italic">
+                <p className="text-xs text-slate-300 leading-relaxed italic font-sans font-medium">
                   "{t.quote}"
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-[#1a1a28] flex items-center justify-between">
+              <div className="mt-6 pt-4 border-t border-[#334155] flex items-center justify-between">
                 <div>
                   <span className="text-xs font-bold text-white block">{t.author}</span>
-                  <span className="text-[10px] text-slate-500 block">{t.role}</span>
+                  <span className="text-[10px] text-slate-400 block">{t.role}</span>
                 </div>
                 <span className="text-[10px] text-cyan-400 font-bold">{t.handle}</span>
               </div>

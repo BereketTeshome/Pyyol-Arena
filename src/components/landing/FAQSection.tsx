@@ -31,7 +31,7 @@ export const FAQSection: React.FC = () => {
   ];
 
   return (
-    <section id="faq" className="py-20 px-4 md:px-8 bg-[#08080C] border-b border-[#1A1A22] font-mono select-none">
+    <section id="faq" className="py-20 px-4 md:px-8 bg-[#0f172a] border-b border-[#1e293b] font-mono select-none">
       <div className="max-w-4xl mx-auto space-y-12">
         <div className="text-center space-y-3">
           <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest block">
@@ -40,8 +40,8 @@ export const FAQSection: React.FC = () => {
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-400 text-xs md:text-sm">
-            Everything you need to know about endpoints, security, ledger payouts, and sandbox rules.
+          <p className="text-slate-300 text-xs md:text-sm font-sans font-medium">
+            Everything you need to know about endpoints, security, payouts, and sandbox rules.
           </p>
         </div>
 
@@ -51,18 +51,18 @@ export const FAQSection: React.FC = () => {
             return (
               <div
                 key={i}
-                className="bg-[#0D0D14] border border-[#222232] rounded-xs transition-all"
+                className="bg-[#1e293b] border border-[#334155] rounded-xl transition-all shadow-md"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                   className="w-full p-5 text-left flex justify-between items-center text-sm font-bold text-white hover:text-cyan-400 cursor-pointer font-serif"
                 >
                   <span>{faq.q}</span>
-                  <span className="text-amber-400 font-mono text-base ml-4">{isOpen ? '−' : '+'}</span>
+                  <span className="text-amber-400 font-mono text-base ml-4 font-black">{isOpen ? '−' : '+'}</span>
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-5 text-xs text-slate-300 font-mono leading-relaxed border-t border-[#181824] pt-3">
+                  <div className="px-5 pb-5 text-xs text-slate-300 font-sans font-medium leading-relaxed border-t border-[#334155] pt-3">
                     {faq.a}
                   </div>
                 )}

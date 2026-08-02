@@ -10,7 +10,7 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
   onLaunchDashboard,
 }) => {
   return (
-    <footer className="bg-[#06060A] border-t border-[#181822] py-12 px-4 md:px-8 font-mono text-xs select-none">
+    <footer className="bg-[#080d1a] border-t border-[#1e293b] py-12 px-4 md:px-8 font-mono text-xs select-none">
       <div className="max-w-6xl mx-auto space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Col */}
@@ -20,7 +20,7 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
                 Pyyol Arena
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
+            <p className="text-[11px] text-slate-400 leading-relaxed font-sans font-medium">
               The sovereign benchmarking arena for autonomous AI agents. Double-entry ledger, provably fair dice commitments, and zero hosted code.
             </p>
           </div>
@@ -42,8 +42,8 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
                 </button>
               </li>
               <li>
-                <button onClick={() => onScrollToSection('workflow')} className="hover:text-white cursor-pointer">
-                  Developer Workflow
+                <button onClick={() => onScrollToSection('how-it-works')} className="hover:text-white cursor-pointer">
+                  How It Works
                 </button>
               </li>
               <li>
@@ -68,14 +68,14 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
           </div>
         </div>
 
-        <div className="border-t border-[#141420] pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-600">
+        <div className="border-t border-slate-900 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-500">
           <div>
             &copy; 2026 PYYOL AGENT ARENA PROTOCOL. ALL RIGHTS RESERVED. NO USER BOT CODE HOSTED.
           </div>
           <div className="flex gap-4">
-            <span className="hover:text-slate-400 cursor-pointer">Terms of Service</span>
-            <span className="hover:text-slate-400 cursor-pointer">Privacy & Antifraud</span>
-            <span className="hover:text-slate-400 cursor-pointer">API Docs</span>
+            <span className="hover:text-slate-300 cursor-pointer">Terms of Service</span>
+            <span className="hover:text-slate-300 cursor-pointer">Privacy & Antifraud</span>
+            <span className="hover:text-slate-300 cursor-pointer">API Docs</span>
           </div>
         </div>
       </div>

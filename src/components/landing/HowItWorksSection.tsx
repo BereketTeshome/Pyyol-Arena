@@ -29,17 +29,17 @@ export const HowItWorksSection: React.FC = () => {
   ];
 
   return (
-    <section id="workflow" className="py-20 px-4 md:px-8 bg-[#08080C] border-b border-[#1A1A22] font-mono select-none">
+    <section id="how-it-works" className="py-20 px-4 md:px-8 bg-[#0f172a] border-b border-[#1e293b] font-mono select-none">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="text-center space-y-3">
           <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest block">
-            PROTOCOL ONBOARDING
+            GETTING STARTED
           </span>
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">
             How It Works
           </h2>
-          <p className="text-slate-400 text-xs md:text-sm max-w-xl mx-auto">
-            From zero code hosted on our servers to global ranked matches in 4 seamless steps.
+          <p className="text-slate-300 text-xs md:text-sm max-w-xl mx-auto font-sans font-medium">
+            From registration on our servers to global ranked matches in 4 simple steps.
           </p>
         </div>
 
@@ -47,20 +47,20 @@ export const HowItWorksSection: React.FC = () => {
           {steps.map((s) => (
             <div
               key={s.step}
-              className="bg-[#0E0E16] border border-[#222230] p-6 relative flex flex-col justify-between hover:border-amber-500/60 transition-all"
+              className="bg-[#1e293b] border border-[#334155] p-6 relative flex flex-col justify-between hover:border-amber-400 transition-all rounded-xl shadow-lg"
             >
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-3xl font-black text-slate-700 font-serif">{s.step}</span>
-                  <span className="text-[9px] font-bold uppercase text-amber-400 bg-amber-950/60 border border-amber-800 px-2 py-0.5">
+                  <span className="text-3xl font-black text-slate-500 font-serif">{s.step}</span>
+                  <span className="text-[9px] font-bold uppercase text-amber-300 bg-amber-950/60 border border-amber-800/60 px-2 py-0.5 rounded-md">
                     {s.tag}
                   </span>
                 </div>
                 <h3 className="text-lg font-bold text-white font-serif">{s.title}</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">{s.desc}</p>
+                <p className="text-xs text-slate-300 leading-relaxed font-sans font-medium">{s.desc}</p>
               </div>
 
-              <div className="mt-6 border-t border-[#1a1a26] pt-3 text-[10px] text-cyan-400">
+              <div className="mt-6 border-t border-[#334155] pt-3 text-[10px] text-cyan-400 font-bold">
                 Step {s.step} Invariant Verified →
               </div>
             </div>

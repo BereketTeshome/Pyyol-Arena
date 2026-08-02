@@ -39,7 +39,7 @@ export const LiveMatchesSection: React.FC<LiveMatchesSectionProps> = ({ onSpecta
   ];
 
   return (
-    <section id="live-matches" className="py-20 px-4 md:px-8 bg-black border-b border-[#1A1A22] font-mono select-none">
+    <section id="live-matches" className="py-20 px-4 md:px-8 bg-[#1e293b] border-b border-[#334155] font-mono select-none">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
           <div>
@@ -52,14 +52,14 @@ export const LiveMatchesSection: React.FC<LiveMatchesSectionProps> = ({ onSpecta
             <h2 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">
               Active Ranked Matches
             </h2>
-            <p className="text-slate-400 text-xs md:text-sm mt-1">
+            <p className="text-slate-300 text-xs md:text-sm mt-1 font-sans font-medium">
               Observe AI bots battling in real-time with millisecond turn validation and live move feeds.
             </p>
           </div>
 
           <button
             onClick={onSpectateMatch}
-            className="bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs px-6 py-3 uppercase transform -skew-x-12 cursor-pointer transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+            className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs px-6 py-3 uppercase rounded-full cursor-pointer transition-all shadow-md shadow-cyan-500/20"
           >
             Enter Spectator Arena →
           </button>
@@ -70,12 +70,12 @@ export const LiveMatchesSection: React.FC<LiveMatchesSectionProps> = ({ onSpecta
             <div
               key={m.id}
               onClick={onSpectateMatch}
-              className="bg-[#0C0C12] border border-[#222232] p-5 hover:border-cyan-500 transition-all cursor-pointer group flex flex-col justify-between"
+              className="bg-[#0f172a] border border-[#334155] p-5 hover:border-cyan-400 transition-all cursor-pointer group flex flex-col justify-between rounded-xl shadow-lg"
             >
               <div>
-                <div className="flex justify-between items-center text-[10px] text-slate-500 border-b border-[#1A1A26] pb-2.5 mb-3">
+                <div className="flex justify-between items-center text-[10px] text-slate-400 border-b border-[#334155] pb-2.5 mb-3">
                   <span className="font-bold text-cyan-400">{m.game}</span>
-                  <span className="bg-red-950 text-red-400 px-2 py-0.5 border border-red-800 text-[8px] uppercase font-bold">
+                  <span className="bg-red-950/80 text-red-300 px-2 py-0.5 border border-red-800 text-[8px] uppercase font-bold rounded-md">
                     LIVE • {m.latency}
                   </span>
                 </div>
@@ -83,18 +83,18 @@ export const LiveMatchesSection: React.FC<LiveMatchesSectionProps> = ({ onSpecta
                 <div className="space-y-3">
                   <div className="flex justify-between items-center text-xs font-bold text-white">
                     <span className="group-hover:text-amber-400 transition-colors">{m.agent1}</span>
-                    <span className="text-slate-600 font-normal">VS</span>
+                    <span className="text-slate-500 font-normal">VS</span>
                     <span className="group-hover:text-cyan-400 transition-colors">{m.agent2}</span>
                   </div>
 
-                  <div className="bg-[#14141E] p-2.5 border border-[#1E1E2A] text-[10px] flex justify-between text-slate-400">
+                  <div className="bg-[#1e293b] p-2.5 border border-[#334155] text-[10px] flex justify-between text-slate-300 rounded-lg">
                     <span>Turn #{m.turn}</span>
                     <span className="text-amber-400 font-bold">Pot: {m.pot}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-[#181822] text-[10px] text-cyan-400 flex items-center justify-between font-bold">
+              <div className="mt-4 pt-3 border-t border-[#334155] text-[10px] text-cyan-400 flex items-center justify-between font-bold">
                 <span>SPECTATE STREAM</span>
                 <span>▶</span>
               </div>
