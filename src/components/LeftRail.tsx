@@ -48,7 +48,7 @@ export const LeftRail: React.FC<LeftRailProps> = ({
         <div className="p-3 border-b border-[#1E1E28] flex items-center justify-between bg-[#101018]">
           {!isCollapsed && (
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
               <span className="text-[10px] font-bold text-slate-200 tracking-wider uppercase">
                 Registered Bots ({agents.length})
               </span>
@@ -95,7 +95,7 @@ export const LeftRail: React.FC<LeftRailProps> = ({
                 >
                   <span className="text-xs font-bold">{initials}</span>
                   {isSelected && (
-                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyan-400 border border-black animate-ping" />
+                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyan-400 border border-black" />
                   )}
                 </button>
               );
@@ -143,7 +143,7 @@ export const LeftRail: React.FC<LeftRailProps> = ({
 
                 <div className="flex items-center gap-1 shrink-0">
                   {isSelected ? (
-                    <div className="w-2.5 h-2.5 rounded-full bg-cyan-500 animate-pulse shadow-[0_0_8px_#06b6d4]"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-cyan-500 shadow-[0_0_8px_#06b6d4]"></div>
                   ) : (
                     <div className="w-2 h-2 rounded-full bg-slate-700 group-hover:bg-slate-400"></div>
                   )}

@@ -39,29 +39,29 @@ export const LiveMatchesSection: React.FC<LiveMatchesSectionProps> = ({ onSpecta
   ];
 
   return (
-    <section id="live-matches" className="py-20 px-4 md:px-8 bg-[#1e293b] border-b border-[#334155] font-mono select-none">
+    <section id="live-matches" className="py-20 px-4 md:px-8 bg-[#022B3A] border-b border-white/10 font-sans select-none">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
-              <span className="text-[10px] font-bold text-red-400 uppercase tracking-widest">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-white"></span>
+              <span className="text-[10px] font-bold text-white uppercase tracking-widest opacity-90">
                 LIVE SPECTATOR ARENA FEED
               </span>
             </div>
             <h2 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">
               Active Ranked Matches
             </h2>
-            <p className="text-slate-300 text-xs md:text-sm mt-1 font-sans font-medium">
+            <p className="text-white/80 text-xs md:text-sm mt-1 font-sans font-medium">
               Observe AI bots battling in real-time with millisecond turn validation and live move feeds.
             </p>
           </div>
 
           <button
             onClick={onSpectateMatch}
-            className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs px-6 py-3 uppercase rounded-full cursor-pointer transition-all shadow-md shadow-cyan-500/20"
+            className="bg-white hover:bg-slate-100 text-[#022B3A] font-black text-xs px-6 py-3 uppercase rounded-full cursor-pointer transition-all shadow-lg"
           >
-            Enter Spectator Arena →
+            Enter Spectator Arena
           </button>
         </div>
 
@@ -70,31 +70,31 @@ export const LiveMatchesSection: React.FC<LiveMatchesSectionProps> = ({ onSpecta
             <div
               key={m.id}
               onClick={onSpectateMatch}
-              className="bg-[#0f172a] border border-[#334155] p-5 hover:border-cyan-400 transition-all cursor-pointer group flex flex-col justify-between rounded-xl shadow-lg"
+              className="bg-white text-[#022B3A] p-6 transition-all cursor-pointer group flex flex-col justify-between rounded-3xl shadow-2xl hover:scale-[1.02]"
             >
               <div>
-                <div className="flex justify-between items-center text-[10px] text-slate-400 border-b border-[#334155] pb-2.5 mb-3">
-                  <span className="font-bold text-cyan-400">{m.game}</span>
-                  <span className="bg-red-950/80 text-red-300 px-2 py-0.5 border border-red-800 text-[8px] uppercase font-bold rounded-md">
+                <div className="flex justify-between items-center text-[10px] text-[#022B3A]/70 border-b border-[#022B3A]/15 pb-3 mb-4">
+                  <span className="font-bold text-[#022B3A]">{m.game}</span>
+                  <span className="bg-[#022B3A] text-white px-2.5 py-0.5 text-[8px] uppercase font-bold rounded-full">
                     LIVE • {m.latency}
                   </span>
                 </div>
 
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center text-xs font-bold text-white">
-                    <span className="group-hover:text-amber-400 transition-colors">{m.agent1}</span>
-                    <span className="text-slate-500 font-normal">VS</span>
-                    <span className="group-hover:text-cyan-400 transition-colors">{m.agent2}</span>
+                  <div className="flex justify-between items-center text-sm font-black text-[#022B3A]">
+                    <span>{m.agent1}</span>
+                    <span className="text-[#022B3A]/40 font-normal text-xs">VS</span>
+                    <span>{m.agent2}</span>
                   </div>
 
-                  <div className="bg-[#1e293b] p-2.5 border border-[#334155] text-[10px] flex justify-between text-slate-300 rounded-lg">
+                  <div className="bg-[#022B3A] text-white p-3 text-[10px] flex justify-between rounded-xl font-bold">
                     <span>Turn #{m.turn}</span>
-                    <span className="text-amber-400 font-bold">Pot: {m.pot}</span>
+                    <span className="text-white">Pot: {m.pot}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-[#334155] text-[10px] text-cyan-400 flex items-center justify-between font-bold">
+              <div className="mt-5 pt-3 border-t border-[#022B3A]/15 text-[10px] text-[#022B3A] flex items-center justify-between font-black">
                 <span>SPECTATE STREAM</span>
                 <span>▶</span>
               </div>

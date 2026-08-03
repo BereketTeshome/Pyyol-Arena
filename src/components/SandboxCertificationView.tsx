@@ -118,7 +118,7 @@ export const SandboxCertificationView: React.FC<SandboxCertificationViewProps> =
             disabled={isRunning}
             className={`px-6 py-2 font-black text-xs uppercase transform -skew-x-12 cursor-pointer transition-all ${
               isRunning
-                ? 'bg-amber-500 text-black animate-pulse'
+                ? 'bg-amber-500 text-black'
                 : 'bg-cyan-500 hover:bg-cyan-400 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
             }`}
           >
@@ -205,7 +205,7 @@ export const SandboxCertificationView: React.FC<SandboxCertificationViewProps> =
       <div className="flex-1 flex flex-col bg-black border border-[#22222a] min-h-[260px] font-mono text-[10px]">
         <div className="bg-[#111116] px-3 py-2 border-b border-[#22222a] flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
             <span className="font-bold text-[#888] uppercase tracking-wider">
               Live Sandbox Runner Terminal Console ({selectedGame.toUpperCase()})
             </span>

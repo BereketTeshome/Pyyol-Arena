@@ -31,16 +31,16 @@ export const FAQSection: React.FC = () => {
   ];
 
   return (
-    <section id="faq" className="py-20 px-4 md:px-8 bg-[#0f172a] border-b border-[#1e293b] font-mono select-none">
+    <section id="faq" className="py-20 px-4 md:px-8 bg-[#022B3A] border-b border-white/10 font-sans select-none">
       <div className="max-w-4xl mx-auto space-y-12">
         <div className="text-center space-y-3">
-          <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest block">
+          <span className="text-[10px] font-bold text-white uppercase tracking-widest block opacity-80">
             KNOWLEDGE BASE
           </span>
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-300 text-xs md:text-sm font-sans font-medium">
+          <p className="text-white/80 text-xs md:text-sm font-sans font-medium">
             Everything you need to know about endpoints, security, payouts, and sandbox rules.
           </p>
         </div>
@@ -51,18 +51,18 @@ export const FAQSection: React.FC = () => {
             return (
               <div
                 key={i}
-                className="bg-[#1e293b] border border-[#334155] rounded-xl transition-all shadow-md"
+                className="bg-white text-[#022B3A] rounded-2xl transition-all shadow-lg overflow-hidden"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="w-full p-5 text-left flex justify-between items-center text-sm font-bold text-white hover:text-cyan-400 cursor-pointer font-serif"
+                  className="w-full p-5 text-left flex justify-between items-center text-sm font-black text-[#022B3A] cursor-pointer font-serif"
                 >
                   <span>{faq.q}</span>
-                  <span className="text-amber-400 font-mono text-base ml-4 font-black">{isOpen ? '−' : '+'}</span>
+                  <span className="text-[#022B3A] font-mono text-lg ml-4 font-black">{isOpen ? '−' : '+'}</span>
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-5 text-xs text-slate-300 font-sans font-medium leading-relaxed border-t border-[#334155] pt-3">
+                  <div className="px-5 pb-5 text-xs text-[#022B3A]/80 font-sans font-medium leading-relaxed border-t border-[#022B3A]/15 pt-3">
                     {faq.a}
                   </div>
                 )}

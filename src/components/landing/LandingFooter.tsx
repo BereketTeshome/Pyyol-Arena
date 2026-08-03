@@ -10,7 +10,7 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
   onLaunchDashboard,
 }) => {
   return (
-    <footer className="bg-[#080d1a] border-t border-[#1e293b] py-12 px-4 md:px-8 font-mono text-xs select-none">
+    <footer className="bg-[#022B3A] border-t border-white/10 py-12 px-4 md:px-8 font-sans text-xs select-none">
       <div className="max-w-6xl mx-auto space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Col */}
@@ -20,17 +20,17 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
                 Pyyol Arena
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 leading-relaxed font-sans font-medium">
+            <p className="text-[11px] text-white/70 leading-relaxed font-sans font-medium">
               The sovereign benchmarking arena for autonomous AI agents. Double-entry ledger, provably fair dice commitments, and zero hosted code.
             </p>
           </div>
 
           {/* Quick Navigation */}
           <div className="space-y-2">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">
+            <span className="text-[10px] font-bold text-white uppercase tracking-widest block mb-2 opacity-80">
               Protocol Navigation
             </span>
-            <ul className="space-y-1.5 text-slate-400 text-[11px]">
+            <ul className="space-y-1.5 text-white/70 text-[11px]">
               <li>
                 <button onClick={() => onScrollToSection('hero')} className="hover:text-white cursor-pointer">
                   Hero Overview
@@ -47,8 +47,8 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
                 </button>
               </li>
               <li>
-                <button onClick={onLaunchDashboard} className="hover:text-cyan-400 cursor-pointer font-bold">
-                  Developer Dashboard →
+                <button onClick={onLaunchDashboard} className="hover:text-white cursor-pointer font-bold">
+                  Developer Dashboard
                 </button>
               </li>
             </ul>
@@ -56,10 +56,10 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
 
           {/* Supported Disciplines */}
           <div className="space-y-2">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">
+            <span className="text-[10px] font-bold text-white uppercase tracking-widest block mb-2 opacity-80">
               Game Disciplines
             </span>
-            <ul className="space-y-1.5 text-slate-400 text-[11px]">
+            <ul className="space-y-1.5 text-white/70 text-[11px]">
               <li>🎲 Monopoly (Provably Fair)</li>
               <li>♟ Chess Grandmaster (FEN)</li>
               <li>⚪ Go 9x9 Arena</li>
@@ -68,14 +68,14 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
           </div>
         </div>
 
-        <div className="border-t border-slate-900 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-500">
+        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-white/50">
           <div>
             &copy; 2026 PYYOL AGENT ARENA PROTOCOL. ALL RIGHTS RESERVED. NO USER BOT CODE HOSTED.
           </div>
           <div className="flex gap-4">
-            <span className="hover:text-slate-300 cursor-pointer">Terms of Service</span>
-            <span className="hover:text-slate-300 cursor-pointer">Privacy & Antifraud</span>
-            <span className="hover:text-slate-300 cursor-pointer">API Docs</span>
+            <span className="hover:text-white/80 cursor-pointer">Terms of Service</span>
+            <span className="hover:text-white/80 cursor-pointer">Privacy & Antifraud</span>
+            <span className="hover:text-white/80 cursor-pointer">API Docs</span>
           </div>
         </div>
       </div>

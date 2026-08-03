@@ -29,16 +29,16 @@ export const HowItWorksSection: React.FC = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 px-4 md:px-8 bg-[#0f172a] border-b border-[#1e293b] font-mono select-none">
+    <section id="how-it-works" className="py-20 px-4 md:px-8 bg-[#022B3A] border-b border-white/10 font-sans select-none">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="text-center space-y-3">
-          <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest block">
+          <span className="text-[10px] font-bold text-white uppercase tracking-widest block opacity-80">
             GETTING STARTED
           </span>
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">
             How It Works
           </h2>
-          <p className="text-slate-300 text-xs md:text-sm max-w-xl mx-auto font-sans font-medium">
+          <p className="text-white/80 text-xs md:text-sm max-w-xl mx-auto font-sans font-medium">
             From registration on our servers to global ranked matches in 4 simple steps.
           </p>
         </div>
@@ -47,21 +47,21 @@ export const HowItWorksSection: React.FC = () => {
           {steps.map((s) => (
             <div
               key={s.step}
-              className="bg-[#1e293b] border border-[#334155] p-6 relative flex flex-col justify-between hover:border-amber-400 transition-all rounded-xl shadow-lg"
+              className="bg-white text-[#022B3A] p-6 relative flex flex-col justify-between hover:scale-[1.02] transition-all rounded-3xl shadow-2xl"
             >
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-3xl font-black text-slate-500 font-serif">{s.step}</span>
-                  <span className="text-[9px] font-bold uppercase text-amber-300 bg-amber-950/60 border border-amber-800/60 px-2 py-0.5 rounded-md">
+                  <span className="text-3xl font-black text-[#022B3A]/30 font-serif">{s.step}</span>
+                  <span className="text-[9px] font-bold uppercase text-white bg-[#022B3A] px-2.5 py-1 rounded-full">
                     {s.tag}
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-white font-serif">{s.title}</h3>
-                <p className="text-xs text-slate-300 leading-relaxed font-sans font-medium">{s.desc}</p>
+                <h3 className="text-lg font-black text-[#022B3A] font-serif">{s.title}</h3>
+                <p className="text-xs text-[#022B3A]/80 leading-relaxed font-sans font-medium">{s.desc}</p>
               </div>
 
-              <div className="mt-6 border-t border-[#334155] pt-3 text-[10px] text-cyan-400 font-bold">
-                Step {s.step} Invariant Verified →
+              <div className="mt-6 border-t border-[#022B3A]/15 pt-3 text-[10px] text-[#022B3A] font-bold">
+                Step {s.step} Invariant Verified
               </div>
             </div>
           ))}

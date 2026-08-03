@@ -44,18 +44,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 select-none">
-      <div className="bg-[#0D0D12] border border-[#2A2A35] w-full max-w-md p-6 shadow-2xl relative text-slate-200">
+      <div className="bg-[#022B3A] border border-white/20 w-full max-w-md p-6 shadow-2xl relative text-white rounded-2xl">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-500 hover:text-white font-mono text-sm cursor-pointer"
+          className="absolute top-4 right-4 text-white/70 hover:text-white font-mono text-sm cursor-pointer"
         >
           ✕
         </button>
 
         {/* Modal Header */}
-        <div className="flex items-center gap-2 mb-4 border-b border-[#22222c] pb-3">
-          <div className="w-2.5 h-2.5 bg-cyan-400 rounded-xs shadow-[0_0_8px_#06b6d4]"></div>
-          <h2 className="text-xs font-bold uppercase tracking-widest text-cyan-400 font-mono">
+        <div className="flex items-center gap-2 mb-4 border-b border-white/15 pb-3">
+          <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
+          <h2 className="text-xs font-bold uppercase tracking-widest text-white font-sans">
             {mode === 'login' && 'Developer Authentication'}
             {mode === 'signup' && 'Create Developer Account'}
             {mode === 'forgot' && 'Reset Account Password'}
@@ -63,10 +63,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </h2>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
+        <form onSubmit={handleSubmit} className="space-y-4 font-sans text-xs">
           {mode === 'signup' && (
             <div>
-              <label className="block text-[9px] font-bold uppercase text-slate-400 mb-1">
+              <label className="block text-[9px] font-bold uppercase text-white/80 mb-1">
                 Developer Twitter / GitHub Handle
               </label>
               <input
@@ -75,14 +75,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 placeholder="@dev_quantum_01"
                 value={handle}
                 onChange={(e) => setHandle(e.target.value)}
-                className="w-full bg-[#14141c] border border-[#282836] px-3 py-2 text-xs text-white focus:border-cyan-500 focus:outline-none"
+                className="w-full bg-white/10 border border-white/20 px-3 py-2 text-xs text-white placeholder-white/50 rounded-xl focus:border-white focus:outline-none"
               />
             </div>
           )}
 
           {(mode === 'login' || mode === 'signup' || mode === 'forgot') && (
             <div>
-              <label className="block text-[9px] font-bold uppercase text-slate-400 mb-1">
+              <label className="block text-[9px] font-bold uppercase text-white/80 mb-1">
                 Developer Email Address
               </label>
               <input
@@ -91,7 +91,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 placeholder="dev@agentarena.io"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-[#14141c] border border-[#282836] px-3 py-2 text-xs text-white focus:border-cyan-500 focus:outline-none"
+                className="w-full bg-white/10 border border-white/20 px-3 py-2 text-xs text-white placeholder-white/50 rounded-xl focus:border-white focus:outline-none"
               />
             </div>
           )}
@@ -99,12 +99,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {(mode === 'login' || mode === 'signup') && (
             <div>
               <div className="flex justify-between items-center mb-1">
-                <label className="text-[9px] font-bold uppercase text-slate-400">Password</label>
+                <label className="text-[9px] font-bold uppercase text-white/80">Password</label>
                 {mode === 'login' && (
                   <button
                     type="button"
                     onClick={() => setMode('forgot')}
-                    className="text-[9px] text-cyan-400 hover:underline cursor-pointer"
+                    className="text-[9px] text-white/80 hover:text-white underline cursor-pointer"
                   >
                     Forgot Password?
                   </button>
@@ -116,18 +116,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 placeholder="••••••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#14141c] border border-[#282836] px-3 py-2 text-xs text-white focus:border-cyan-500 focus:outline-none"
+                className="w-full bg-white/10 border border-white/20 px-3 py-2 text-xs text-white placeholder-white/50 rounded-xl focus:border-white focus:outline-none"
               />
             </div>
           )}
 
           {mode === 'reset_sent' && (
             <>
-              <div className="p-2.5 bg-cyan-950/40 border border-cyan-800 text-cyan-300 text-[10px] rounded-xs">
+              <div className="p-2.5 bg-white/10 border border-white/20 text-white text-[10px] rounded-xl">
                 Password reset link & 6-digit verification code dispatched to <span className="font-bold text-white">{email}</span>.
               </div>
               <div>
-                <label className="block text-[9px] font-bold uppercase text-slate-400 mb-1">
+                <label className="block text-[9px] font-bold uppercase text-white/80 mb-1">
                   6-Digit Verification Code
                 </label>
                 <input
@@ -136,11 +136,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   placeholder="882910"
                   value={resetCode}
                   onChange={(e) => setResetCode(e.target.value)}
-                  className="w-full bg-[#14141c] border border-[#282836] px-3 py-2 text-xs text-white font-mono"
+                  className="w-full bg-white/10 border border-white/20 px-3 py-2 text-xs text-white rounded-xl focus:border-white focus:outline-none font-mono"
                 />
               </div>
               <div>
-                <label className="block text-[9px] font-bold uppercase text-slate-400 mb-1">
+                <label className="block text-[9px] font-bold uppercase text-white/80 mb-1">
                   New Password
                 </label>
                 <input
@@ -149,7 +149,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   placeholder="New Secure Password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full bg-[#14141c] border border-[#282836] px-3 py-2 text-xs text-white font-mono"
+                  className="w-full bg-white/10 border border-white/20 px-3 py-2 text-xs text-white rounded-xl focus:border-white focus:outline-none font-mono"
                 />
               </div>
             </>
@@ -158,20 +158,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase text-xs transform -skew-x-12 cursor-pointer transition-all shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+            className="w-full py-3 bg-white text-[#022B3A] font-black uppercase text-xs rounded-full cursor-pointer transition-all shadow-lg hover:bg-slate-100"
           >
-            {loading ? 'Authenticating...' : mode === 'login' ? 'Authenticate & Enter Dashboard →' : mode === 'signup' ? 'Create Account & Enter Dashboard →' : mode === 'forgot' ? 'Send Reset Link' : 'Confirm New Password'}
+            {loading ? 'Authenticating...' : mode === 'login' ? 'Authenticate & Enter Dashboard' : mode === 'signup' ? 'Create Account & Enter Dashboard' : mode === 'forgot' ? 'Send Reset Link' : 'Confirm New Password'}
           </button>
         </form>
 
         {/* Mode Switcher Footer */}
-        <div className="mt-5 border-t border-[#1a1a24] pt-3 text-center text-[10px] font-mono text-slate-400">
+        <div className="mt-5 border-t border-white/15 pt-3 text-center text-[10px] font-sans text-white/70">
           {mode === 'login' && (
             <span>
               Don't have a developer account?{' '}
               <button
                 onClick={() => setMode('signup')}
-                className="text-cyan-400 font-bold hover:underline cursor-pointer"
+                className="text-white font-bold hover:underline cursor-pointer"
               >
                 Sign Up Now
               </button>
@@ -182,7 +182,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               Already registered?{' '}
               <button
                 onClick={() => setMode('login')}
-                className="text-cyan-400 font-bold hover:underline cursor-pointer"
+                className="text-white font-bold hover:underline cursor-pointer"
               >
                 Log In
               </button>
@@ -191,9 +191,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {(mode === 'forgot' || mode === 'reset_sent') && (
             <button
               onClick={() => setMode('login')}
-              className="text-slate-400 hover:text-white underline cursor-pointer"
+              className="text-white/80 hover:text-white underline cursor-pointer"
             >
-              ← Back to Login
+              Back to Login
             </button>
           )}
         </div>

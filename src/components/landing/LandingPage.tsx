@@ -39,7 +39,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#0b1120] text-slate-100 font-sans overflow-x-hidden flex flex-col">
+    <div className="min-h-screen bg-[#022B3A] text-white font-sans overflow-x-hidden flex flex-col">
       {/* Header */}
       <LandingHeader
         onLaunchDashboard={onEnterDashboard}

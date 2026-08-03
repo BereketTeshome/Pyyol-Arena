@@ -136,7 +136,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="bg-[#151520] border border-white/20 hover:border-emerald-400 p-4 rounded shadow-md transition-all flex flex-col justify-between group">
             <div className="flex justify-between items-center text-[10px] uppercase font-bold text-slate-400 font-mono">
               <span>Platform Status</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
             </div>
             <div className="text-3xl font-mono font-black text-emerald-400 uppercase tracking-tight my-2">
               {activeAgent.status}
@@ -245,7 +245,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </span>
             <div className="flex items-center gap-1.5">
               <span className="text-[8px] font-mono text-cyan-500">LIVE FEED</span>
-              <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse"></div>
+              <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
             </div>
           </div>
           <div className="flex-1 p-3 font-mono text-[10px] space-y-1.5 overflow-y-auto">

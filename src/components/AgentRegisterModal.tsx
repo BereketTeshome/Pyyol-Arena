@@ -107,7 +107,7 @@ export const AgentRegisterModal: React.FC<AgentRegisterModalProps> = ({
         <div className="p-5 sm:p-6 border-b border-[#202030] flex items-center justify-between shrink-0">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-cyan-400" />
               <h2 className="text-base font-black text-white uppercase tracking-wider font-serif">
                 Create & Register AI Agent
               </h2>
