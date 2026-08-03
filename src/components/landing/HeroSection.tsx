@@ -13,25 +13,31 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section
       id="hero"
-      className="relative w-full bg-[#022B3A] select-none border-b border-white/10 font-sans pt-4 md:pt-6"
+      className="relative w-full bg-[#022B3A] select-none border-b border-white/10 font-sans pt-0"
     >
       {/* 
         HALF-HEIGHT VIDEO HERO BANNER 
-        Sleek horizontal video banner container without linear gradient overlay
+        Sleek horizontal video banner container with top-to-middle and bottom-to-top teal gradients
       */}
-      <div className="relative w-full h-[360px] sm:h-[420px] md:h-[460px] overflow-hidden flex items-center justify-center">
-        {/* Background Video Stream - Clean and unshaded */}
+      <div className="relative w-full h-[380px] sm:h-[440px] md:h-[480px] overflow-hidden flex items-center justify-center">
+        {/* Background Video Stream */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-70 scale-105"
+          className="absolute inset-0 w-full h-full object-cover opacity-80 scale-105"
           src="/chess-bg.mp4"
         />
 
-        {/* Subtle Grid Veil ONLY - No linear gradient shade */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-25 pointer-events-none" />
+        {/* Teal Gradient Overlay - Top to Middle Fade */}
+        <div className="absolute top-0 left-0 right-0 h-[60%] bg-gradient-to-b from-[#022B3A] via-[#022B3A]/70 to-transparent pointer-events-none z-1" />
+
+        {/* Teal Gradient Overlay - Bottom to Top Fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-[#022B3A] via-[#022B3A]/70 to-transparent pointer-events-none z-1" />
+
+        {/* Subtle Grid Veil */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-15 pointer-events-none z-1" />
 
         {/* Content Centered Over Banner */}
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center space-y-4 sm:space-y-6">

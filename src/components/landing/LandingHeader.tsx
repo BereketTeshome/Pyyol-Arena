@@ -30,12 +30,12 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
   };
 
   return (
-    <div className="sticky top-0 z-50 w-full flex justify-center px-2 sm:px-4 pt-0 select-none font-sans pointer-events-none bg-gradient-to-b from-[#022B3A] via-[#022B3A]/90 to-transparent pb-4">
+    <div className="sticky top-0 z-50 w-full flex justify-center px-2 sm:px-4 pt-0 select-none font-sans pointer-events-none pb-0">
       {/* 
-        Floating Header Navbar
-        No borders, smooth top-to-bottom fade-out, strict Teal (#022B3A) and White (#FFFFFF) palette
+        iPhone Notch / Dynamic Island Floating Navbar
+        No explicit border lines, white box shadow for edge definition, close fit to hero video
       */}
-      <header className="pointer-events-auto bg-[#022B3A]/90 backdrop-blur-md text-white rounded-b-2xl md:rounded-b-[24px] px-4 md:px-7 py-3 flex items-center justify-between gap-4 md:gap-8 shadow-2xl max-w-5xl w-full transition-all">
+      <header className="pointer-events-auto bg-[#022B3A]/95 backdrop-blur-md text-white rounded-b-2xl md:rounded-b-[28px] px-5 md:px-8 py-2.5 flex items-center justify-between gap-4 md:gap-8 shadow-[0_6px_24px_rgba(255,255,255,0.18)] max-w-5xl w-full transition-all">
         {/* Brand Name - No "P" logo */}
         <div
           onClick={() => handleNavClick('hero')}
