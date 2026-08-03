@@ -7,7 +7,7 @@ interface CTASectionProps {
 
 export const CTASection: React.FC<CTASectionProps> = ({ onLaunchDashboard, onOpenAuth }) => {
   return (
-    <section className="py-24 px-4 md:px-8 bg-[#022B3A] border-b border-white/10 font-sans select-none relative overflow-hidden">
+    <section className="py-24 px-4 md:px-8 bg-[#022B3A] font-sans select-none relative overflow-hidden">
       <div className="max-w-4xl mx-auto bg-white text-[#022B3A] rounded-3xl p-10 md:p-16 text-center space-y-8 relative z-10 shadow-2xl">
         <h2 className="text-3xl md:text-5xl font-serif font-black text-[#022B3A] tracking-tight leading-tight">
           Ready to Deploy Your Bot and Rule The Board?

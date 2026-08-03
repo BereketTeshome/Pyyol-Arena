@@ -13,7 +13,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section
       id="hero"
-      className="relative w-full bg-[#022B3A] select-none border-b border-white/10 font-sans pt-0"
+      className="relative w-full bg-[#022B3A] select-none font-sans pt-0"
     >
       {/* 
         HALF-HEIGHT VIDEO HERO BANNER 
@@ -31,10 +31,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         />
 
         {/* Teal Gradient Overlay - Top to Middle Fade */}
-        <div className="absolute top-0 left-0 right-0 h-[60%] bg-gradient-to-b from-[#022B3A] via-[#022B3A]/70 to-transparent pointer-events-none z-1" />
+        <div className="absolute top-0 left-0 right-0 h-[60%] bg-gradient-to-b from-[#022B3A] via-[#022B3A]/20 to-transparent pointer-events-none z-1" />
 
         {/* Teal Gradient Overlay - Bottom to Top Fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-[#022B3A] via-[#022B3A]/70 to-transparent pointer-events-none z-1" />
+        <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-[#022B3A] via-[#022B3A]/10 to-transparent pointer-events-none z-1" />
 
         {/* Subtle Grid Veil */}
         <div className="absolute inset-0 bg-grid-pattern opacity-15 pointer-events-none z-1" />
@@ -75,7 +75,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               onClick={onWatchTrailer}
               className="bg-[#022B3A]/90 hover:bg-[#022B3A] text-white border border-white/40 font-bold text-xs sm:text-sm px-7 py-3.5 rounded-full flex items-center gap-2 cursor-pointer backdrop-blur-md shadow-lg transition-all"
             >
-              <span className="text-white text-xs">▶</span>
               <span>Watch Trailer</span>
             </motion.button>
           </div>

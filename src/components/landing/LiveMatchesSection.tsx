@@ -39,7 +39,7 @@ export const LiveMatchesSection: React.FC<LiveMatchesSectionProps> = ({ onSpecta
   ];
 
   return (
-    <section id="live-matches" className="py-20 px-4 md:px-8 bg-[#022B3A] border-b border-white/10 font-sans select-none">
+    <section id="live-matches" className="py-20 px-4 md:px-8 bg-[#022B3A] font-sans select-none">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
           <div>

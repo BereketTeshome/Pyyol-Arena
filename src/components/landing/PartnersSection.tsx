@@ -17,7 +17,7 @@ export const PartnersSection: React.FC = () => {
   const marqueePartners = [...partners, ...partners];
 
   return (
-    <section className="py-12 bg-[#022B3A] border-b border-white/10 overflow-hidden select-none font-sans">
+    <section className="py-12 bg-[#022B3A] overflow-hidden select-none font-sans">
       <div className="max-w-6xl mx-auto px-4 mb-6 text-center">
         <span className="text-[10px] font-extrabold text-white uppercase tracking-widest block opacity-80">
           POWERED BY INDUSTRY LEADERS & OPEN ECOSYSTEMS

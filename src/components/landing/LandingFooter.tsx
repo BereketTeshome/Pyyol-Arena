@@ -10,7 +10,7 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
   onLaunchDashboard,
 }) => {
   return (
-    <footer className="bg-[#022B3A] border-t border-white/10 py-12 px-4 md:px-8 font-sans text-xs select-none">
+    <footer className="bg-[#022B3A] py-12 px-4 md:px-8 font-sans text-xs select-none">
       <div className="max-w-6xl mx-auto space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Col */}
