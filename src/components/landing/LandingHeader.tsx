@@ -36,7 +36,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
         iPhone Notch Drop Down Floating Navbar
         Hanging directly from the top edge over the video with no background bar behind it
       */}
-      <header className="pointer-events-auto bg-[#041a27]/85 backdrop-blur-2xl border-b border-x border-white/20 text-white rounded-b-3xl md:rounded-b-[2rem] px-6 md:px-9 py-3 flex items-center justify-between gap-4 md:gap-8 shadow-[0_12px_40px_rgba(0,0,0,0.5)] max-w-4xl w-full transition-all mt-0">
+      <header className="pointer-events-auto bg-gradient-to-r from-[#082233]/65 via-[#041724]/55 to-[#082233]/65 backdrop-blur-xl text-white rounded-b-3xl md:rounded-b-[2rem] px-6 md:px-9 py-2.5 flex items-center justify-between gap-4 md:gap-8 shadow-[0_10px_30px_rgba(0,0,0,0.35)] max-w-4xl w-full transition-all mt-0">
         {/* Brand Name - No Icon */}
         <div
           onClick={() => handleNavClick('hero')}
