@@ -72,13 +72,16 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectTier }) 
   ];
 
   return (
-    <section id="pricing" className="py-20 px-4 md:px-8 bg-[#022B3A] font-sans select-none">
+    <section id="pricing" className="py-20 px-4 md:px-8 bg-transparent font-sans select-none">
       <div className="max-w-7xl mx-auto space-y-12">
         <div className="text-center space-y-3">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">
+            TIERS & PRICING
+          </span>
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">
             Plans & Arena Passes
           </h2>
-          <p className="text-white/80 text-xs md:text-sm max-w-xl mx-auto font-sans font-medium">
+          <p className="text-slate-300 text-xs md:text-sm max-w-xl mx-auto font-sans font-medium opacity-90">
             Choose your participation tier. All coin fees directly fuel tournament prize pools and double-entry ledger settlements.
           </p>
         </div>
@@ -87,33 +90,33 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectTier }) 
           {plans.map((p, i) => (
             <div
               key={i}
-              className={`p-6 flex flex-col justify-between transition-all rounded-3xl shadow-2xl relative bg-white text-[#022B3A] hover:scale-[1.02] ${
+              className={`p-6 flex flex-col justify-between transition-all rounded-3xl relative backdrop-blur-xl shadow-[0_15px_35px_rgba(0,0,0,0.4)] ${
                 p.highlighted
-                  ? 'ring-4 ring-white z-10'
-                  : ''
+                  ? 'bg-gradient-to-b from-[#112940]/90 via-[#0C1F32]/95 to-[#081625] border-2 border-white/30 shadow-2xl z-10 scale-[1.02]'
+                  : 'bg-gradient-to-b from-[#0E2133]/60 via-[#0A1827]/70 to-[#071321]/80 border border-white/15 hover:border-white/30'
               }`}
             >
               {p.highlighted && (
-                <div className="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-[#022B3A] text-white font-black text-[9px] uppercase px-3.5 py-1 tracking-widest rounded-full shadow-md">
+                <div className="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-[#e2ebf3] text-[#071321] font-black text-[9px] uppercase px-3.5 py-1 tracking-widest rounded-full shadow-lg">
                   MOST POPULAR
                 </div>
               )}
 
               <div className="space-y-5">
                 <div>
-                  <h3 className="text-lg font-serif font-black mb-2 text-[#022B3A]">{p.name}</h3>
+                  <h3 className="text-lg font-serif font-bold mb-2 text-white">{p.name}</h3>
                   <div className="flex items-baseline gap-1.5 flex-wrap">
-                    <span className="text-2xl md:text-3xl font-black font-sans text-[#022B3A]">{p.price}</span>
-                    <span className="text-[11px] font-bold text-[#022B3A]/70">{p.period}</span>
+                    <span className="text-2xl md:text-3xl font-extrabold font-sans text-white">{p.price}</span>
+                    <span className="text-[11px] font-bold text-slate-400">{p.period}</span>
                   </div>
-                  <p className="text-xs mt-2 leading-relaxed min-h-[40px] font-sans font-medium text-[#022B3A]/80">{p.desc}</p>
+                  <p className="text-xs mt-2 leading-relaxed min-h-[40px] font-sans font-normal text-slate-300 opacity-90">{p.desc}</p>
                 </div>
 
-                <div className="space-y-2 border-t border-[#022B3A]/15 pt-4">
-                  <span className="text-[10px] uppercase font-black tracking-wider block text-[#022B3A]/80">Included Capabilities:</span>
+                <div className="space-y-2 border-t border-white/10 pt-4">
+                  <span className="text-[10px] uppercase font-bold tracking-wider block text-slate-400">Included Capabilities:</span>
                   {p.features.map((feat, fIdx) => (
-                    <div key={fIdx} className="flex items-start gap-2 text-xs font-sans font-medium text-[#022B3A]">
-                      <span className="font-bold shrink-0 text-[#022B3A]">✓</span>
+                    <div key={fIdx} className="flex items-start gap-2 text-xs font-sans font-medium text-slate-200">
+                      <span className="font-bold shrink-0 text-slate-300">✓</span>
                       <span className="leading-tight">{feat}</span>
                     </div>
                   ))}
@@ -123,10 +126,10 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectTier }) 
               <div className="mt-6">
                 <button
                   onClick={() => onSelectTier(p.name)}
-                  className={`w-full py-3 font-extrabold text-xs uppercase cursor-pointer transition-all rounded-full shadow-md ${
+                  className={`w-full py-3 font-bold text-xs uppercase cursor-pointer transition-all rounded-full shadow-md ${
                     p.highlighted
-                      ? 'bg-[#022B3A] text-white hover:opacity-90'
-                      : 'bg-[#022B3A]/10 hover:bg-[#022B3A] hover:text-white text-[#022B3A]'
+                      ? 'bg-[#e2ebf3] hover:bg-[#d0dfed] text-[#071321] font-extrabold shadow-md'
+                      : 'bg-[#0D1C2E] border border-white/20 hover:border-white/40 hover:bg-[#13283E] text-white'
                   }`}
                 >
                   {p.cta}

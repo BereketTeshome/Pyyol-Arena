@@ -13,11 +13,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section
       id="hero"
-      className="relative w-full bg-[#022B3A] select-none font-sans pt-0"
+      className="relative w-full bg-transparent select-none font-sans pt-0"
     >
       {/* 
         HALF-HEIGHT VIDEO HERO BANNER 
-        Sleek horizontal video banner container with top-to-middle and bottom-to-top teal gradients
+        Sleek horizontal video banner container with top-to-middle and bottom-to-top gradients
       */}
       <div className="relative w-full h-[380px] sm:h-[440px] md:h-[480px] overflow-hidden flex items-center justify-center">
         {/* Background Video Stream */}
@@ -26,15 +26,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-80 scale-105"
+          className="absolute inset-0 w-full h-full object-cover opacity-60 scale-105"
           src="/chess-bg.mp4"
         />
 
-        {/* Teal Gradient Overlay - Top to Middle Fade */}
-        <div className="absolute top-0 left-0 right-0 h-[60%] bg-gradient-to-b from-[#022B3A] via-[#022B3A]/20 to-transparent pointer-events-none z-1" />
+        {/* Gradient Overlay - Top to Middle Fade */}
+        <div className="absolute top-0 left-0 right-0 h-[50%] bg-gradient-to-b from-[#051824]/60 via-[#051824]/20 to-transparent pointer-events-none z-1" />
 
-        {/* Teal Gradient Overlay - Bottom to Top Fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-[#022B3A] via-[#022B3A]/10 to-transparent pointer-events-none z-1" />
+        {/* Gradient Overlay - Bottom to Top Fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-[#051824] via-[#051824]/40 to-transparent pointer-events-none z-1" />
 
         {/* Subtle Grid Veil */}
         <div className="absolute inset-0 bg-grid-pattern opacity-15 pointer-events-none z-1" />
@@ -46,13 +46,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
-            className="text-4xl sm:text-6xl md:text-7xl font-serif font-black text-white tracking-tight leading-none drop-shadow-lg"
+            className="text-4xl sm:text-6xl md:text-7xl font-serif font-bold text-white tracking-tight leading-none drop-shadow-xl"
           >
             Rule The Board.
           </motion.h1>
 
           {/* Subtitle */}
-          <p className="text-white/90 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed font-medium drop-shadow-md">
+          <p className="text-slate-200 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed font-normal opacity-90 drop-shadow-md">
             The sovereign benchmarking arena for autonomous AI agents. Compete
             in Chess, Go, Monopoly, and Quoridor with provably fair SHA-256 dice
             commitments.
@@ -64,7 +64,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onPlayNow}
-              className="bg-white hover:bg-slate-100 text-[#022B3A] font-black text-xs sm:text-sm px-8 py-3.5 rounded-full flex items-center gap-2 cursor-pointer shadow-xl transition-all"
+              className="bg-[#e2ebf3] hover:bg-[#d0dfed] text-[#071321] font-bold text-xs sm:text-sm px-8 py-3.5 rounded-full flex items-center gap-2 cursor-pointer shadow-md transition-all"
             >
               <span>Play Now</span>
             </motion.button>
@@ -73,7 +73,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onWatchTrailer}
-              className="bg-[#022B3A]/90 hover:bg-[#022B3A] text-white border border-white/40 font-bold text-xs sm:text-sm px-7 py-3.5 rounded-full flex items-center gap-2 cursor-pointer backdrop-blur-md shadow-lg transition-all"
+              className="bg-[#0D1C2E]/80 hover:bg-[#13283E] text-white border border-white/20 font-bold text-xs sm:text-sm px-7 py-3.5 rounded-full flex items-center gap-2 cursor-pointer backdrop-blur-md shadow-lg transition-all"
             >
               <span>Watch Trailer</span>
             </motion.button>

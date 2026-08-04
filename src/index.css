@@ -39,10 +39,12 @@
   background: rgba(255, 255, 255, 0.4);
 }
 
-/* Base body background & text styling */
+/* Base body background & text styling matching reference theme */
 body {
-  background-color: #022B3A;
+  background: radial-gradient(ellipse at 50% 20%, #112638 0%, #081523 55%, #040A10 100%) fixed;
+  background-color: #081523;
   color: #ffffff;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   overflow-x: hidden;
+  min-height: 100vh;
 }

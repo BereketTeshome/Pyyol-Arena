@@ -101,19 +101,19 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
   };
 
   return (
-    <div className="flex-1 flex flex-col overflow-y-auto bg-grid-pattern p-6 gap-6">
+    <div className="flex-1 flex flex-col overflow-y-auto p-6 gap-6 font-sans">
       {/* Header Bar */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-[#22222a] pb-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-white/10 pb-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest font-mono">
               LIVE ARENA SPECTATOR & MATCH RUNNER
             </span>
-            <span className="bg-amber-950 text-amber-400 border border-amber-800 text-[9px] font-mono font-bold px-2 py-0.5 uppercase">
+            <span className="bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[9px] font-mono font-bold px-2.5 py-0.5 uppercase rounded-full">
               POT: {potCoins.toLocaleString()} COINS
             </span>
           </div>
-          <h1 className="text-2xl font-black italic uppercase text-white tracking-tight">
+          <h1 className="text-2xl font-bold uppercase text-white tracking-tight font-serif">
             {activeAgent.name} vs {opponentAgent.name}
           </h1>
         </div>
@@ -123,7 +123,7 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
           <select
             value={opponentId}
             onChange={(e) => setOpponentId(e.target.value)}
-            className="bg-[#14141c] border border-[#2d2d38] px-3 py-1.5 text-xs text-white font-mono focus:border-cyan-500"
+            className="bg-[#050D17] border border-white/15 rounded-xl px-4 py-2 text-xs text-white font-mono focus:border-cyan-400 focus:outline-none"
           >
             {agents.map(a => (
               <option key={a.id} value={a.id}>vs {a.name} ({a.ownerHandle})</option>
@@ -132,7 +132,7 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
 
           <button
             onClick={handleStartRankedMatch}
-            className="bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs px-5 py-2 uppercase transform -skew-x-12 cursor-pointer transition-all shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+            className="bg-white hover:bg-slate-100 text-[#071321] font-bold text-xs px-6 py-2.5 rounded-full cursor-pointer transition-all shadow-[0_0_20px_rgba(255,255,255,0.25)] uppercase"
           >
             Stake & Launch Match ({potCoins / 2}c)
           </button>
@@ -140,15 +140,15 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
       </div>
 
       {/* Game Selector Tabs */}
-      <div className="flex gap-2 border-b border-[#22222a] pb-2">
+      <div className="flex gap-2 border-b border-white/10 pb-3">
         {(['chess', 'go', 'quoridor', 'monopoly'] as GameType[]).map((g) => (
           <button
             key={g}
             onClick={() => setSelectedGame(g)}
-            className={`px-4 py-1.5 text-[10px] font-mono font-bold uppercase cursor-pointer border transition-colors ${
+            className={`px-4 py-2 text-[10px] font-mono font-bold uppercase cursor-pointer rounded-full border transition-all ${
               selectedGame === g
-                ? 'bg-cyan-950 text-cyan-400 border-cyan-600'
-                : 'bg-[#121218] text-slate-400 border-[#22222a] hover:text-white'
+                ? 'bg-white text-[#071321] border-white shadow-md'
+                : 'bg-[#050D17] text-slate-300 border-white/10 hover:border-white/30'
             }`}
           >
             {g}
@@ -159,25 +159,25 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
       {/* Main Board View Area & Stats */}
       <div className="grid grid-cols-12 gap-6">
         {/* Interactive Board View Container */}
-        <div className="col-span-12 lg:col-span-8 bg-[#0F0F14] border border-[#22222a] p-4 flex flex-col items-center justify-center min-h-[420px]">
+        <div className="col-span-12 lg:col-span-8 bg-[#0A1827]/80 border border-white/15 p-6 rounded-3xl backdrop-blur-2xl shadow-xl flex flex-col items-center justify-center min-h-[420px]">
           {/* Playback Control Bar */}
-          <div className="w-full flex justify-between items-center mb-4 bg-[#14141c] p-2 border border-[#22222a] font-mono text-xs">
+          <div className="w-full flex justify-between items-center mb-4 bg-[#050D17] p-3 rounded-2xl border border-white/10 font-mono text-xs">
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="px-3 py-1 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase text-[10px] cursor-pointer"
+                className="px-4 py-1.5 bg-white text-[#071321] hover:bg-slate-100 font-bold uppercase text-[10px] rounded-full cursor-pointer shadow-md transition-all"
               >
                 {isPlaying ? 'Pause' : 'Play Match'}
               </button>
               <button
                 onClick={stepNextTurn}
-                className="px-3 py-1 bg-[#1e1e28] hover:bg-[#282836] text-white font-bold uppercase text-[10px] cursor-pointer border border-[#333]"
+                className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white font-bold uppercase text-[10px] rounded-full cursor-pointer border border-white/15 transition-all"
               >
                 Step Turn +1
               </button>
               <button
                 onClick={resetMatch}
-                className="px-3 py-1 bg-[#1e1e28] hover:bg-[#282836] text-slate-300 font-bold uppercase text-[10px] cursor-pointer border border-[#333]"
+                className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-slate-300 font-bold uppercase text-[10px] rounded-full cursor-pointer border border-white/15 transition-all"
               >
                 Reset
               </button>
@@ -189,10 +189,10 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
                 <button
                   key={spd}
                   onClick={() => setPlaybackSpeed(spd)}
-                  className={`text-[9px] font-bold px-1.5 py-0.5 border cursor-pointer ${
+                  className={`text-[9px] font-bold px-2 py-0.5 rounded-full border cursor-pointer ${
                     playbackSpeed === spd
-                      ? 'bg-cyan-950 text-cyan-400 border-cyan-700'
-                      : 'bg-[#181820] text-slate-500 border-[#222]'
+                      ? 'bg-cyan-500 text-[#071321] border-cyan-400 font-bold'
+                      : 'bg-[#0A1827] text-slate-400 border-white/10'
                   }`}
                 >
                   {spd}x
@@ -204,19 +204,19 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
           {/* CHESS BOARD */}
           {selectedGame === 'chess' && (
             <div className="flex flex-col items-center">
-              <div className="grid grid-cols-8 gap-0.5 border-4 border-[#22222a] bg-[#1a1a22] p-1 shadow-2xl">
+              <div className="grid grid-cols-8 gap-0.5 border-4 border-white/20 bg-[#050D17] p-2 rounded-2xl shadow-2xl">
                 {chessState.board.map((row, rIdx) =>
                   row.map((cell, cIdx) => {
                     const isDark = (rIdx + cIdx) % 2 === 1;
                     return (
                       <div
                         key={`${rIdx}-${cIdx}`}
-                        className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-lg md:text-xl font-bold transition-all ${
-                          isDark ? 'bg-[#282834]' : 'bg-[#121218]'
+                        className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-lg md:text-xl font-bold transition-all rounded-lg ${
+                          isDark ? 'bg-[#0E2133]' : 'bg-[#091524]'
                         }`}
                       >
                         {cell ? (
-                          <span className={cell.startsWith('w') ? 'text-cyan-300' : 'text-amber-400 font-extrabold'}>
+                          <span className={cell.startsWith('w') ? 'text-cyan-300' : 'text-amber-300 font-extrabold'}>
                             {cell === 'wP' ? '♟' : cell === 'wR' ? '♜' : cell === 'wN' ? '♞' : cell === 'wB' ? '♝' : cell === 'wQ' ? '♛' : cell === 'wK' ? '♚' :
                              cell === 'bP' ? '♟' : cell === 'bR' ? '♜' : cell === 'bN' ? '♞' : cell === 'bB' ? '♝' : cell === 'bQ' ? '♛' : '♚'}
                           </span>
@@ -237,14 +237,14 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
           {/* GO BOARD (9x9) */}
           {selectedGame === 'go' && (
             <div className="flex flex-col items-center">
-              <div className="grid grid-cols-9 gap-1 border-4 border-[#22222a] bg-[#1a1812] p-3 shadow-2xl">
+              <div className="grid grid-cols-9 gap-1 border-4 border-white/20 bg-[#0A1827] p-3 rounded-2xl shadow-2xl">
                 {goState.grid.map((row, rIdx) =>
                   row.map((cell, cIdx) => (
                     <div
                       key={`${rIdx}-${cIdx}`}
-                      className="w-8 h-8 md:w-9 md:h-9 bg-[#2d2920] border border-[#3d382e] flex items-center justify-center rounded-2xs"
+                      className="w-8 h-8 md:w-9 md:h-9 bg-[#050D17] border border-white/10 flex items-center justify-center rounded-lg"
                     >
-                      {cell === 'B' && <div className="w-6 h-6 rounded-full bg-cyan-400 shadow-[0_0_8px_#06b6d4]"></div>}
+                      {cell === 'B' && <div className="w-6 h-6 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></div>}
                       {cell === 'W' && <div className="w-6 h-6 rounded-full bg-slate-200 shadow-md"></div>}
                     </div>
                   ))
@@ -260,7 +260,7 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
           {/* QUORIDOR BOARD */}
           {selectedGame === 'quoridor' && (
             <div className="flex flex-col items-center">
-              <div className="grid grid-cols-9 gap-1 border-4 border-[#22222a] bg-[#101018] p-3 shadow-2xl">
+              <div className="grid grid-cols-9 gap-1 border-4 border-white/20 bg-[#0A1827] p-3 rounded-2xl shadow-2xl">
                 {Array(9).fill(0).map((_, rIdx) =>
                   Array(9).fill(0).map((_, cIdx) => {
                     const isP1 = quoridorState.players[0].pawnPos[0] === rIdx && quoridorState.players[0].pawnPos[1] === cIdx;
@@ -268,9 +268,9 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
                     return (
                       <div
                         key={`${rIdx}-${cIdx}`}
-                        className="w-8 h-8 md:w-9 md:h-9 bg-[#1a1a26] border border-[#2d2d3e] flex items-center justify-center relative"
+                        className="w-8 h-8 md:w-9 md:h-9 bg-[#050D17] border border-white/10 flex items-center justify-center relative rounded-lg"
                       >
-                        {isP1 && <div className="w-6 h-6 rounded-full bg-cyan-400 border-2 border-white shadow-[0_0_10px_#06b6d4]"></div>}
+                        {isP1 && <div className="w-6 h-6 rounded-full bg-cyan-400 border-2 border-white shadow-[0_0_10px_#22d3ee]"></div>}
                         {isP2 && <div className="w-6 h-6 rounded-full bg-amber-400 border-2 border-white shadow-[0_0_10px_#f59e0b]"></div>}
                       </div>
                     );
@@ -287,17 +287,17 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
           {/* MONOPOLY BOARD */}
           {selectedGame === 'monopoly' && (
             <div className="w-full flex flex-col items-center space-y-4">
-              <div className="w-full grid grid-cols-4 md:grid-cols-7 gap-1.5 p-2 bg-[#0a0a0e] border border-[#22222a]">
+              <div className="w-full grid grid-cols-4 md:grid-cols-7 gap-2 p-3 bg-[#050D17] border border-white/15 rounded-2xl">
                 {MONOPOLY_SPACES.slice(0, 14).map((space) => {
                   const p1Here = monopolyState.players[0].position === space.id;
                   const p2Here = monopolyState.players[1].position === space.id;
                   return (
                     <div
                       key={space.id}
-                      className="p-1.5 bg-[#14141d] border border-[#22222a] text-[8px] font-mono flex flex-col justify-between min-h-[50px]"
+                      className="p-2 bg-[#0A1827] border border-white/10 rounded-xl text-[8px] font-mono flex flex-col justify-between min-h-[55px]"
                     >
-                      <div className="font-bold text-slate-300 truncate">{space.name}</div>
-                      <div className="text-[#666]">{space.cost ? `$${space.cost}` : ''}</div>
+                      <div className="font-bold text-slate-200 truncate">{space.name}</div>
+                      <div className="text-slate-400">{space.cost ? `$${space.cost}` : ''}</div>
                       <div className="flex gap-1 mt-1">
                         {p1Here && <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span>}
                         {p2Here && <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>}
@@ -307,17 +307,17 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
                 })}
               </div>
 
-              <div className="flex items-center gap-4 bg-[#14141c] p-3 border border-[#22222a] font-mono text-xs w-full justify-between">
+              <div className="flex items-center gap-4 bg-[#050D17] p-3 rounded-2xl border border-white/15 font-mono text-xs w-full justify-between">
                 <div>
-                  <span className="text-[#777] block text-[9px]">LAST SEED DICE ROLL:</span>
-                  <span className="text-amber-400 font-bold text-base">
+                  <span className="text-slate-400 block text-[9px]">LAST SEED DICE ROLL:</span>
+                  <span className="text-cyan-300 font-bold text-base">
                     [{monopolyState.lastDiceRoll[0]}, {monopolyState.lastDiceRoll[1]}]
                   </span>
                 </div>
 
                 <button
                   onClick={() => onOpenProvablyFairModal(monopolyState.diceSeed)}
-                  className="px-3 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/40 hover:bg-amber-500/30 text-[10px] font-bold uppercase cursor-pointer"
+                  className="px-3.5 py-1.5 bg-white/10 text-white hover:bg-white/20 border border-white/15 text-[10px] font-bold uppercase rounded-full cursor-pointer transition-all"
                 >
                   Verify Seed HMAC ↗
                 </button>
@@ -327,17 +327,17 @@ export const SpectatorArenaView: React.FC<SpectatorArenaViewProps> = ({
         </div>
 
         {/* Live Move Stream Log Side Panel */}
-        <div className="col-span-12 lg:col-span-4 bg-[#0F0F14] border border-[#22222a] p-4 flex flex-col h-[420px] font-mono text-xs">
-          <div className="border-b border-[#22222a] pb-2 mb-3 flex justify-between items-center">
-            <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+        <div className="col-span-12 lg:col-span-4 bg-[#0A1827]/80 border border-white/15 p-5 rounded-3xl backdrop-blur-2xl shadow-xl flex flex-col h-[420px] font-mono text-xs">
+          <div className="border-b border-white/10 pb-3 mb-3 flex justify-between items-center">
+            <span className="text-[10px] font-bold uppercase text-slate-300 tracking-wider">
               Live Game Event Stream
             </span>
             <span className="text-[10px] text-cyan-400">{matchLogs.length} Events</span>
           </div>
 
-          <div className="flex-1 space-y-2 overflow-y-auto pr-1 text-[11px] bg-[#08080b] p-3 border border-[#1a1a22]">
+          <div className="flex-1 space-y-2 overflow-y-auto pr-1 text-[11px] bg-[#050D17] p-3 rounded-2xl border border-white/10">
             {matchLogs.map((log, i) => (
-              <div key={i} className="text-slate-300 border-b border-[#14141a] pb-1">
+              <div key={i} className="text-slate-300 border-b border-white/5 pb-1">
                 {log}
               </div>
             ))}

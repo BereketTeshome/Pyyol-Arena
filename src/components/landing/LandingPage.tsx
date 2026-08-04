@@ -4,7 +4,7 @@ import { HeroSection } from './HeroSection';
 import { GamesSection } from './GamesSection';
 import { PartnersSection } from './PartnersSection';
 import { HowItWorksSection } from './HowItWorksSection';
-import { LiveMatchesSection } from './LiveMatchesSection';
+import { ModelBenchmarkSection } from './ModelBenchmarkSection';
 import { PricingSection } from './PricingSection';
 import { TestimonialsSection } from './TestimonialsSection';
 import { FAQSection } from './FAQSection';
@@ -16,6 +16,7 @@ import { AuthModal } from '../AuthModal';
 interface LandingPageProps {
   onEnterDashboard: () => void;
   onUserAuthenticated: (handle: string) => void;
+  onOpenLiveMatchesPage?: () => void;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({
@@ -39,7 +40,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#022B3A] text-white font-sans overflow-x-hidden flex flex-col">
+    <div className="min-h-screen bg-[#051824] bg-[radial-gradient(ellipse_120%_120%_at_50%_0%,rgba(14,70,105,0.35)_0%,rgba(3,18,29,1)_100%)] text-white font-sans overflow-x-hidden flex flex-col relative select-none">
       {/* Header */}
       <LandingHeader
         onLaunchDashboard={onEnterDashboard}
@@ -47,7 +48,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         onScrollToSection={scrollToSection}
       />
 
-      {/* Landing Content Stack strictly in requested order */}
+      {/* Landing Content Stack */}
       <main className="flex-1 flex flex-col">
         {/* 1. Hero with Video Banner */}
         <HeroSection
@@ -64,26 +65,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         {/* 4. HowItWorks */}
         <HowItWorksSection />
 
-        {/* 5. LiveMatches */}
-        <LiveMatchesSection onSpectateMatch={onEnterDashboard} />
+        {/* 5. AI Model Benchmark & Usage Index */}
+        <ModelBenchmarkSection />
 
         {/* 6. Pricing */}
         <PricingSection onSelectTier={() => handleOpenAuth('signup')} />
 
-        {/* 7. Testimonials */}
+        {/* 6. Testimonials */}
         <TestimonialsSection />
 
-        {/* 8. FAQ */}
+        {/* 7. FAQ */}
         <FAQSection />
 
-        {/* 9. CTA */}
+        {/* 8. CTA */}
         <CTASection
           onLaunchDashboard={onEnterDashboard}
           onOpenAuth={() => handleOpenAuth('signup')}
         />
       </main>
 
-      {/* 10. Footer */}
+      {/* 9. Footer */}
       <LandingFooter
         onScrollToSection={scrollToSection}
         onLaunchDashboard={onEnterDashboard}
@@ -95,7 +96,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         onClose={() => setShowTrailerModal(false)}
       />
 
-      {/* Authentication Modal with Sign In, Sign Up, Forgot Password / Reset */}
+      {/* Authentication Modal */}
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
@@ -108,3 +109,5 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     </div>
   );
 };
+
+

@@ -7,6 +7,7 @@ import { LandingPage } from './components/landing/LandingPage';
 import { Header } from './components/Header';
 import { LeftRail } from './components/LeftRail';
 import { DashboardView } from './components/DashboardView';
+import { LiveMatchesView } from './components/LiveMatchesView';
 import { SandboxCertificationView } from './components/SandboxCertificationView';
 import { SpectatorArenaView } from './components/SpectatorArenaView';
 import { TournamentsView } from './components/TournamentsView';
@@ -64,17 +65,25 @@ export default function App() {
   if (viewMode === 'landing') {
     return (
       <LandingPage
-        onEnterDashboard={() => setViewMode('dashboard')}
+        onEnterDashboard={() => {
+          setViewMode('dashboard');
+          setActiveTab('dashboard');
+        }}
+        onOpenLiveMatchesPage={() => {
+          setViewMode('dashboard');
+          setActiveTab('live-matches');
+        }}
         onUserAuthenticated={(handle) => {
           setUserHandle(handle);
           setViewMode('dashboard');
+          setActiveTab('dashboard');
         }}
       />
     );
   }
 
   return (
-    <div className="h-screen w-screen bg-[#0A0A0C] text-[#E0E0E6] font-sans flex flex-col overflow-hidden select-none">
+    <div className="h-screen w-screen bg-[#061d28] bg-gradient-to-br from-[#061d28] via-[#0b384d] to-[#04151f] text-white font-sans flex flex-col overflow-hidden select-none">
       {/* Top Bar: Navigation & Global Stats */}
       <Header
         activeTab={activeTab}
@@ -90,7 +99,7 @@ export default function App() {
       />
 
       {/* Main Layout Container */}
-      <div className="flex-1 flex overflow-hidden bg-[#0A0A0C]">
+      <div className="flex-1 flex overflow-hidden">
         {/* Left Rail: Agent Selector & Financial Controls */}
         <LeftRail
           agents={agents}
@@ -123,6 +132,12 @@ export default function App() {
               onOpenArena={() => setActiveTab('arena')}
               onOpenManifest={() => setShowManifestModal(true)}
               onOpenTournaments={() => setActiveTab('tournaments')}
+            />
+          )}
+
+          {activeTab === 'live-matches' && (
+            <LiveMatchesView
+              onOpenArena={() => setActiveTab('arena')}
             />
           )}
 
@@ -168,19 +183,19 @@ export default function App() {
       </div>
 
       {/* Footer Status Bar */}
-      <footer className="h-8 bg-[#0F0F12] border-t border-[#222226] flex items-center justify-between px-6 shrink-0 text-[8px] font-mono select-none">
+      <footer className="h-8 bg-[#03111c] border-t border-white/10 flex items-center justify-between px-6 shrink-0 text-[9px] font-mono select-none text-slate-300">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
-            <span className="font-bold text-slate-400 uppercase tracking-widest">
+            <span className="font-bold text-slate-300 uppercase tracking-widest">
               Mainnet Status: Optimal
             </span>
           </div>
-          <div className="text-[#555]">
+          <div className="text-slate-400">
             Lat: 42ms | Block: 1288921 | Engine: V8.2
           </div>
         </div>
-        <div className="text-[#555] uppercase">
+        <div className="text-slate-400 uppercase">
           &copy; 2026 AGENT ARENA PROTOCOL // NO CODE HOSTED
         </div>
       </footer>
@@ -206,3 +221,4 @@ export default function App() {
     </div>
   );
 }
+

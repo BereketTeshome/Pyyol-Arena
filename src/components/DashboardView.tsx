@@ -1,5 +1,20 @@
 import React, { useState } from 'react';
 import { Agent, Tournament, DomainEvent, GameType } from '../types/arena';
+import {
+  Trophy,
+  TrendingUp,
+  Activity,
+  CheckCircle2,
+  AlertTriangle,
+  Swords,
+  Play,
+  Key,
+  Terminal,
+  ShieldCheck,
+  Sparkles,
+  ArrowRight,
+  Cpu,
+} from 'lucide-react';
 
 interface DashboardViewProps {
   activeAgent: Agent;
@@ -27,118 +42,136 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const isCertifiedForGame = activeAgent.certifiedGames.includes(selectedPipelineGame);
 
   return (
-    <main className="flex-1 flex flex-col overflow-y-auto bg-grid-pattern p-6 gap-6">
+    <main className="flex-1 flex flex-col overflow-y-auto p-4 md:p-8 gap-6 font-sans bg-gradient-to-br from-[#061d28] via-[#0b384d] to-[#04151f] text-white select-none">
       {/* Active Agent Dashboard Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-[#22222a] pb-5">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-white/15 pb-6">
         <div>
-          <div className="flex flex-wrap items-center gap-2 mb-1">
-            <h1 className="text-3xl font-black italic tracking-tighter text-white uppercase">
-              {activeAgent.name}
+          <div className="flex flex-wrap items-center gap-3 mb-2">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white font-serif flex items-center gap-2.5">
+              <Cpu className="w-8 h-8 text-cyan-300" />
+              <span>{activeAgent.name}</span>
             </h1>
-            <span className="px-2 py-0.5 bg-cyan-950/70 text-cyan-400 border border-cyan-800 text-[9px] font-bold rounded-2xs font-mono uppercase tracking-wider">
+            <span className="px-3 py-1 bg-cyan-950/80 text-cyan-300 border border-cyan-400/40 text-[10px] font-bold rounded-full font-mono uppercase tracking-wider backdrop-blur-md">
               {activeAgent.certifiedGames.length > 0
                 ? `CERTIFIED: ${activeAgent.certifiedGames.join(', ').toUpperCase()}`
                 : 'UNCERTIFIED (REQUIRES SANDBOX PASS)'}
             </span>
-            <span className="px-2 py-0.5 bg-indigo-950/60 text-indigo-300 border border-indigo-800 text-[9px] font-mono">
+            <span className="px-3 py-1 bg-teal-900/40 text-teal-200 border border-teal-500/30 text-[10px] font-mono rounded-full">
               v{activeAgent.version} ({activeAgent.modelName})
             </span>
           </div>
-          <div className="flex items-center gap-3 text-xs text-[#666] font-mono">
+          <div className="flex items-center gap-3 text-xs text-slate-300 font-mono">
             <span>Endpoint: {activeAgent.endpointUrl}</span>
             <button
               onClick={onOpenManifest}
-              className="text-cyan-500 hover:underline text-[10px] uppercase font-bold cursor-pointer"
+              className="text-cyan-300 hover:text-white underline text-[10px] uppercase font-bold cursor-pointer flex items-center gap-1"
             >
-              [View Manifest & Keys]
+              <Key className="w-3 h-3" />
+              <span>[View Manifest & Keys]</span>
             </button>
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 shrink-0">
+        <div className="flex flex-wrap gap-3 shrink-0">
           <button
             onClick={onOpenArena}
-            className="bg-cyan-500 hover:bg-cyan-400 text-black font-black text-[11px] px-5 py-2 uppercase transform -skew-x-12 transition-all cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+            className="bg-[#e2ebf3] hover:bg-[#d0dfed] text-[#071321] font-bold text-xs px-6 py-3 rounded-full cursor-pointer shadow-md transition-all uppercase flex items-center gap-2"
           >
-            Enter Ranked Play
+            <Swords className="w-4 h-4 text-teal-700" />
+            <span>Enter Ranked Play</span>
           </button>
           <button
             onClick={() => onOpenSandbox(selectedPipelineGame)}
-            className="border border-[#333] hover:border-cyan-500 hover:text-cyan-400 text-white font-black text-[11px] px-5 py-2 uppercase transform -skew-x-12 transition-all cursor-pointer bg-[#121218]"
+            className="bg-white/10 hover:bg-white/20 text-white border border-white/25 font-bold text-xs px-6 py-3 rounded-full cursor-pointer backdrop-blur-xl shadow-lg transition-all uppercase flex items-center gap-2"
           >
-            Run Sandbox
+            <Play className="w-4 h-4 text-cyan-300" />
+            <span>Run Sandbox</span>
           </button>
         </div>
       </div>
 
-      {/* Middle Row: Key Stats Cards FIRST (Front & Center) + Certification Pipeline */}
+      {/* Core Agent Metrics - Dark Teal Glass Cards */}
       <div className="space-y-5">
-        <div className="flex items-center justify-between border-l-2 border-cyan-400 pl-2">
-          <span className="text-xs font-black uppercase tracking-widest text-slate-200 font-mono">
+        <div className="flex items-center justify-between border-l-4 border-cyan-400 pl-3">
+          <span className="text-xs font-bold uppercase tracking-widest text-slate-200 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-cyan-300" />
             Core Agent Metrics
           </span>
-          <span className="text-[10px] font-mono text-slate-400">
-            Game Mode: <strong className="text-white uppercase">{selectedPipelineGame}</strong>
+          <span className="text-xs text-slate-300 font-mono">
+            Game Mode: <strong className="text-cyan-300 uppercase">{selectedPipelineGame}</strong>
           </span>
         </div>
 
         {/* 1. FRONT STAT CARDS GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* ELO */}
-          <div className="bg-[#151520] border border-white/20 hover:border-cyan-400 p-4 rounded shadow-md transition-all flex flex-col justify-between group">
-            <div className="flex justify-between items-center text-[10px] uppercase font-bold text-slate-400 font-mono">
-              <span>Current ELO</span>
-              <span className="px-1.5 py-0.5 bg-cyan-950 text-cyan-300 border border-cyan-800 rounded text-[9px]">
+          <div className="bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 backdrop-blur-xl p-5 rounded-3xl shadow-xl transition-all flex flex-col justify-between group hover:border-cyan-400/60">
+            <div className="flex justify-between items-center text-xs font-bold uppercase text-slate-300">
+              <span className="flex items-center gap-1.5">
+                <Trophy className="w-4 h-4 text-amber-400" />
+                Current ELO
+              </span>
+              <span className="px-2.5 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-400/40 rounded-full text-[10px] font-mono font-bold">
                 {selectedPipelineGame.toUpperCase()}
               </span>
             </div>
-            <div className="text-4xl font-mono font-black text-white tracking-tight my-2 group-hover:scale-105 transition-transform">
+            <div className="text-4xl font-mono font-bold text-cyan-300 tracking-tight my-3">
               {activeAgent.elo[selectedPipelineGame] || 1200}
             </div>
-            <div className="text-[10px] text-emerald-400 font-mono font-bold bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/40 w-fit">
-              ▲ +14 rating since last match
+            <div className="text-[10px] text-emerald-300 font-mono font-bold bg-emerald-950/60 px-2.5 py-1 rounded-full border border-emerald-500/40 w-fit flex items-center gap-1">
+              <TrendingUp className="w-3 h-3 text-emerald-400" />
+              <span>+14 rating since last match</span>
             </div>
           </div>
 
           {/* WIN RATE */}
-          <div className="bg-[#151520] border border-white/20 hover:border-cyan-400 p-4 rounded shadow-md transition-all flex flex-col justify-between group">
-            <div className="flex justify-between items-center text-[10px] uppercase font-bold text-slate-400 font-mono">
-              <span>Win Rate</span>
-              <span className="px-1.5 py-0.5 bg-indigo-950 text-indigo-300 border border-indigo-800 rounded text-[9px]">
+          <div className="bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 backdrop-blur-xl p-5 rounded-3xl shadow-xl transition-all flex flex-col justify-between group hover:border-cyan-400/60">
+            <div className="flex justify-between items-center text-xs font-bold uppercase text-slate-300">
+              <span className="flex items-center gap-1.5">
+                <Activity className="w-4 h-4 text-cyan-400" />
+                Win Rate
+              </span>
+              <span className="px-2.5 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-400/40 rounded-full text-[10px] font-mono font-bold">
                 ALL TIME
               </span>
             </div>
-            <div className="text-4xl font-mono font-black text-white tracking-tight my-2 group-hover:scale-105 transition-transform">
+            <div className="text-4xl font-mono font-bold text-white tracking-tight my-3">
               {Math.round((activeAgent.wins / (activeAgent.totalMatches || 1)) * 1000) / 10}%
             </div>
-            <div className="text-[10px] text-slate-300 font-mono font-semibold">
+            <div className="text-[10px] text-slate-300 font-mono font-medium">
               {activeAgent.wins}W - {activeAgent.losses}L - {activeAgent.draws}D
             </div>
           </div>
 
           {/* MATCHES PLAYED */}
-          <div className="bg-[#151520] border border-white/20 hover:border-cyan-400 p-4 rounded shadow-md transition-all flex flex-col justify-between group">
-            <div className="flex justify-between items-center text-[10px] uppercase font-bold text-slate-400 font-mono">
-              <span>Matches Played</span>
-              <span className="px-1.5 py-0.5 bg-white/10 text-white border border-white/20 rounded text-[9px]">
+          <div className="bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 backdrop-blur-xl p-5 rounded-3xl shadow-xl transition-all flex flex-col justify-between group hover:border-cyan-400/60">
+            <div className="flex justify-between items-center text-xs font-bold uppercase text-slate-300">
+              <span className="flex items-center gap-1.5">
+                <Swords className="w-4 h-4 text-teal-400" />
+                Matches Played
+              </span>
+              <span className="px-2.5 py-0.5 bg-teal-950/80 text-teal-300 border border-teal-500/40 rounded-full text-[10px] font-mono font-bold">
                 SEASON 4
               </span>
             </div>
-            <div className="text-4xl font-mono font-black text-slate-100 tracking-tight my-2 group-hover:scale-105 transition-transform">
+            <div className="text-4xl font-mono font-bold text-white tracking-tight my-3">
               {activeAgent.totalMatches}
             </div>
-            <div className="text-[10px] text-cyan-300 font-mono font-semibold">
+            <div className="text-[10px] text-teal-300 font-mono font-bold">
               Ranked Tournament Ready
             </div>
           </div>
 
           {/* PLATFORM STATUS */}
-          <div className="bg-[#151520] border border-white/20 hover:border-emerald-400 p-4 rounded shadow-md transition-all flex flex-col justify-between group">
-            <div className="flex justify-between items-center text-[10px] uppercase font-bold text-slate-400 font-mono">
-              <span>Platform Status</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+          <div className="bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 backdrop-blur-xl p-5 rounded-3xl shadow-xl transition-all flex flex-col justify-between group hover:border-cyan-400/60">
+            <div className="flex justify-between items-center text-xs font-bold uppercase text-slate-300">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                Platform Status
+              </span>
+              <span className="w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]" />
             </div>
-            <div className="text-3xl font-mono font-black text-emerald-400 uppercase tracking-tight my-2">
+            <div className="text-3xl font-mono font-bold text-emerald-400 uppercase tracking-tight my-3">
               {activeAgent.status}
             </div>
             <div className="text-[10px] text-slate-400 font-mono truncate">
@@ -148,12 +181,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {/* 2. CERTIFICATION PIPELINE STATUS PANEL */}
-        <div className="bg-[#0E0E14] border border-white/15 p-5 rounded relative overflow-hidden flex flex-col justify-between gap-4">
-          <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-cyan-400 to-indigo-500"></div>
+        <div className="bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 p-6 rounded-3xl text-white backdrop-blur-2xl shadow-xl relative overflow-hidden flex flex-col justify-between gap-4">
+          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-400" />
 
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-[#222230] pb-3">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-white/10 pb-4">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-xs font-black text-white uppercase tracking-wider font-mono">
+              <span className="text-xs font-bold text-white uppercase tracking-wider font-sans">
                 Certification Pipeline Status
               </span>
               <div className="flex gap-1.5">
@@ -161,10 +194,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   <button
                     key={g}
                     onClick={() => setSelectedPipelineGame(g)}
-                    className={`text-[9px] uppercase font-black px-2.5 py-1 rounded cursor-pointer font-mono transition-all ${
+                    className={`text-[10px] uppercase font-bold px-3 py-1 rounded-full cursor-pointer font-mono transition-all ${
                       selectedPipelineGame === g
-                        ? 'bg-white text-black font-extrabold shadow-[0_0_10px_rgba(255,255,255,0.3)]'
-                        : 'bg-[#181824] text-slate-400 border border-[#2A2A38] hover:text-white'
+                        ? 'bg-cyan-400 text-[#071321] font-bold shadow-md'
+                        : 'bg-[#03111c] text-slate-300 border border-white/15 hover:text-white'
                     }`}
                   >
                     {g}
@@ -173,63 +206,74 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </div>
             </div>
 
-            <span className={`text-xs font-mono font-black px-3 py-1 rounded border ${
+            <span className={`text-xs font-mono font-bold px-3 py-1.5 rounded-full border flex items-center gap-1.5 ${
               isCertifiedForGame
-                ? 'bg-emerald-950/80 text-emerald-400 border-emerald-700/80 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
-                : 'bg-amber-950/80 text-amber-300 border-amber-700/80'
+                ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40'
+                : 'bg-amber-950/80 text-amber-300 border-amber-500/40'
             }`}>
-              {isCertifiedForGame ? '✓ CERTIFIED - ACTIVE' : '⚠ UNCERTIFIED - RUN SANDBOX PASS'}
+              {isCertifiedForGame ? (
+                <>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>CERTIFIED - ACTIVE</span>
+                </>
+              ) : (
+                <>
+                  <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
+                  <span>UNCERTIFIED - RUN SANDBOX PASS</span>
+                </>
+              )}
             </span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 my-1">
-            <div className="bg-[#14141E] p-3 rounded border border-[#242432] flex flex-col items-center text-center gap-1.5">
-              <div className="w-8 h-8 rounded-full border border-cyan-400 flex items-center justify-center bg-cyan-950 text-cyan-300 font-black text-xs">
-                ✓
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 my-1 font-mono">
+            <div className="bg-[#03111c]/90 border border-cyan-500/20 p-4 rounded-2xl flex flex-col items-center text-center gap-1.5">
+              <div className="w-8 h-8 rounded-full border border-teal-400 flex items-center justify-center bg-teal-500/20 text-teal-300 font-bold text-xs shadow-sm">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
               </div>
-              <span className="text-[10px] uppercase font-bold text-white font-mono">1. Handshake</span>
-              <span className="text-[9px] text-emerald-400 font-mono">200 OK</span>
+              <span className="text-[10px] uppercase font-bold text-white">1. Handshake</span>
+              <span className="text-[10px] text-emerald-400 font-bold">200 OK</span>
             </div>
 
-            <div className="bg-[#14141E] p-3 rounded border border-[#242432] flex flex-col items-center text-center gap-1.5">
-              <div className={`w-8 h-8 rounded-full border flex items-center justify-center font-black text-xs ${
-                isCertifiedForGame ? 'border-cyan-400 bg-cyan-950 text-cyan-300' : 'border-slate-600 bg-slate-900 text-slate-500'
+            <div className="bg-[#03111c]/90 border border-cyan-500/20 p-4 rounded-2xl flex flex-col items-center text-center gap-1.5">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${
+                isCertifiedForGame ? 'bg-teal-500/20 text-emerald-400 border border-teal-400 shadow-sm' : 'bg-white/5 text-slate-400 border border-white/10'
               }`}>
-                {isCertifiedForGame ? '✓' : '2'}
+                {isCertifiedForGame ? <CheckCircle2 className="w-4 h-4" /> : '2'}
               </div>
-              <span className="text-[10px] uppercase font-bold text-white font-mono">2. Legal Engine</span>
-              <span className="text-[9px] text-slate-400 font-mono">0 Invalid</span>
+              <span className="text-[10px] uppercase font-bold text-white">2. Legal Engine</span>
+              <span className="text-[10px] text-slate-300">0 Invalid</span>
             </div>
 
-            <div className="bg-[#14141E] p-3 rounded border border-[#242432] flex flex-col items-center text-center gap-1.5">
-              <div className={`w-8 h-8 rounded-full border flex items-center justify-center font-black text-xs ${
-                isCertifiedForGame ? 'border-cyan-400 bg-cyan-950 text-cyan-300' : 'border-slate-600 bg-slate-900 text-slate-500'
+            <div className="bg-[#03111c]/90 border border-cyan-500/20 p-4 rounded-2xl flex flex-col items-center text-center gap-1.5">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${
+                isCertifiedForGame ? 'bg-teal-500/20 text-emerald-400 border border-teal-400 shadow-sm' : 'bg-white/5 text-slate-400 border border-white/10'
               }`}>
-                {isCertifiedForGame ? '✓' : '3'}
+                {isCertifiedForGame ? <CheckCircle2 className="w-4 h-4" /> : '3'}
               </div>
-              <span className="text-[10px] uppercase font-bold text-white font-mono">3. Both Sides</span>
-              <span className="text-[9px] text-slate-400 font-mono">2 Matches</span>
+              <span className="text-[10px] uppercase font-bold text-white">3. Both Sides</span>
+              <span className="text-[10px] text-slate-300">2 Matches</span>
             </div>
 
-            <div className="bg-[#14141E] p-3 rounded border border-[#242432] flex flex-col items-center text-center gap-1.5">
-              <div className={`w-8 h-8 rounded-full border flex items-center justify-center font-black text-xs ${
-                isCertifiedForGame ? 'border-cyan-400 bg-cyan-950 text-cyan-300' : 'border-slate-600 bg-slate-900 text-slate-500'
+            <div className="bg-[#03111c]/90 border border-cyan-500/20 p-4 rounded-2xl flex flex-col items-center text-center gap-1.5">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${
+                isCertifiedForGame ? 'bg-teal-500/20 text-emerald-400 border border-teal-400 shadow-sm' : 'bg-white/5 text-slate-400 border border-white/10'
               }`}>
-                {isCertifiedForGame ? '✓' : '4'}
+                {isCertifiedForGame ? <CheckCircle2 className="w-4 h-4" /> : '4'}
               </div>
-              <span className="text-[10px] uppercase font-bold text-white font-mono">4. Latency</span>
-              <span className="text-[9px] text-slate-400 font-mono">&lt; 350ms</span>
+              <span className="text-[10px] uppercase font-bold text-white">4. Latency</span>
+              <span className="text-[10px] text-slate-300">&lt; 350ms</span>
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-between items-center text-[10px] font-mono text-slate-400 border-t border-[#1e1e2c] pt-2">
+          <div className="flex flex-wrap justify-between items-center text-[10px] font-mono text-slate-400 border-t border-white/10 pt-3">
             <span>SSRF Hardened: Enabled</span>
             <span>AES-256 Token Seal: ACTIVE</span>
             <button
               onClick={() => onOpenSandbox(selectedPipelineGame)}
-              className="text-cyan-400 hover:text-white underline font-bold uppercase cursor-pointer"
+              className="text-cyan-300 hover:text-white underline font-bold uppercase cursor-pointer flex items-center gap-1"
             >
-              Test in Sandbox →
+              <span>Test in Sandbox</span>
+              <ArrowRight className="w-3 h-3" />
             </button>
           </div>
         </div>
@@ -238,59 +282,62 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* Bottom Area: Live Sandbox Logs & Upcoming Tournaments */}
       <div className="grid grid-cols-12 gap-4 h-[300px]">
         {/* Real-time Pipeline Logs */}
-        <div className="col-span-12 md:col-span-8 flex flex-col bg-black border border-[#222]">
-          <div className="bg-[#111] px-3 py-2 border-b border-[#222] flex justify-between items-center select-none">
-            <span className="text-[9px] font-bold text-[#888] uppercase tracking-widest font-mono">
+        <div className="col-span-12 md:col-span-8 flex flex-col bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 rounded-3xl overflow-hidden shadow-xl">
+          <div className="bg-[#03111c] px-5 py-3 border-b border-cyan-500/20 flex justify-between items-center select-none">
+            <span className="text-[10px] font-bold text-slate-200 uppercase tracking-widest font-mono flex items-center gap-2">
+              <Terminal className="w-4 h-4 text-cyan-300" />
               Real-time Pipeline & Engine Event Logs
             </span>
             <div className="flex items-center gap-1.5">
-              <span className="text-[8px] font-mono text-cyan-500">LIVE FEED</span>
-              <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
+              <span className="text-[9px] font-mono text-cyan-300 font-bold">LIVE FEED</span>
+              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-ping"></div>
             </div>
           </div>
-          <div className="flex-1 p-3 font-mono text-[10px] space-y-1.5 overflow-y-auto">
-            <div className="text-cyan-500">[03:42:01] INFO: Resolved endpoint: {activeAgent.endpointUrl}</div>
+          <div className="flex-1 p-4 font-mono text-[10px] space-y-1.5 overflow-y-auto">
+            <div className="text-cyan-300">[03:42:01] INFO: Resolved endpoint: {activeAgent.endpointUrl}</div>
             <div className="text-slate-400">[03:42:02] CALL: POST /v1/handshake (Bearer {activeAgent.apiKey.slice(0, 12)}...)</div>
             <div className="text-emerald-400">[03:42:02] RECV: 200 OK - Manifest advertises games: {activeAgent.supportedGames.join(', ')}</div>
-            <div className="text-slate-400">[03:42:05] SANDBOX: Init Match_9982 ({activeAgent.name} vs SandboxBot_Easy)</div>
+            <div className="text-slate-300">[03:42:05] SANDBOX: Init Match_9982 ({activeAgent.name} vs SandboxBot_Easy)</div>
             <div className="text-white">[03:42:06] MOVE: {activeAgent.name} plays legal move. Engine validation passed.</div>
-            <div className="text-slate-500 italic">[03:42:07] MOVE: SandboxBot plays response turn.</div>
+            <div className="text-slate-400 italic">[03:42:07] MOVE: SandboxBot plays response turn.</div>
             <div className="text-white">[03:42:08] MOVE: {activeAgent.name} decision latency: 48ms</div>
             <div className="text-emerald-400">[03:42:45] FINAL: Sandbox match completed terminal state. Move validity: 100%</div>
-            <div className="text-cyan-400 font-bold">[03:42:46] SYSTEM: Agent verified for active platform competition.</div>
+            <div className="text-cyan-300 font-bold">[03:42:46] SYSTEM: Agent verified for active platform competition.</div>
           </div>
         </div>
 
         {/* Upcoming Tournaments */}
-        <div className="col-span-12 md:col-span-4 flex flex-col bg-[#0F0F14] border border-[#222]">
-          <div className="bg-[#111] px-3 py-2 border-b border-[#222] flex justify-between items-center">
-            <span className="text-[9px] font-bold text-[#888] uppercase tracking-widest">
+        <div className="col-span-12 md:col-span-4 flex flex-col bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 rounded-3xl overflow-hidden shadow-xl text-white">
+          <div className="bg-[#03111c] px-5 py-3 border-b border-cyan-500/20 flex justify-between items-center">
+            <span className="text-[10px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5">
+              <Trophy className="w-4 h-4 text-cyan-300" />
               Upcoming Tournaments
             </span>
-            <span className="text-[9px] text-amber-400 font-mono">Freerolls</span>
+            <span className="text-[10px] text-cyan-300 font-mono font-bold">Freerolls</span>
           </div>
-          <div className="p-3 space-y-3 flex-1 overflow-y-auto">
+          <div className="p-4 space-y-3 flex-1 overflow-y-auto">
             {tournaments.slice(0, 2).map((tourn) => (
-              <div key={tourn.id} className="border-l-2 border-amber-500 pl-3 py-1 bg-[#14141c]">
-                <div className="text-[10px] font-bold text-white uppercase">{tourn.title}</div>
-                <div className="text-[9px] text-[#777] font-mono mt-0.5">
+              <div key={tourn.id} className="border-l-4 border-cyan-400 pl-3 py-2 bg-[#03111c]/80 rounded-r-2xl border border-cyan-500/20">
+                <div className="text-xs font-bold text-white uppercase">{tourn.title}</div>
+                <div className="text-[10px] text-slate-300 font-mono mt-0.5">
                   Game: {tourn.game.toUpperCase()} | Prize: {tourn.prizePoolCoins.toLocaleString()} c
                 </div>
                 <div className="mt-1.5 flex items-center justify-between">
-                  <span className="text-[8px] bg-amber-900/40 text-amber-400 px-1.5 py-0.5 font-mono uppercase rounded-2xs border border-amber-800/40">
+                  <span className="text-[9px] bg-cyan-950/80 text-cyan-300 px-2.5 py-0.5 font-mono uppercase rounded-full font-bold border border-cyan-500/40">
                     STARTS SOON
                   </span>
-                  <span className="text-[8px] text-slate-500 font-mono">Min ELO {tourn.minElo}</span>
+                  <span className="text-[9px] text-slate-400 font-mono">Min ELO {tourn.minElo}</span>
                 </div>
               </div>
             ))}
           </div>
-          <div className="p-3 border-t border-[#1a1a22]">
+          <div className="p-3 border-t border-white/10">
             <button
               onClick={onOpenTournaments}
-              className="w-full text-center text-[10px] uppercase font-black text-cyan-400 border border-cyan-500/30 py-2 hover:bg-cyan-500/10 transition-colors cursor-pointer"
+              className="w-full text-center text-[10px] uppercase font-bold text-[#071321] bg-[#e2ebf3] hover:bg-[#d0dfed] py-2.5 rounded-xl transition-all cursor-pointer shadow-md flex items-center justify-center gap-1"
             >
-              View All Tournaments
+              <span>View All Tournaments</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
@@ -298,3 +345,4 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     </main>
   );
 };
+
