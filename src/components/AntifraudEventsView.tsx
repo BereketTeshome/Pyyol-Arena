@@ -1,295 +1,115 @@
 import React, { useState } from 'react';
-import { DomainEvent, Dispute } from '../types/arena';
-import { INITIAL_DOMAIN_EVENTS, INITIAL_DISPUTES } from '../data/mockInitialData';
+import { Dispute } from '../types/arena';
+import { INITIAL_DISPUTES } from '../data/mockInitialData';
+import { Flag, ShieldAlert, CheckCircle2, AlertTriangle, FileText, Send, Clock, Search, Swords } from 'lucide-react';
 
 export const AntifraudEventsView: React.FC = () => {
-  const [events] = useState<DomainEvent[]>(INITIAL_DOMAIN_EVENTS);
   const [disputes, setDisputes] = useState<Dispute[]>(INITIAL_DISPUTES);
 
-  // Filtering & Search state
-  const [selectedCategory, setSelectedCategory] = useState<'ALL' | 'CERTIFICATION' | 'MATCHES' | 'DISPUTES'>('ALL');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [expandedJsonIds, setExpandedJsonIds] = useState<Record<string, boolean>>({});
-
-  // Open Dispute Form
+  // Form State
   const [matchId, setMatchId] = useState('');
+  const [gameType, setGameType] = useState('Chess');
+  const [reportCategory, setReportCategory] = useState<'TIMEOUT' | 'ILLEGAL_MOVE' | 'COLLUSION' | 'OTHER'>('ILLEGAL_MOVE');
   const [reason, setReason] = useState('');
-  const [showDisputeModal, setShowDisputeModal] = useState(false);
+  const [evidenceUrl, setEvidenceUrl] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedSuccess, setSubmittedSuccess] = useState(false);
 
-  const toggleJsonExpand = (id: string) => {
-    setExpandedJsonIds((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
+  // Search filter for reports list
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const handleOpenDispute = (e: React.FormEvent) => {
+  const handleSubmitReport = (e: React.FormEvent) => {
     e.preventDefault();
     if (!matchId.trim() || !reason.trim()) return;
 
-    const newDisp: Dispute = {
-      id: 'disp_' + Date.now().toString().slice(-4),
-      matchId,
-      complainantHandle: '@dev_quantum_01',
-      reason,
-      status: 'OPEN',
-      createdAt: new Date().toISOString().replace('T', ' ').substring(0, 19),
-    };
+    setIsSubmitting(true);
 
-    setDisputes([newDisp, ...disputes]);
-    setShowDisputeModal(false);
-    setMatchId('');
-    setReason('');
+    setTimeout(() => {
+      const newReport: Dispute = {
+        id: 'rpt_' + Date.now().toString().slice(-4),
+        matchId,
+        complainantHandle: '@dev_quantum_01',
+        reason: `[${reportCategory}] ${reason}${evidenceUrl ? ` (Evidence: ${evidenceUrl})` : ''}`,
+        status: 'OPEN',
+        createdAt: new Date().toISOString().replace('T', ' ').substring(0, 19),
+      };
+
+      setDisputes([newReport, ...disputes]);
+      setIsSubmitting(false);
+      setSubmittedSuccess(true);
+      setMatchId('');
+      setReason('');
+      setEvidenceUrl('');
+
+      setTimeout(() => setSubmittedSuccess(false), 4000);
+    }, 600);
   };
 
-  // Filter logic
-  const filteredEvents = events.filter((evt) => {
-    // Category match
-    if (selectedCategory === 'CERTIFICATION' && !evt.type.includes('CERTIFIED') && !evt.type.includes('SANDBOX')) {
-      return false;
-    }
-    if (selectedCategory === 'MATCHES' && !evt.type.includes('MATCH')) {
-      return false;
-    }
-    if (selectedCategory === 'DISPUTES' && !evt.type.includes('DISPUTE')) {
-      return false;
-    }
-
-    // Search query match
+  const filteredDisputes = disputes.filter((d) => {
     if (!searchQuery.trim()) return true;
     const q = searchQuery.toLowerCase();
-    const typeMatch = evt.type.toLowerCase().includes(q);
-    const payloadStr = JSON.stringify(evt.payload).toLowerCase();
-    return typeMatch || payloadStr.includes(q);
+    return d.id.toLowerCase().includes(q) || d.matchId.toLowerCase().includes(q) || d.reason.toLowerCase().includes(q);
   });
 
-  const getEventIcon = (type: string) => {
-    if (type.includes('CERTIFIED')) return '🛡️';
-    if (type.includes('MATCH')) return '⚔️';
-    if (type.includes('SETTLEMENT')) return '💰';
-    if (type.includes('DISPUTE')) return '⚠️';
-    return '⚡';
-  };
-
-  const getHumanDescription = (evt: DomainEvent) => {
-    const p = evt.payload;
-    const t = evt.type.toLowerCase();
-    if (t.includes('certified')) {
-      return `Agent ${p.agentName || 'Unknown'} achieved official certification for ${String(p.game || 'Chess').toUpperCase()}`;
-    }
-    if (t.includes('match') || t.includes('finished')) {
-      return `Match Completed: ${p.winner} defeated ${p.loser} in ${String(p.game || 'Chess').toUpperCase()}`;
-    }
-    if (t.includes('tx') || t.includes('settlement') || t.includes('payout')) {
-      return `Payout Distributed: ${p.winner || 'Agent'} awarded ${p.potCoins?.toLocaleString() || p.amount?.toLocaleString() || 0} Coins`;
-    }
-    return `Event trigger executed on event bus`;
-  };
-
   return (
-    <div className="flex-1 flex flex-col overflow-y-auto p-4 md:p-6 gap-6 font-sans">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-white/10 pb-4">
+    <div className="flex-1 flex flex-col overflow-y-auto bg-gradient-to-br from-[#061d28] via-[#0b384d] to-[#04151f] text-white font-sans p-4 md:p-8 space-y-8 select-none">
+      {/* Top Banner Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-white/15 pb-6">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="px-2.5 py-0.5 bg-white text-[#071321] font-bold text-[9px] uppercase tracking-wider rounded-full">
-              ANTIFRAUD AUDIT LOGS
+          <div className="flex items-center gap-2 mb-2">
+            <span className="p-1.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/40">
+              <Flag className="w-4 h-4 animate-pulse" />
             </span>
-            <span className="text-xs text-emerald-400 font-bold font-mono">● LIVE EVENT STREAM</span>
+            <span className="text-xs font-bold font-mono text-cyan-300 uppercase tracking-widest">
+              MATCH INTEGRITY • REPORT ANOMALY
+            </span>
           </div>
-          <h1 className="text-2xl font-bold uppercase text-white tracking-tight font-serif">
-            Transactional Domain Events
+          <h1 className="text-3xl md:text-5xl font-serif font-bold text-white tracking-tight">
+            Report Match Anomaly
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5 font-mono">
-            Real-time domain events broadcast by the outbox event bus for match outcomes, certifications, and disputes.
+          <p className="text-slate-300 text-sm mt-1 max-w-2xl">
+            Submit an official report if an opposing agent exhibited illegal moves, endpoint timeouts, or suspicious gameplay in a ranked match.
           </p>
         </div>
 
-        <button
-          onClick={() => setShowDisputeModal(true)}
-          className="bg-red-500/80 hover:bg-red-500 text-white font-bold text-xs px-6 py-2.5 uppercase cursor-pointer transition-all rounded-full border border-red-400/40 shadow-lg shrink-0"
-        >
-          + File Match Dispute
-        </button>
-      </div>
-
-      {/* Main Container */}
-      <div className="grid grid-cols-12 gap-6">
-        {/* Domain Events Stream Column */}
-        <div className="col-span-12 lg:col-span-8 bg-[#0A1827]/80 border border-white/15 p-5 md:p-6 rounded-3xl backdrop-blur-2xl shadow-xl flex flex-col gap-4">
-          
-          {/* Controls & Filter Bar */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
-            {/* Filter Tabs */}
-            <div className="flex flex-wrap gap-1.5">
-              {(['ALL', 'CERTIFICATION', 'MATCHES', 'DISPUTES'] as const).map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`text-[9px] font-bold uppercase px-3 py-1.5 rounded-full cursor-pointer transition-all ${
-                    selectedCategory === cat
-                      ? 'bg-white text-[#071321] font-bold shadow-sm'
-                      : 'bg-[#050D17] text-slate-400 border border-white/10 hover:text-white'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-
-            {/* Search Input */}
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search events, agents, match ID..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-[#050D17] border border-white/15 text-xs text-white px-4 py-2 rounded-xl w-full sm:w-56 focus:outline-none focus:border-cyan-400 font-mono"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-2 text-slate-400 hover:text-white text-xs"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Event Stream Cards List */}
-          <div className="space-y-3">
-            {filteredEvents.length === 0 ? (
-              <div className="p-8 text-center text-slate-400 italic text-xs bg-[#050D17] rounded-2xl border border-white/10">
-                No domain events match the selected filter.
-              </div>
-            ) : (
-              filteredEvents.map((evt) => {
-                const isExpanded = !!expandedJsonIds[evt.id];
-                const humanDesc = getHumanDescription(evt);
-                const icon = getEventIcon(evt.type);
-
-                return (
-                  <div
-                    key={evt.id}
-                    className="p-4 bg-[#050D17] border border-white/10 hover:border-white/25 rounded-2xl transition-all flex flex-col gap-2.5 group"
-                  >
-                    {/* Event Header */}
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-base">{icon}</span>
-                        <span className="px-2.5 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 text-[10px] font-bold rounded-full uppercase font-mono">
-                          {evt.type}
-                        </span>
-                        <span className="text-[10px] text-slate-400 font-bold font-mono">ID: {evt.id}</span>
-                      </div>
-                      <span className="text-[10px] text-slate-400 font-mono">{evt.timestamp}</span>
-                    </div>
-
-                    {/* Human Headline */}
-                    <div className="text-sm font-bold text-white font-sans tracking-wide">
-                      {humanDesc}
-                    </div>
-
-                    {/* Structured Key-Value Property Chips */}
-                    <div className="flex flex-wrap gap-2 pt-1 font-mono">
-                      {Object.entries(evt.payload).map(([key, val]) => (
-                        <div
-                          key={key}
-                          className="bg-[#0A1827] border border-white/10 px-2.5 py-1 rounded-lg text-[10px] flex items-center gap-1.5"
-                        >
-                          <span className="text-slate-400 uppercase font-bold">{key}:</span>
-                          <span className="text-white font-bold">
-                            {typeof val === 'object' ? JSON.stringify(val) : String(val)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Footer Actions: On-Chain Tag & Developer JSON Toggle */}
-                    <div className="flex justify-between items-center border-t border-white/10 pt-2.5 mt-1 font-mono">
-                      <span className="text-[9px] text-emerald-400 font-bold flex items-center gap-1">
-                        ✓ VERIFIED IMMUTABLE ON-CHAIN
-                      </span>
-
-                      <button
-                        onClick={() => toggleJsonExpand(evt.id)}
-                        className="text-[9px] uppercase font-bold text-slate-400 hover:text-cyan-300 cursor-pointer"
-                      >
-                        {isExpanded ? '▲ Hide Dev JSON' : '▼ View Raw JSON'}
-                      </button>
-                    </div>
-
-                    {/* Optional Developer JSON Inspector */}
-                    {isExpanded && (
-                      <div className="mt-2 p-3 bg-[#03080F] border border-white/10 rounded-xl text-[10px] text-cyan-300 font-mono overflow-x-auto">
-                        <pre>{JSON.stringify(evt, null, 2)}</pre>
-                      </div>
-                    )}
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </div>
-
-        {/* Anti-Collusion & Open Disputes Column */}
-        <div className="col-span-12 lg:col-span-4 bg-[#0A1827]/80 border border-white/15 p-5 rounded-3xl backdrop-blur-2xl shadow-xl flex flex-col gap-4">
-          <div className="border-b border-white/10 pb-3 flex justify-between items-center">
-            <span className="text-xs font-bold uppercase text-red-400 font-mono tracking-wider">
-              Disputes & Collusion Panel
-            </span>
-            <span className="text-[9px] bg-red-950/80 text-red-300 border border-red-500/40 px-2 py-0.5 rounded-full font-bold font-mono">
-              {disputes.length} OPEN
-            </span>
-          </div>
-
-          <div className="space-y-3">
-            {disputes.length === 0 ? (
-              <div className="p-4 text-slate-400 italic text-xs bg-[#050D17] rounded-2xl border border-white/10">
-                No active disputes currently flagged.
-              </div>
-            ) : (
-              disputes.map((d) => (
-                <div
-                  key={d.id}
-                  className="p-4 bg-[#050D17] border border-red-500/30 rounded-2xl space-y-2 hover:border-red-500/60 transition-all"
-                >
-                  <div className="flex justify-between items-center">
-                    <span className="text-white font-bold text-xs font-mono">{d.id}</span>
-                    <span className="px-2.5 py-0.5 bg-amber-400 text-[#071321] font-bold text-[9px] uppercase rounded-full font-mono">
-                      {d.status}
-                    </span>
-                  </div>
-                  <div className="text-[10px] text-slate-300 bg-[#0A1827] p-3 rounded-xl border border-white/10 font-mono">
-                    <strong className="text-red-300">Match ID:</strong> {d.matchId}
-                    <p className="mt-1 text-slate-200">{d.reason}</p>
-                  </div>
-                  <div className="flex justify-between items-center text-[9px] text-slate-400 font-mono">
-                    <span>Complainant: {d.complainantHandle}</span>
-                    <span>{d.createdAt}</span>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+        <div className="flex items-center gap-2 bg-[#041622] border border-cyan-500/30 px-4 py-2.5 rounded-2xl font-mono text-xs">
+          <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />
+          <span className="text-slate-300">
+            Total Active Reports: <strong className="text-white">{disputes.length}</strong>
+          </span>
         </div>
       </div>
 
-      {/* Dispute Modal */}
-      {showDisputeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-          <div className="bg-[#0A1827] border border-white/20 w-full max-w-md p-6 relative rounded-3xl text-slate-200 shadow-2xl backdrop-blur-2xl">
-            <button
-              onClick={() => setShowDisputeModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white font-mono text-sm cursor-pointer"
-            >
-              ✕
-            </button>
-            <h2 className="text-sm font-bold uppercase text-white mb-4 border-b border-white/10 pb-3 font-serif">
-              File Match Anomaly or Dispute
-            </h2>
-            <form onSubmit={handleOpenDispute} className="space-y-4 font-sans">
+      {/* Main Grid: Report Form (Left) & Submitted Reports History (Right) */}
+      <div className="grid grid-cols-12 gap-8 items-start">
+        
+        {/* Report Submission Form Section */}
+        <div className="col-span-12 lg:col-span-7 bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 p-6 md:p-8 rounded-3xl backdrop-blur-2xl shadow-2xl space-y-6">
+          <div className="border-b border-white/10 pb-4 flex justify-between items-center">
+            <div className="flex items-center gap-2.5">
+              <FileText className="w-5 h-5 text-cyan-300" />
+              <h2 className="text-xl font-bold font-serif text-white">File Match Incident Report</h2>
+            </div>
+            <span className="text-[10px] text-cyan-300 font-mono uppercase bg-cyan-950/80 px-3 py-1 rounded-full border border-cyan-500/30 font-bold">
+              Guaranteed Review in 24h
+            </span>
+          </div>
+
+          {submittedSuccess && (
+            <div className="p-4 bg-emerald-950/90 border border-emerald-500/50 rounded-2xl text-emerald-200 text-xs font-mono flex items-center gap-3 animate-in fade-in">
+              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
               <div>
-                <label className="block text-[10px] font-bold uppercase text-slate-300 mb-1">
-                  Match ID
+                <div className="font-bold">Report Successfully Filed!</div>
+                <div className="text-[11px] text-emerald-300 mt-0.5">Our sandbox verification engine and audit committee have logged your dispute for analysis.</div>
+              </div>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmitReport} className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold uppercase text-slate-300 mb-1.5 font-mono">
+                  Match ID <span className="text-red-400">*</span>
                 </label>
                 <input
                   type="text"
@@ -297,35 +117,160 @@ export const AntifraudEventsView: React.FC = () => {
                   placeholder="e.g. match_chess_9982"
                   value={matchId}
                   onChange={(e) => setMatchId(e.target.value)}
-                  className="w-full bg-[#050D17] border border-white/15 rounded-xl px-3 py-2 text-xs text-white font-mono focus:border-red-400 focus:outline-none"
+                  className="w-full bg-[#03111c] border border-white/20 rounded-2xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase text-slate-300 mb-1">
-                  Dispute Reason / Evidence
+                <label className="block text-xs font-bold uppercase text-slate-300 mb-1.5 font-mono">
+                  Game Type
                 </label>
-                <textarea
-                  required
-                  rows={3}
-                  placeholder="Describe timing anomaly, illegal move, or endpoint timeout..."
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  className="w-full bg-[#050D17] border border-white/15 rounded-xl p-3 text-xs text-white font-mono focus:border-red-400 focus:outline-none"
-                />
+                <select
+                  value={gameType}
+                  onChange={(e) => setGameType(e.target.value)}
+                  className="w-full bg-[#03111c] border border-white/20 rounded-2xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 font-mono"
+                >
+                  <option value="Chess">Chess</option>
+                  <option value="Go">Go (9x9)</option>
+                  <option value="Quoridor">Quoridor</option>
+                  <option value="Monopoly">Monopoly Arena</option>
+                </select>
               </div>
+            </div>
 
-              <button
-                type="submit"
-                className="w-full py-2.5 bg-red-500 hover:bg-red-400 text-white font-bold uppercase text-xs cursor-pointer rounded-full shadow-md transition-all"
-              >
-                Submit Official Dispute →
-              </button>
-            </form>
+            <div>
+              <label className="block text-xs font-bold uppercase text-slate-300 mb-2 font-mono">
+                Violation Category
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-[10px]">
+                {[
+                  { id: 'ILLEGAL_MOVE', label: 'Illegal Move' },
+                  { id: 'TIMEOUT', label: 'Latency / Timeout' },
+                  { id: 'COLLUSION', label: 'Collusion' },
+                  { id: 'OTHER', label: 'Protocol Error' },
+                ].map((cat) => (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setReportCategory(cat.id as any)}
+                    className={`py-2.5 px-3 rounded-xl border text-center font-bold cursor-pointer transition-all ${
+                      reportCategory === cat.id
+                        ? 'bg-cyan-950 border-cyan-400 text-cyan-200 shadow-md'
+                        : 'bg-[#03111c] border-white/10 text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase text-slate-300 mb-1.5 font-mono">
+                Dispute Description & Evidence <span className="text-red-400">*</span>
+              </label>
+              <textarea
+                required
+                rows={4}
+                placeholder="Describe what occurred during turn sequence, move parameters, or decision timeouts..."
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                className="w-full bg-[#03111c] border border-white/20 rounded-2xl p-4 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono leading-relaxed"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase text-slate-300 mb-1.5 font-mono">
+                Optional Log or Evidence URL
+              </label>
+              <input
+                type="url"
+                placeholder="https://gist.github.com/... or raw server log link"
+                value={evidenceUrl}
+                onChange={(e) => setEvidenceUrl(e.target.value)}
+                className="w-full bg-[#03111c] border border-white/20 rounded-2xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full py-4 bg-[#e2ebf3] hover:bg-[#d0dfed] text-[#071321] font-bold text-xs uppercase cursor-pointer rounded-full shadow-xl transition-all flex items-center justify-center gap-2 mt-2"
+            >
+              <Send className="w-4 h-4 text-teal-700" />
+              <span>{isSubmitting ? 'Submitting Report...' : 'Submit Official Match Report'}</span>
+            </button>
+          </form>
+        </div>
+
+        {/* Submitted Reports History List */}
+        <div className="col-span-12 lg:col-span-5 bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 p-6 md:p-8 rounded-3xl backdrop-blur-2xl shadow-2xl space-y-5">
+          <div className="border-b border-white/10 pb-4 flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <Clock className="w-5 h-5 text-amber-400" />
+              <h2 className="text-xl font-bold font-serif text-white">Filed Reports Log</h2>
+            </div>
+            <span className="text-[10px] text-emerald-400 font-bold font-mono">
+              ● REAL-TIME STATUS
+            </span>
+          </div>
+
+          {/* Search Bar */}
+          <div className="relative">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+            <input
+              type="text"
+              placeholder="Search reports by match or ID..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-[#03111c] border border-white/20 rounded-2xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
+            />
+          </div>
+
+          {/* Reports Items */}
+          <div className="space-y-3.5 max-h-[500px] overflow-y-auto pr-1">
+            {filteredDisputes.length === 0 ? (
+              <div className="p-8 text-center text-slate-400 italic text-xs bg-[#03111c] rounded-2xl border border-white/10 font-mono">
+                No reports matching your search.
+              </div>
+            ) : (
+              filteredDisputes.map((d) => (
+                <div
+                  key={d.id}
+                  className="p-4 bg-[#03111c] border border-white/15 hover:border-cyan-500/40 rounded-2xl space-y-2.5 transition-all font-mono"
+                >
+                  <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                    <span className="text-cyan-300 font-bold text-xs">{d.id}</span>
+                    <span className={`px-2.5 py-0.5 font-bold text-[9px] uppercase rounded-full border ${
+                      d.status === 'OPEN'
+                        ? 'bg-amber-950 text-amber-300 border-amber-500/40'
+                        : 'bg-emerald-950 text-emerald-300 border-emerald-500/40'
+                    }`}>
+                      {d.status === 'OPEN' ? 'Under Audit' : 'Resolved'}
+                    </span>
+                  </div>
+
+                  <div className="text-xs space-y-1 text-slate-300">
+                    <div className="flex items-center gap-1.5 text-white font-bold">
+                      <Swords className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>Match ID: {d.matchId}</span>
+                    </div>
+                    <p className="text-[11px] text-slate-300 leading-snug line-clamp-3 bg-[#082233]/50 p-2.5 rounded-xl border border-white/5">
+                      {d.reason}
+                    </p>
+                  </div>
+
+                  <div className="flex justify-between items-center text-[9px] text-slate-400 pt-1 border-t border-white/5">
+                    <span>By: {d.complainantHandle}</span>
+                    <span>{d.createdAt}</span>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
-      )}
+
+      </div>
     </div>
   );
 };
-

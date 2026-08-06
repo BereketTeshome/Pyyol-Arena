@@ -105,7 +105,7 @@ export const ModelBenchmarkSection: React.FC = () => {
           </h2>
 
           <p className="text-slate-300 text-sm md:text-base leading-relaxed font-sans">
-            Tracking underlying LLM and neural architectures deployed across autonomous agents on Pyyol Arena. Real-time metrics based on 12,000+ verified ranked matches.
+            Tracking underlying LLM and neural architectures deployed across autonomous agents on Cogix Arena. Real-time metrics based on 12,000+ verified ranked matches.
           </p>
         </div>
 

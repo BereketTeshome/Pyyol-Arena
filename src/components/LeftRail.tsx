@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { Agent, WalletLimits } from '../types/arena';
-import { ChevronLeft, ChevronRight, X, Plus, Wallet, ShieldAlert, Bot } from 'lucide-react';
+import { Agent } from '../types/arena';
+import { ChevronLeft, ChevronRight, X, Plus, Bot, CheckCircle2, AlertCircle, ShieldCheck } from 'lucide-react';
 
 interface LeftRailProps {
   agents: Agent[];
   activeAgentId: string;
   onSelectAgent: (id: string) => void;
   onOpenRegisterModal: () => void;
-  walletLimits: WalletLimits;
-  onOpenWalletModal: () => void;
   isMobileOpen?: boolean;
   onCloseMobile?: () => void;
 }
@@ -18,17 +16,10 @@ export const LeftRail: React.FC<LeftRailProps> = ({
   activeAgentId,
   onSelectAgent,
   onOpenRegisterModal,
-  walletLimits,
-  onOpenWalletModal,
   isMobileOpen = false,
   onCloseMobile,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-
-  const lossPercent = Math.min(
-    100,
-    Math.round((walletLimits.currentSessionLoss / walletLimits.sessionLossLimit) * 100)
-  );
 
   return (
     <>
@@ -76,18 +67,27 @@ export const LeftRail: React.FC<LeftRailProps> = ({
           )}
         </div>
 
+        {/* Info Note on Verification */}
+        {!isCollapsed && (
+          <div className="px-3 py-2 bg-cyan-950/40 border-b border-cyan-500/20 text-[9px] font-mono text-cyan-200/90 flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
+            <span>Only Sandbox-Verified agents can play ranked games.</span>
+          </div>
+        )}
+
         {/* Agents List Section */}
         <div className="flex-1 p-2.5 overflow-y-auto space-y-2">
           {agents.map((agent) => {
             const isSelected = agent.id === activeAgentId;
             const initials = agent.name.slice(0, 2).toUpperCase();
+            const isVerified = agent.certifiedGames.length > 0 || agent.status === 'active';
 
             if (isCollapsed) {
               return (
                 <button
                   key={agent.id}
                   onClick={() => onSelectAgent(agent.id)}
-                  title={`${agent.name} (${agent.certifiedGames.join(', ') || 'Uncertified'})`}
+                  title={`${agent.name} - ${isVerified ? 'Verified Sandbox' : 'Unverified (Requires Sandbox Pass)'}`}
                   className={`w-11 h-11 rounded-xl flex flex-col items-center justify-center mx-auto transition-all cursor-pointer relative border ${
                     isSelected
                       ? 'bg-[#0d3448] text-white font-bold border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]'
@@ -95,9 +95,11 @@ export const LeftRail: React.FC<LeftRailProps> = ({
                   }`}
                 >
                   <span className="text-xs font-bold">{initials}</span>
-                  {isSelected && (
-                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyan-400 border border-[#071321]" />
-                  )}
+                  <span
+                    className={`absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border border-[#071321] ${
+                      isVerified ? 'bg-emerald-400 shadow-[0_0_6px_#34d399]' : 'bg-amber-400'
+                    }`}
+                  />
                 </button>
               );
             }
@@ -106,120 +108,67 @@ export const LeftRail: React.FC<LeftRailProps> = ({
               <div
                 key={agent.id}
                 onClick={() => onSelectAgent(agent.id)}
-                className={`p-3 rounded-2xl flex items-center justify-between group cursor-pointer transition-all border ${
+                className={`p-2 px-2.5 rounded-xl flex flex-col gap-1 group cursor-pointer transition-all border ${
                   isSelected
-                    ? 'bg-gradient-to-r from-[#0d3448] to-[#072433] text-white border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.2)] font-bold'
+                    ? 'bg-gradient-to-r from-[#0d3448] to-[#072433] text-white border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.2)] font-bold'
                     : 'bg-[#082233]/80 text-slate-300 border-white/10 hover:bg-[#0c3149] hover:border-white/25'
                 }`}
               >
-                <div className="flex flex-col min-w-0">
-                  <div className="flex items-center gap-1.5">
+                <div className="flex items-center justify-between min-w-0">
+                  <div className="flex items-center gap-1.5 min-w-0">
                     <span
-                      className={`text-xs truncate ${
+                      className={`text-[11px] truncate ${
                         isSelected ? 'text-cyan-200 font-bold' : 'text-slate-200 group-hover:text-white'
                       }`}
                     >
                       {agent.name}
                     </span>
-                    {agent.certifiedGames.length > 0 && (
-                      <span
-                        className={`text-[8px] px-1.5 py-0.5 rounded font-mono font-bold ${
-                          isSelected
-                            ? 'bg-cyan-950 text-cyan-300 border border-cyan-400/50'
-                            : 'bg-[#03111c] text-cyan-400 border border-cyan-500/30'
-                        }`}
-                      >
-                        {agent.certifiedGames.length}G
-                      </span>
-                    )}
                   </div>
-                  <span
-                    className={`text-[9px] font-mono truncate ${
-                      isSelected ? 'text-cyan-300/80' : 'text-slate-400'
-                    }`}
-                  >
-                    {agent.apiKey.slice(0, 14)}...
-                  </span>
+
+                  {/* Verification Status Badge */}
+                  {isVerified ? (
+                    <span className="flex items-center gap-1 text-[8px] px-1.5 py-0.5 rounded font-mono font-bold bg-emerald-950/90 text-emerald-300 border border-emerald-500/50 shrink-0">
+                      <CheckCircle2 className="w-2.5 h-2.5 text-emerald-400" />
+                      Verified
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1 text-[8px] px-1.5 py-0.5 rounded font-mono font-bold bg-amber-950/90 text-amber-300 border border-amber-500/50 shrink-0">
+                      <AlertCircle className="w-2.5 h-2.5 text-amber-400" />
+                      Unverified
+                    </span>
+                  )}
                 </div>
 
-                <div className="flex items-center gap-1 shrink-0">
-                  {isSelected ? (
-                    <div className="w-2.5 h-2.5 rounded-full bg-cyan-500 shadow-[0_0_8px_#06b6d4]"></div>
-                  ) : (
-                    <div className="w-2 h-2 rounded-full bg-slate-600 group-hover:bg-slate-300"></div>
-                  )}
+                <div className="flex items-center justify-between text-[9px] font-mono">
+                  <span className={isSelected ? 'text-cyan-300/80' : 'text-slate-400'}>
+                    {agent.modelName || 'Gemini Agent'}
+                  </span>
+                  <span className="text-slate-400">
+                    {agent.certifiedGames.length > 0 ? `${agent.certifiedGames.length} Game(s)` : 'No pass'}
+                  </span>
                 </div>
               </div>
             );
           })}
+        </div>
 
+        {/* Register Agent Button moved to bottom footer */}
+        <div className="p-3 border-t border-white/10 bg-[#03111c]">
           <button
             onClick={onOpenRegisterModal}
-            className={`w-full mt-3 border border-dashed border-white/25 hover:border-cyan-300 py-2.5 text-[10px] uppercase font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/15 transition-all cursor-pointer flex items-center justify-center gap-1.5 rounded-2xl ${
-              isCollapsed ? 'px-0' : 'px-2'
+            className={`w-full border border-dashed border-cyan-400/50 hover:border-cyan-300 py-2.5 text-[10px] uppercase font-bold text-cyan-200 hover:text-white bg-cyan-950/40 hover:bg-cyan-900/60 transition-all cursor-pointer flex items-center justify-center gap-1.5 rounded-2xl shadow-lg ${
+              isCollapsed ? 'px-0' : 'px-3'
             }`}
             title="Register New Agent"
           >
-            <Plus className="w-3.5 h-3.5 text-cyan-300" />
-            {!isCollapsed && <span>Register Agent</span>}
+            <Plus className="w-4 h-4 text-cyan-300 shrink-0" />
+            {!isCollapsed && <span>+ Register Agent</span>}
           </button>
         </div>
-
-        {/* Financial Controls Footer */}
-        {!isCollapsed ? (
-          <div className="p-3.5 border-t border-white/10 bg-[#03111c] space-y-3 font-mono">
-            <div className="text-[9px] font-bold text-slate-400 tracking-wider uppercase flex items-center gap-1.5">
-              <ShieldAlert className="w-3.5 h-3.5 text-cyan-300" />
-              <span>Financial Risk Limits</span>
-            </div>
-            <div className="space-y-2.5">
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[10px] text-slate-400">Session Loss</span>
-                  <span className="text-[10px] font-mono text-white font-bold">
-                    {walletLimits.currentSessionLoss.toLocaleString()} / {walletLimits.sessionLossLimit.toLocaleString()} c
-                  </span>
-                </div>
-                <div className="h-1.5 bg-[#082233] rounded-full overflow-hidden border border-white/10">
-                  <div
-                    className={`h-full transition-all duration-300 ${
-                      lossPercent > 80 ? 'bg-red-500' : 'bg-cyan-400'
-                    }`}
-                    style={{ width: `${lossPercent}%` }}
-                  ></div>
-                </div>
-              </div>
-
-              <div className="flex justify-between items-center text-[10px]">
-                <span className="text-slate-400">Max Bid / Match</span>
-                <span className="font-mono text-cyan-300 font-bold">
-                  {walletLimits.maxBidPerMatch.toLocaleString()} c
-                </span>
-              </div>
-
-              <button
-                onClick={onOpenWalletModal}
-                className="w-full bg-[#e2ebf3] hover:bg-[#d0dfed] text-[#071321] font-bold text-[10px] uppercase py-2.5 transition-all cursor-pointer rounded-xl shadow-md flex items-center justify-center gap-1.5"
-              >
-                <Wallet className="w-3.5 h-3.5 text-teal-700" />
-                <span>Manage Wallet</span>
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="p-2 border-t border-white/10 bg-[#03111c] flex flex-col items-center">
-            <button
-              onClick={onOpenWalletModal}
-              className="w-10 h-10 rounded-xl bg-[#e2ebf3] hover:bg-[#d0dfed] text-[#071321] font-bold text-xs flex items-center justify-center cursor-pointer shadow-md"
-              title="Manage Wallet Limits"
-            >
-              <Wallet className="w-4 h-4 text-teal-700" />
-            </button>
-          </div>
-        )}
       </aside>
     </>
   );
 };
+
 
 

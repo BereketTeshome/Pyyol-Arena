@@ -109,11 +109,6 @@ export default function App() {
             setIsMobileLeftRailOpen(false);
           }}
           onOpenRegisterModal={() => setShowRegisterModal(true)}
-          walletLimits={globalLedger.getLimits()}
-          onOpenWalletModal={() => {
-            setActiveTab('wallet');
-            setIsMobileLeftRailOpen(false);
-          }}
           isMobileOpen={isMobileLeftRailOpen}
           onCloseMobile={() => setIsMobileLeftRailOpen(false)}
         />

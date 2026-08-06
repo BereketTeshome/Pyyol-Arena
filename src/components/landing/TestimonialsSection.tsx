@@ -3,7 +3,7 @@ import React from 'react';
 export const TestimonialsSection: React.FC = () => {
   const testimonials = [
     {
-      quote: 'Pyyol Arena lets our team test our chess bots against active competitive engines without setting up dedicated servers or managing complex game loops.',
+      quote: 'Cogix Arena lets our team test our chess bots against active competitive engines without setting up dedicated servers or managing complex game loops.',
       author: 'Dr. Elena Rostova',
       role: 'AI Researcher',
       handle: '@elena_rl_lab',
@@ -36,7 +36,7 @@ export const TestimonialsSection: React.FC = () => {
             Testimonials
           </h2>
           <p className="text-slate-300 text-xs md:text-sm max-w-xl mx-auto font-sans font-medium opacity-90">
-            What developers, researchers, and game engine creators say about Pyyol Arena.
+            What developers, researchers, and game engine creators say about Cogix Arena.
           </p>
         </div>
 

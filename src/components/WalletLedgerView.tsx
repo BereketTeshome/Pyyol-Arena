@@ -15,13 +15,10 @@ export const WalletLedgerView: React.FC<WalletLedgerViewProps> = ({ onBalanceUpd
   // Modal toggles
   const [showBuyModal, setShowBuyModal] = useState(false);
   const [showPayoutModal, setShowPayoutModal] = useState(false);
-  const [showLimitsModal, setShowLimitsModal] = useState(false);
 
   // Form states
   const [payoutCoinsInput, setPayoutCoinsInput] = useState(2500);
   const [recipientHandle, setRecipientHandle] = useState('@dev_quantum_01');
-  const [newLossLimit, setNewLossLimit] = useState(limits.sessionLossLimit);
-  const [newMaxBid, setNewMaxBid] = useState(limits.maxBidPerMatch);
 
   const refreshData = () => {
     setBalance(globalLedger.getBalance());
@@ -46,16 +43,6 @@ export const WalletLedgerView: React.FC<WalletLedgerViewProps> = ({ onBalanceUpd
     } catch (err: any) {
       alert(err.message || 'Payout request failed');
     }
-  };
-
-  const handleSaveLimits = (e: React.FormEvent) => {
-    e.preventDefault();
-    globalLedger.updateLimits({
-      sessionLossLimit: newLossLimit,
-      maxBidPerMatch: newMaxBid,
-    });
-    refreshData();
-    setShowLimitsModal(false);
   };
 
   return (
@@ -90,17 +77,10 @@ export const WalletLedgerView: React.FC<WalletLedgerViewProps> = ({ onBalanceUpd
         </div>
       </div>
 
-      {/* Financial Controls & Limits Banner */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 bg-[#0A1827]/80 border border-white/15 p-5 rounded-3xl backdrop-blur-2xl shadow-xl">
+      {/* Financial Controls Banner */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 bg-[#0A1827]/80 border border-white/15 p-5 rounded-3xl backdrop-blur-2xl shadow-xl">
         <div>
-          <span className="text-[9px] uppercase font-bold text-slate-400 block">Session Loss Limit</span>
-          <span className="text-xl font-mono font-bold text-white mt-0.5 block">
-            {limits.currentSessionLoss.toLocaleString()} / {limits.sessionLossLimit.toLocaleString()} c
-          </span>
-        </div>
-
-        <div>
-          <span className="text-[9px] uppercase font-bold text-slate-400 block">Max Bid per Match</span>
+          <span className="text-[9px] uppercase font-bold text-slate-400 block">Max Stake per Match</span>
           <span className="text-xl font-mono font-bold text-cyan-300 mt-0.5 block">
             {limits.maxBidPerMatch.toLocaleString()} c
           </span>
@@ -113,13 +93,11 @@ export const WalletLedgerView: React.FC<WalletLedgerViewProps> = ({ onBalanceUpd
           </span>
         </div>
 
-        <div className="flex items-center">
-          <button
-            onClick={() => setShowLimitsModal(true)}
-            className="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/15 rounded-xl text-xs font-bold uppercase cursor-pointer transition-all"
-          >
-            Edit Spending Limits ⚙
-          </button>
+        <div>
+          <span className="text-[9px] uppercase font-bold text-slate-400 block">Daily Transaction Cap</span>
+          <span className="text-xl font-mono font-bold text-white mt-0.5 block">
+            {limits.dailyCap.toLocaleString()} c
+          </span>
         </div>
       </div>
 
@@ -288,54 +266,6 @@ export const WalletLedgerView: React.FC<WalletLedgerViewProps> = ({ onBalanceUpd
         </div>
       )}
 
-      {/* Spending Limits Modal */}
-      {showLimitsModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-          <div className="bg-[#0A1827] border border-white/20 w-full max-w-md p-6 rounded-3xl relative text-slate-200 shadow-2xl backdrop-blur-2xl">
-            <button
-              onClick={() => setShowLimitsModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white font-mono text-sm cursor-pointer"
-            >
-              ✕
-            </button>
-            <h2 className="text-sm font-bold uppercase text-white mb-4 border-b border-white/10 pb-3 font-serif">
-              Configure Financial Safety Limits
-            </h2>
-            <form onSubmit={handleSaveLimits} className="space-y-4 font-sans text-xs">
-              <div>
-                <label className="block text-[9px] font-bold uppercase text-slate-300 mb-1">
-                  Session Loss Limit (Coins)
-                </label>
-                <input
-                  type="number"
-                  value={newLossLimit}
-                  onChange={(e) => setNewLossLimit(parseInt(e.target.value) || 1000)}
-                  className="w-full bg-[#050D17] border border-white/15 rounded-xl px-3 py-2 text-xs text-white font-mono focus:border-cyan-400 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[9px] font-bold uppercase text-slate-300 mb-1">
-                  Max Bid per Match (Coins)
-                </label>
-                <input
-                  type="number"
-                  value={newMaxBid}
-                  onChange={(e) => setNewMaxBid(parseInt(e.target.value) || 100)}
-                  className="w-full bg-[#050D17] border border-white/15 rounded-xl px-3 py-2 text-xs text-white font-mono focus:border-cyan-400 focus:outline-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-2.5 bg-white text-[#071321] hover:bg-slate-100 font-bold uppercase text-xs rounded-full cursor-pointer transition-all shadow-md"
-              >
-                Save Safety Controls
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

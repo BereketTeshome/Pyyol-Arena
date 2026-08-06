@@ -182,8 +182,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
         {/* 2. CERTIFICATION PIPELINE STATUS PANEL */}
         <div className="bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 p-6 rounded-3xl text-white backdrop-blur-2xl shadow-xl relative overflow-hidden flex flex-col justify-between gap-4">
-          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-400" />
-
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-white/10 pb-4">
             <div className="flex flex-wrap items-center gap-3">
               <span className="text-xs font-bold text-white uppercase tracking-wider font-sans">
@@ -279,30 +277,89 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
       </div>
 
-      {/* Bottom Area: Live Sandbox Logs & Upcoming Tournaments */}
-      <div className="grid grid-cols-12 gap-4 h-[300px]">
-        {/* Real-time Pipeline Logs */}
-        <div className="col-span-12 md:col-span-8 flex flex-col bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 rounded-3xl overflow-hidden shadow-xl">
+      {/* Bottom Area: Agent Performance Analytics & Upcoming Tournaments */}
+      <div className="grid grid-cols-12 gap-4">
+        {/* Useful Developer Performance & Decision Analytics */}
+        <div className="col-span-12 md:col-span-8 flex flex-col bg-gradient-to-br from-[#082333]/90 via-[#061e2b]/90 to-[#041420]/90 border border-cyan-500/30 rounded-3xl overflow-hidden shadow-xl text-white">
           <div className="bg-[#03111c] px-5 py-3 border-b border-cyan-500/20 flex justify-between items-center select-none">
             <span className="text-[10px] font-bold text-slate-200 uppercase tracking-widest font-mono flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-cyan-300" />
-              Real-time Pipeline & Engine Event Logs
+              <Activity className="w-4 h-4 text-cyan-300" />
+              Agent Performance & Decision Analytics
             </span>
-            <div className="flex items-center gap-1.5">
-              <span className="text-[9px] font-mono text-cyan-300 font-bold">LIVE FEED</span>
-              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-ping"></div>
-            </div>
+            <span className="text-[9px] font-mono text-emerald-400 font-bold bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+              HEALTH: 100% OPERATIONAL
+            </span>
           </div>
-          <div className="flex-1 p-4 font-mono text-[10px] space-y-1.5 overflow-y-auto">
-            <div className="text-cyan-300">[03:42:01] INFO: Resolved endpoint: {activeAgent.endpointUrl}</div>
-            <div className="text-slate-400">[03:42:02] CALL: POST /v1/handshake (Bearer {activeAgent.apiKey.slice(0, 12)}...)</div>
-            <div className="text-emerald-400">[03:42:02] RECV: 200 OK - Manifest advertises games: {activeAgent.supportedGames.join(', ')}</div>
-            <div className="text-slate-300">[03:42:05] SANDBOX: Init Match_9982 ({activeAgent.name} vs SandboxBot_Easy)</div>
-            <div className="text-white">[03:42:06] MOVE: {activeAgent.name} plays legal move. Engine validation passed.</div>
-            <div className="text-slate-400 italic">[03:42:07] MOVE: SandboxBot plays response turn.</div>
-            <div className="text-white">[03:42:08] MOVE: {activeAgent.name} decision latency: 48ms</div>
-            <div className="text-emerald-400">[03:42:45] FINAL: Sandbox match completed terminal state. Move validity: 100%</div>
-            <div className="text-cyan-300 font-bold">[03:42:46] SYSTEM: Agent verified for active platform competition.</div>
+
+          <div className="p-5 space-y-4">
+            {/* Key Quality Indicators */}
+            <div className="grid grid-cols-3 gap-3 font-mono text-center">
+              <div className="bg-[#03111c]/90 p-3 rounded-2xl border border-white/10">
+                <div className="text-[9px] text-slate-400 uppercase font-bold">Avg Decision Speed</div>
+                <div className="text-xl font-bold text-cyan-300 mt-1">42ms</div>
+                <div className="text-[8px] text-emerald-400 mt-0.5">Below 350ms budget</div>
+              </div>
+              <div className="bg-[#03111c]/90 p-3 rounded-2xl border border-white/10">
+                <div className="text-[9px] text-slate-400 uppercase font-bold">Move Legality Rate</div>
+                <div className="text-xl font-bold text-emerald-400 mt-1">100%</div>
+                <div className="text-[8px] text-slate-400 mt-0.5">0 Engine Rejections</div>
+              </div>
+              <div className="bg-[#03111c]/90 p-3 rounded-2xl border border-white/10">
+                <div className="text-[9px] text-slate-400 uppercase font-bold">Timeout Rate</div>
+                <div className="text-xl font-bold text-white mt-1">0.0%</div>
+                <div className="text-[8px] text-teal-300 mt-0.5">Optimal Async Loop</div>
+              </div>
+            </div>
+
+            {/* Recent Match Decision Summary */}
+            <div className="space-y-2">
+              <span className="text-[10px] uppercase font-bold font-mono text-slate-300 tracking-wider block">
+                Recent Ranked Match Evaluations
+              </span>
+              <div className="space-y-2 font-mono text-xs">
+                <div className="bg-[#03111c]/80 p-3 rounded-xl border border-cyan-500/20 flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span className="font-bold text-white">VICTORY vs PawnStorm</span>
+                    <span className="text-[10px] text-slate-400">({selectedPipelineGame.toUpperCase()})</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] text-emerald-300 font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">
+                      +18 ELO
+                    </span>
+                    <span className="text-[10px] text-slate-400">42 moves • Avg 38ms</span>
+                  </div>
+                </div>
+
+                <div className="bg-[#03111c]/80 p-3 rounded-xl border border-cyan-500/20 flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span className="font-bold text-white">VICTORY vs GoGoliath_v1</span>
+                    <span className="text-[10px] text-slate-400">(GO 9x9)</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] text-emerald-300 font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">
+                      +22 ELO
+                    </span>
+                    <span className="text-[10px] text-slate-400">64 turns • Avg 48ms</span>
+                  </div>
+                </div>
+
+                <div className="bg-[#03111c]/80 p-3 rounded-xl border border-cyan-500/20 flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+                    <span className="font-bold text-white">DRAW vs Checkmate_X</span>
+                    <span className="text-[10px] text-slate-400">({selectedPipelineGame.toUpperCase()})</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] text-cyan-300 font-bold bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-500/30">
+                      +0 ELO
+                    </span>
+                    <span className="text-[10px] text-slate-400">58 moves • Avg 31ms</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

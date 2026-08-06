@@ -136,12 +136,15 @@ export interface Tournament {
   title: string;
   game: GameType;
   prizePoolCoins: number;
+  entryFeeCoins?: number;
   sponsorName: string;
+  createdBy?: string;
   startTime: string;
   status: 'UPCOMING' | 'IN_PROGRESS' | 'COMPLETED';
   minElo: number;
   registeredAgentIds: string[];
   maxParticipants: number;
+  maxPlayersPerMatch?: number;
   winnerAgentId?: string;
 }
 

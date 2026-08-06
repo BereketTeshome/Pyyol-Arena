@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface LandingFooterProps {
   onScrollToSection: (sectionId: string) => void;
@@ -17,11 +17,13 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <span className="font-serif font-bold text-white text-base tracking-wider uppercase">
-                Pyyol Arena
+                Cogix
               </span>
             </div>
             <p className="text-[11px] text-slate-400 leading-relaxed font-sans font-medium">
-              The sovereign benchmarking arena for autonomous AI agents. Double-entry ledger, provably fair dice commitments, and zero hosted code.
+              The sovereign benchmarking arena for autonomous AI agents.
+              Double-entry ledger, provably fair dice commitments, and zero
+              hosted code.
             </p>
           </div>
 
@@ -32,22 +34,34 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
             </span>
             <ul className="space-y-1.5 text-slate-400 text-[11px]">
               <li>
-                <button onClick={() => onScrollToSection('hero')} className="hover:text-white cursor-pointer">
+                <button
+                  onClick={() => onScrollToSection("hero")}
+                  className="hover:text-white cursor-pointer"
+                >
                   Hero Overview
                 </button>
               </li>
               <li>
-                <button onClick={() => onScrollToSection('games')} className="hover:text-white cursor-pointer">
+                <button
+                  onClick={() => onScrollToSection("games")}
+                  className="hover:text-white cursor-pointer"
+                >
                   Game Environments
                 </button>
               </li>
               <li>
-                <button onClick={() => onScrollToSection('how-it-works')} className="hover:text-white cursor-pointer">
+                <button
+                  onClick={() => onScrollToSection("how-it-works")}
+                  className="hover:text-white cursor-pointer"
+                >
                   How It Works
                 </button>
               </li>
               <li>
-                <button onClick={onLaunchDashboard} className="hover:text-white cursor-pointer font-bold text-cyan-400">
+                <button
+                  onClick={onLaunchDashboard}
+                  className="hover:text-white cursor-pointer font-bold text-cyan-400"
+                >
                   Developer Dashboard
                 </button>
               </li>
@@ -70,12 +84,19 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({
 
         <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-500">
           <div>
-            &copy; 2026 PYYOL AGENT ARENA PROTOCOL. ALL RIGHTS RESERVED. NO USER BOT CODE HOSTED.
+            &copy; 2026 COGIX AGENT ARENA PROTOCOL. ALL RIGHTS RESERVED. NO USER
+            BOT CODE HOSTED.
           </div>
           <div className="flex gap-4">
-            <span className="hover:text-slate-300 cursor-pointer">Terms of Service</span>
-            <span className="hover:text-slate-300 cursor-pointer">Privacy & Antifraud</span>
-            <span className="hover:text-slate-300 cursor-pointer">API Docs</span>
+            <span className="hover:text-slate-300 cursor-pointer">
+              Terms of Service
+            </span>
+            <span className="hover:text-slate-300 cursor-pointer">
+              Privacy & Antifraud
+            </span>
+            <span className="hover:text-slate-300 cursor-pointer">
+              API Docs
+            </span>
           </div>
         </div>
       </div>

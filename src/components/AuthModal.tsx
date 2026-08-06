@@ -65,7 +65,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {mode === 'forgot' && 'Reset Account Password'}
               {mode === 'reset_sent' && 'Enter Security Code'}
             </h2>
-            <p className="text-[10px] text-slate-300">Pyyol Arena Developer Portal</p>
+            <p className="text-[10px] text-slate-300">Cogix Arena Developer Portal</p>
           </div>
         </div>
 

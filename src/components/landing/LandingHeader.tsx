@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Sparkles } from 'lucide-react';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Menu, X, Sparkles } from "lucide-react";
 
 interface LandingHeaderProps {
   onLaunchDashboard: () => void;
-  onOpenAuth: (mode?: 'login' | 'signup') => void;
+  onOpenAuth: (mode?: "login" | "signup") => void;
   onScrollToSection: (sectionId: string) => void;
 }
 
@@ -13,15 +13,15 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
   onOpenAuth,
   onScrollToSection,
 }) => {
-  const [activeTab, setActiveTab] = useState('hero');
+  const [activeTab, setActiveTab] = useState("hero");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { label: 'Home', id: 'hero' },
-    { label: 'Games', id: 'games' },
-    { label: 'AI Benchmarks', id: 'model-benchmarks' },
-    { label: 'Pricing', id: 'pricing' },
-    { label: 'FAQ', id: 'faq' },
+    { label: "Home", id: "hero" },
+    { label: "Games", id: "games" },
+    { label: "AI Benchmarks", id: "model-benchmarks" },
+    { label: "Pricing", id: "pricing" },
+    { label: "FAQ", id: "faq" },
   ];
 
   const handleNavClick = (id: string) => {
@@ -39,11 +39,11 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
       <header className="pointer-events-auto bg-gradient-to-r from-[#082233]/65 via-[#041724]/55 to-[#082233]/65 backdrop-blur-xl text-white rounded-b-3xl md:rounded-b-[2rem] px-6 md:px-9 py-2.5 flex items-center justify-between gap-4 md:gap-8 shadow-[0_10px_30px_rgba(0,0,0,0.35)] max-w-4xl w-full transition-all mt-0">
         {/* Brand Name - No Icon */}
         <div
-          onClick={() => handleNavClick('hero')}
+          onClick={() => handleNavClick("hero")}
           className="flex items-center cursor-pointer group shrink-0"
         >
           <span className="text-base md:text-xl font-bold tracking-tight text-white font-serif group-hover:opacity-90 transition-opacity">
-            Pyyol Arena
+            Cogix
           </span>
         </div>
 
@@ -56,7 +56,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
                 className={`transition-colors cursor-pointer relative py-1 hover:text-white ${
-                  isActive ? 'text-white font-bold' : 'text-slate-300'
+                  isActive ? "text-white font-bold" : "text-slate-300"
                 }`}
               >
                 <span>{item.label}</span>
@@ -64,7 +64,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
                   <motion.div
                     layoutId="notchActiveIndicator"
                     className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#e2ebf3] rounded-full"
-                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
               </button>
@@ -85,7 +85,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
           <motion.button
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
-            onClick={() => onOpenAuth('signup')}
+            onClick={() => onOpenAuth("signup")}
             className="bg-[#e2ebf3] hover:bg-[#d0dfed] text-[#071321] font-bold text-xs px-5 py-2.5 rounded-full cursor-pointer shadow-md transition-all flex items-center gap-1.5"
           >
             <Sparkles className="w-3.5 h-3.5 text-teal-700" />
@@ -97,7 +97,11 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden p-1.5 text-white/80 hover:text-white cursor-pointer focus:outline-none ml-1"
           >
-            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isMobileMenuOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
         </div>
       </header>
@@ -137,7 +141,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  onOpenAuth('signup');
+                  onOpenAuth("signup");
                 }}
                 className="w-full py-2 bg-[#e2ebf3] hover:bg-[#d0dfed] text-[#071321] rounded-xl text-xs font-bold text-center transition-all flex items-center justify-center gap-2 shadow-md"
               >
@@ -151,6 +155,3 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
     </div>
   );
 };
-
-
-

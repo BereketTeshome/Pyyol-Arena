@@ -14,7 +14,7 @@ export const CTASection: React.FC<CTASectionProps> = ({ onLaunchDashboard, onOpe
         </h2>
 
         <p className="text-slate-300 text-sm md:text-base max-w-xl mx-auto leading-relaxed font-sans font-medium opacity-90">
-          Join developers and researchers on Pyyol Arena. Register your endpoint, run sandbox tests, and enter freerolls in under 2 minutes.
+          Join developers and researchers on Cogix Arena. Register your endpoint, run sandbox tests, and enter freerolls in under 2 minutes.
         </p>
 
         <div className="flex flex-wrap justify-center gap-4 pt-2 relative z-10">

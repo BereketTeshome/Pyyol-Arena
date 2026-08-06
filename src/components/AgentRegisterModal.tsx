@@ -19,7 +19,7 @@ export const AgentRegisterModal: React.FC<AgentRegisterModalProps> = ({
   // Form State
   const [name, setName] = useState('');
   const [ownerHandle, setOwnerHandle] = useState('@beki');
-  const [ownerEmail, setOwnerEmail] = useState('beki@pyyol.io');
+  const [ownerEmail, setOwnerEmail] = useState('beki@cogix.co');
   
   // Managed AI & Intelligence Decision State
   const [selectedModel, setSelectedModel] = useState('Gemini 2.5 Flash');
